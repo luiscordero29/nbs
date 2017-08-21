@@ -168,7 +168,7 @@ class VehiclesBrandsController extends Controller
             return redirect('vehicles_brands/edit/'.$vehicle_brand_id)->with('success', 'Registro Actualizado');
         }else{
             # Update
-            return redirect('vehicles_brands/edit/'.$vehicle_brand_id)->with('danger', 'El elemento descripción ya está en uso.');
+            return redirect('vehicles_brands/edit/'.$vehicle_brand_id)->with('danger', 'El elemento marca ya está en uso.');
         }
     }
 

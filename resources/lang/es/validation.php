@@ -102,11 +102,44 @@ return [
     'custom' => [
         'type_description' => [
             'required'  => 'El campo descripción es obligatorio. ',
+            'max'       => [
+                'numeric' => 'El campo descripción debe ser :max como máximo.',
+                'file'    => 'El archivo descripción debe pesar :max kilobytes como máximo.',
+                'string'  => 'El campo descripción debe contener :max caracteres como máximo.',
+                'array'   => 'El campo descripción debe contener :max elementos como máximo.',
+            ],
             'unique'    => 'El elemento descripción ya está en uso.',
+        ],
+        'vehicle_brand_name' => [
+            'required'  => 'El campo marca es obligatorio. ',
+            'max'       => [
+                'numeric' => 'El campo marca debe ser :max como máximo.',
+                'file'    => 'El archivo marca debe pesar :max kilobytes como máximo.',
+                'string'  => 'El campo marca debe contener :max caracteres como máximo.',
+                'array'   => 'El campo marca debe contener :max elementos como máximo.',
+            ],
+            'unique'    => 'El elemento marca ya está en uso.',
+        ],
+        'vehicle_brand_logo' => [
+            'image'     => 'El campo logo debe ser una imagen.',
+            'mimes'     => 'El campo logo debe ser un archivo de tipo :values.',
+        ],
+        'vehicle_brand_id' => [
+            'required'  => 'El campo marca es obligatorio. ',
+        ],
+        'vehicle_model_name' => [
+            'required'  => 'El campo modelo es obligatorio. ',
+            'max'       => [
+                'numeric' => 'El campo modelo debe ser :max como máximo.',
+                'file'    => 'El archivo modelo debe pesar :max kilobytes como máximo.',
+                'string'  => 'El campo modelo debe contener :max caracteres como máximo.',
+                'array'   => 'El campo modelo debe contener :max elementos como máximo.',
+            ],
+            'unique'    => 'El elemento modelo ya está en uso.',
         ],
         'vehicle_type_name' => [
             'required'  => 'El campo tipo es obligatorio. ',
-            'max'                  => [
+            'max'       => [
                 'numeric' => 'El campo tipo debe ser :max como máximo.',
                 'file'    => 'El archivo tipo debe pesar :max kilobytes como máximo.',
                 'string'  => 'El campo tipo debe contener :max caracteres como máximo.',

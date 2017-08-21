@@ -168,7 +168,7 @@ class VehiclesTypesController extends Controller
             return redirect('vehicles_types/edit/'.$vehicle_type_id)->with('success', 'Registro Actualizado');
         }else{
             # Error
-            return redirect('vehicles_types/edit/'.$vehicle_type_id)->with('danger', 'El elemento descripción ya está en uso.');
+            return redirect('vehicles_types/edit/'.$vehicle_type_id)->with('danger', 'El elemento tipo ya está en uso.');
         }
     }
 

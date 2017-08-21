@@ -18,7 +18,12 @@ class DatabaseSeeder extends Seeder
                 'name' => 'luis cordero',
                 'email' => 'luis.cordero@webdiv.co',
                 'password' => '$2y$10$lJ7fQktXBwrarVxYw4p/Fe.zuCQ8.UdaMDdJZXvV9mZbwkzHU/EB.',
-            ]
+            ],
+            [
+                'name' => 'Juan Cubillos',
+                'email' => 'cubillos@webdiv.co',
+                'password' => '$2y$10$nlO2oPQStJRqeoD8qobFTOwxV87dUM9ot990vxgJx08hi.q4gxory',
+            ],
         );
     }
 }
