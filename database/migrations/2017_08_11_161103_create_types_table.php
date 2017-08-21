@@ -18,6 +18,8 @@ class CreateTypesTable extends Migration
             # Fields
             $table->bigIncrements('type_id');
             $table->char('type_description', 60);
+            #Keys 
+            $table->unique('type_description');
         });
     }
 

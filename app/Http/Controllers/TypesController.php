@@ -17,8 +17,6 @@ class TypesController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        session('active', 'types');
-        session('menu_configuraciones', 'true');
     }
     
     /**
@@ -69,7 +67,7 @@ class TypesController extends Controller
         # Request
         $type_description = $request->input('type_description');
         # Insert
-        $id = DB::table('types')->insertGetId(
+        DB::table('types')->insert(
             ['type_description' => $type_description]
         );
         return redirect('types/create')->with('success', 'Registro Guardado');
@@ -119,7 +117,7 @@ class TypesController extends Controller
         $count = DB::table('types')->where('type_description', $type_description)->where('type_id', '<>', $type_id)->count();
         if ($count<1) {
             # Update
-            $id = DB::table('types')
+            DB::table('types')
                 ->where('type_id', $type_id)
                 ->update(['type_description' => $type_description]);
             return redirect('types/edit/'.$type_id)->with('success', 'Registro Actualizado');

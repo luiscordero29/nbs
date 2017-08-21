@@ -40,7 +40,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="control-label">Descripción</label>
-                        <input id="type_description" name="type_description" class="form-control" placeholder="Descripción" type="text" value="{{ $data->type_description }}">
+                        <input id="type_description" name="type_description" class="form-control" placeholder="Descripción" type="text" value="{{ $data->type_description }}" autofocus="">
                         <small class="form-control-feedback"> Editar descripción</small> 
                     </div>
                 </div>

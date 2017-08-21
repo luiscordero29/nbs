@@ -25,3 +25,11 @@ Route::get('types/show/{type_id}', 'TypesController@show')->where('type_id', '[0
 Route::get('types/edit/{type_id}', 'TypesController@edit')->where('type_id', '[0-9]+');
 Route::post('types/update/{type_id}', 'TypesController@update')->where('type_id', '[0-9]+');
 Route::get('types/destroy/{type_id}', 'TypesController@destroy')->where('type_id', '[0-9]+');
+/* vehicles_brands */
+Route::match(['get', 'post'],'vehicles_brands/index', 'VehiclesBrandsController@index');
+Route::get('vehicles_brands/create', 'VehiclesBrandsController@create');
+Route::post('vehicles_brands/store', 'VehiclesBrandsController@store');
+Route::get('vehicles_brands/show/{vehicle_brand_id}', 'VehiclesBrandsController@show')->where('vehicle_brand_id', '[0-9]+');
+Route::get('vehicles_brands/edit/{vehicle_brand_id}', 'VehiclesBrandsController@edit')->where('vehicle_brand_id', '[0-9]+');
+Route::post('vehicles_brands/update/{vehicle_brand_id}', 'VehiclesBrandsController@update')->where('vehicle_brand_id', '[0-9]+');
+Route::get('vehicles_brands/destroy/{vehicle_brand_id}', 'VehiclesBrandsController@destroy')->where('vehicle_brand_id', '[0-9]+');
