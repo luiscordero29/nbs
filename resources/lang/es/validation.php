@@ -101,8 +101,22 @@ return [
 
     'custom' => [
         'type_description' => [
-            'required' => 'El campo descripción es obligatorio. ',
-            'unique'   => 'El elemento descripción ya está en uso.',
+            'required'  => 'El campo descripción es obligatorio. ',
+            'unique'    => 'El elemento descripción ya está en uso.',
+        ],
+        'vehicle_type_name' => [
+            'required'  => 'El campo tipo es obligatorio. ',
+            'max'                  => [
+                'numeric' => 'El campo tipo debe ser :max como máximo.',
+                'file'    => 'El archivo tipo debe pesar :max kilobytes como máximo.',
+                'string'  => 'El campo tipo debe contener :max caracteres como máximo.',
+                'array'   => 'El campo tipo debe contener :max elementos como máximo.',
+            ],
+            'unique'    => 'El elemento tipo ya está en uso.',
+        ],
+        'vehicle_type_icon' => [
+            'image'     => 'El campo icono debe ser una imagen.',
+            'mimes'     => 'El campo icono debe ser un archivo de tipo :values.',
         ],
     ],
 

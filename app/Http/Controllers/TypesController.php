@@ -48,7 +48,6 @@ class TypesController extends Controller
      */
     public function create(Request $request)
     {
-        $request->session()->flash('active', 'types');
         return view('types.create');
     }
 

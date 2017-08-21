@@ -52,7 +52,6 @@ class VehiclesBrandsController extends Controller
      */
     public function create(Request $request)
     {
-        $request->session()->flash('active', 'types');
         return view('vehicles_brands.create');
     }
 
@@ -77,7 +76,7 @@ class VehiclesBrandsController extends Controller
             $vehicle_brand_logo = $vehicle_brand_name.'.'.$extension;
             $request->vehicle_brand_logo->storeAs('public', $vehicle_brand_logo);
             # Insert
-            $vehicle_brand_id = DB::table('vehicles_brands')->insertGetId(
+            DB::table('vehicles_brands')->insert(
                 [
                     'vehicle_brand_name' => $vehicle_brand_name,
                     'vehicle_brand_description' => $vehicle_brand_description,
@@ -86,7 +85,7 @@ class VehiclesBrandsController extends Controller
             );
         }else{
             # Insert
-            $vehicle_brand_id = DB::table('vehicles_brands')->insertGetId(
+            DB::table('vehicles_brands')->insert(
                 [
                     'vehicle_brand_name' => $vehicle_brand_name,
                     'vehicle_brand_description' => $vehicle_brand_description,
