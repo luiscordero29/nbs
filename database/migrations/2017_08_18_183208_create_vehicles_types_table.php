@@ -17,8 +17,8 @@ class CreateVehiclesTypesTable extends Migration
             # Fields
             $table->bigIncrements('vehicle_type_id');
             $table->char('vehicle_type_name', 60);
-            $table->text('vehicle_type_description');
-            $table->binary('vehicle_type_icon');
+            $table->text('vehicle_type_description')->nullable();
+            $table->binary('vehicle_type_icon')->nullable();
             # Keys 
             #$table->primary('vehicle_type_id');
             $table->unique('vehicle_type_name');

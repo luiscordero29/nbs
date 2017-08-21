@@ -17,7 +17,7 @@ class CreateVehiclesModelsTable extends Migration
             # Fields
             $table->bigIncrements('vehicle_model_id');
             $table->char('vehicle_model_name', 60);
-            $table->text('vehicle_model_description');
+            $table->text('vehicle_model_description')->nullable();
             $table->bigInteger('vehicle_brand_id');
             # Keys 
             #$table->primary('vehicle_model_id');

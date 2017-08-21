@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 @section('title', 'Registrar Marca de Vehiculo')
 @section('breadcrumb')
-    <div class="col-md-6 col-8 align-self-center">
+    <div class="col-md-9 col-9 align-self-center">
         <h3 class="text-themecolor m-b-0 m-t-0">Registrar Marca de Vehiculo</h3>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/dashboard/index">Configuraciones</a></li>
@@ -9,7 +9,7 @@
             <li class="breadcrumb-item active">Registrar Marca de Vehiculo </li>
         </ol>
     </div>
-    <div class="col-md-6 col-4 align-self-center">
+    <div class="col-md-3 col-3 align-self-center">
         <a href="/vehicles_brands/create" class="btn pull-right hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> Registrar</a>
     </div>
 @endsection

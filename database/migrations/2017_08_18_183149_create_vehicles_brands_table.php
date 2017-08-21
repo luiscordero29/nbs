@@ -17,8 +17,8 @@ class CreateVehiclesBrandsTable extends Migration
             # Fields
             $table->bigIncrements('vehicle_brand_id');
             $table->char('vehicle_brand_name', 60);
-            $table->text('vehicle_brand_description')->nullable();;
-            $table->binary('vehicle_brand_logo')->nullable();;
+            $table->text('vehicle_brand_description')->nullable();
+            $table->binary('vehicle_brand_logo')->nullable();
             # Keys 
             # $table->primary('vehicle_brand_id');
             $table->unique('vehicle_brand_name');
