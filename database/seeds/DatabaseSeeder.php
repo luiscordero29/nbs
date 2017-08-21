@@ -23,7 +23,12 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Juan Cubillos',
                 'email' => 'cubillos@webdiv.co',
                 'password' => '$2y$10$nlO2oPQStJRqeoD8qobFTOwxV87dUM9ot990vxgJx08hi.q4gxory',
-            ],
+            ]
         );
+
+        $this->call(TypesTableSeeder::class);
+        $this->call(VehiclesBrandsTableSeeder::class);
+        $this->call(VehiclesModelsTableSeeder::class);
+        $this->call(VehiclesTypesTableSeeder::class);
     }
 }
