@@ -17,14 +17,22 @@ Route::get('/',function () {
 });
 /* dashboar */
 Route::get('/home', 'HomeController@index')->name('home');
-/* types */
-Route::match(['get', 'post'],'types/index', 'TypesController@index');
-Route::get('types/create', 'TypesController@create');
-Route::post('types/store', 'TypesController@store');
-Route::get('types/show/{type_id}', 'TypesController@show')->where('type_id', '[0-9]+');
-Route::get('types/edit/{type_id}', 'TypesController@edit')->where('type_id', '[0-9]+');
-Route::post('types/update/{type_id}', 'TypesController@update')->where('type_id', '[0-9]+');
-Route::get('types/destroy/{type_id}', 'TypesController@destroy')->where('type_id', '[0-9]+');
+/* users_types */
+Route::match(['get', 'post'],'users_types/index', 'UsersTypesController@index');
+Route::get('users_types/create', 'UsersTypesController@create');
+Route::post('users_types/store', 'UsersTypesController@store');
+Route::get('users_types/show/{user_type_id}', 'UsersTypesController@show')->where('user_type_id', '[0-9]+');
+Route::get('users_types/edit/{user_type_id}', 'UsersTypesController@edit')->where('user_type_id', '[0-9]+');
+Route::post('users_types/update/{user_type_id}', 'UsersTypesController@update')->where('user_type_id', '[0-9]+');
+Route::get('users_types/destroy/{user_type_id}', 'UsersTypesController@destroy')->where('user_type_id', '[0-9]+');
+/* users_charges */
+Route::match(['get', 'post'],'users_charges/index', 'UsersChargesController@index');
+Route::get('users_charges/create', 'UsersChargesController@create');
+Route::post('users_charges/store', 'UsersChargesController@store');
+Route::get('users_charges/show/{user_charge_id}', 'UsersChargesController@show')->where('user_charge_id', '[0-9]+');
+Route::get('users_charges/edit/{user_charge_id}', 'UsersChargesController@edit')->where('user_charge_id', '[0-9]+');
+Route::post('users_charges/update/{user_charge_id}', 'UsersChargesController@update')->where('user_charge_id', '[0-9]+');
+Route::get('users_charges/destroy/{user_charge_id}', 'UsersChargesController@destroy')->where('user_charge_id', '[0-9]+');
 /* vehicles_brands */
 Route::match(['get', 'post'],'vehicles_brands/index', 'VehiclesBrandsController@index');
 Route::get('vehicles_brands/create', 'VehiclesBrandsController@create');

@@ -100,7 +100,17 @@ return [
     */
 
     'custom' => [
-        'type_description' => [
+        'user_type_description' => [
+            'required'  => 'El campo descripción es obligatorio. ',
+            'max'       => [
+                'numeric' => 'El campo descripción debe ser :max como máximo.',
+                'file'    => 'El archivo descripción debe pesar :max kilobytes como máximo.',
+                'string'  => 'El campo descripción debe contener :max caracteres como máximo.',
+                'array'   => 'El campo descripción debe contener :max elementos como máximo.',
+            ],
+            'unique'    => 'El elemento descripción ya está en uso.',
+        ],
+        'user_charge_description' => [
             'required'  => 'El campo descripción es obligatorio. ',
             'max'       => [
                 'numeric' => 'El campo descripción debe ser :max como máximo.',

@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Faker\Factory;
 
-class TypesTableSeeder extends Seeder
+class UsersTypesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,10 +13,10 @@ class TypesTableSeeder extends Seeder
     public function run()
     {
         $faker = Faker\Factory::create();
-        DB::table('types')->delete();
+        DB::table('users_types')->delete();
         for ($i=0; $i < 100; $i++) { 
-	        DB::table('types')->insert([
-	            'type_description' => $faker->unique()->company,
+	        DB::table('users_types')->insert([
+	            'user_type_description' => $faker->unique()->company,
 	        ]);
 	    }
     }
