@@ -17,6 +17,7 @@
     <h4 class="card-title">Ver Modelo de Vehiculo</h4>
     <p class="card-text">
         <b>ID:</b> {{ $data->vehicle_model_id }} <br />
+        <b>Tipo:</b> {{ $data->vehicle_type_name }} <br />
         <b>Marca:</b> {{ $data->vehicle_brand_name }} <br />
         <b>Nombre del Modelo:</b> {{ $data->vehicle_model_name }} <br />
         <b>Descripción del Modelo:</b> {{ $data->vehicle_model_description }} <br />

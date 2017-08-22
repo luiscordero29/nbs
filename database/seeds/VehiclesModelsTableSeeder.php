@@ -19,7 +19,7 @@ class VehiclesModelsTableSeeder extends Seeder
 	    foreach ($data as $r) {
 	    	for ($i=0; $i < 5; $i++) { 
 		        DB::table('vehicles_models')->insert([
-		            'vehicle_brand_id' => $r->vehicle_brand_id,
+		            'vehicle_brand_name' => $r->vehicle_brand_name,
 		            'vehicle_model_name' => $faker->unique()->name,
 		            'vehicle_model_description' => $faker->text,
 		        ]);

@@ -19,11 +19,14 @@ class CreateVehiclesBrandsTable extends Migration
             $table->char('vehicle_brand_name', 60);
             $table->text('vehicle_brand_description')->nullable();
             $table->binary('vehicle_brand_logo')->nullable();
+            $table->char('vehicle_type_name', 60);
             # Keys 
-            # $table->primary('vehicle_brand_id');
             $table->unique('vehicle_brand_name');
+        });
+
+        Schema::table('vehicles_brands', function (Blueprint $table) {
             # Foreign Key Constraints
-            #$table->foreign('vehicle_brand_id')->references('vehicle_brand_id')->on('vehicles_models')->onDelete('cascade');
+            $table->foreign('vehicle_type_name')->references('vehicle_type_name')->on('vehicles_types')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

@@ -347,13 +347,68 @@
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
+                        <li class="nav-devider"></li>
+                        <li class="nav-small-cap">Nidoo Business Solution</li>
                         <li>
-                            <a class="has-arrow" href="#" aria-expanded="false"><i class="fa fa-gear"></i><span class="hide-menu">Configuraciones </span></a>
+                            <a href="#"><i class="fa fa-star-o"></i>Recompensas</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-calendar"></i>Reservación</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-car"></i>Car Pool</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-flag"></i>Disponibilidad</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-money"></i>Creditos</a>
+                        </li>
+                        <li class="nav-devider"></li>
+                        <li class="nav-small-cap">Administración</li>
+                        <li>
+                            <a class="has-arrow" href="#" aria-expanded="false"><i class="fa fa-users"></i><span class="hide-menu">Usuarios </span></a>
                             <ul aria-expanded="false" class="collapse">
+                                <li><a href="/types/index">Gestor de Usuarios</a></li>
                                 <li><a href="/types/index">Tipos de Usuario</a></li>
-                                <li><a href="/vehicles_brands/index">Vehiculos Marcas</a></li>
-                                <li><a href="/vehicles_models/index">Vehiculos Modelos</a></li>
-                                <li><a href="/vehicles_types/index">Vehiculos Tipos</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="has-arrow" href="#" aria-expanded="false"><i class="fa fa-road"></i><span class="hide-menu">Parqueaderos </span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="/types/index">Gestor de Parqueaderos</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="has-arrow" href="#" aria-expanded="false"><i class="fa fa-calendar"></i><span class="hide-menu">Reservas </span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="/types/index">Gestor de Parqueaderos</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="has-arrow" href="#" aria-expanded="false"><i class="fa fa-car"></i><span class="hide-menu">Car Pool </span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="/types/index">Gestor de Parqueaderos</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="has-arrow" href="#" aria-expanded="false"><i class="fa fa-star-o"></i><span class="hide-menu">Recompensas </span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="/types/index">Gestor de Parqueaderos</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="has-arrow" href="#" aria-expanded="false"><i class="fa fa-money"></i><span class="hide-menu">Creditos </span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="/types/index">Gestor de Parqueaderos</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="has-arrow" href="#" aria-expanded="false"><i class="fa fa-car"></i><span class="hide-menu">Vehiculos </span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="/vehicles_types/index"><i class="fa fa-caret-right fa-fw"></i> Vehiculos Tipos</a></li>
+                                <li><a href="/vehicles_brands/index"><i class="fa fa-caret-right fa-fw"></i> Vehiculos Marcas</a></li>
+                                <li><a href="/vehicles_models/index"><i class="fa fa-caret-right fa-fw"></i> Vehiculos Modelos</a></li>
                             </ul>
                         </li>
                         <?php /* ?>

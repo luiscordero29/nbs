@@ -46,6 +46,7 @@
             <thead>
                 <tr>
                     <th>Id</th>
+                    <th>Tipo</th>
                     <th>Marca</th>
                     <th>Modelo</th>
                     <th class="text-nowrap">Acción</th>
@@ -55,6 +56,7 @@
     			@foreach ($data as $r)
                     <tr>
                        	<td>{{ $r->vehicle_model_id }}</td>
+                        <td>{{ $r->vehicle_type_name }}</td>
                         <td>{{ $r->vehicle_brand_name }}</td>
                         <td>{{ $r->vehicle_model_name }} <br />{{ $r->vehicle_model_description }}</td>
                         <td class="text-nowrap">

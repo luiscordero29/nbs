@@ -37,10 +37,12 @@ class VehiclesModelsController extends Controller
             $request->session()->forget('search');
         }
         $data = DB::table('vehicles_models')
-            ->join('vehicles_brands', 'vehicles_brands.vehicle_brand_id', '=', 'vehicles_models.vehicle_brand_id')
-            ->where('vehicle_brand_name', 'like', '%'.$search.'%')
-            ->orWhere('vehicle_model_name', 'like', '%'.$search.'%')
-            ->orWhere('vehicle_model_description', 'like', '%'.$search.'%')
+            ->join('vehicles_brands', 'vehicles_brands.vehicle_brand_name', '=', 'vehicles_models.vehicle_brand_name')
+            ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles_brands.vehicle_type_name')
+            ->where('vehicles_brands.vehicle_type_name', 'like', '%'.$search.'%')
+            ->orWhere('vehicles_models.vehicle_brand_name', 'like', '%'.$search.'%')
+            ->orWhere('vehicles_models.vehicle_model_name', 'like', '%'.$search.'%')
+            ->orWhere('vehicles_models.vehicle_model_description', 'like', '%'.$search.'%')
             ->paginate(30);
         # View
         return view('vehicles_models.index', ['data' => $data]);
@@ -53,7 +55,10 @@ class VehiclesModelsController extends Controller
      */
     public function create(Request $request)
     {
-        $data['vehicles_brands'] = DB::table('vehicles_brands')->get();
+        $data['vehicles_brands'] = 
+            DB::table('vehicles_brands')
+                ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles_brands.vehicle_type_name')
+                ->get();
         return view('vehicles_models.create', ['data' => $data]);
     }
 
@@ -67,17 +72,17 @@ class VehiclesModelsController extends Controller
     {
         # Rules
         $this->validate($request, [
-            'vehicle_brand_id' => 'required',
+            'vehicle_brand_name' => 'required',
             'vehicle_model_name' => 'required|max:60|unique:vehicles_models,vehicle_model_name',
         ]);
         # Request
-        $vehicle_brand_id = $request->input('vehicle_brand_id');
+        $vehicle_brand_name = $request->input('vehicle_brand_name');
         $vehicle_model_name = $request->input('vehicle_model_name');
         $vehicle_model_description = $request->input('vehicle_model_description');
         # Insert
         DB::table('vehicles_models')->insert(
             [
-                'vehicle_brand_id' => $vehicle_brand_id,
+                'vehicle_brand_name' => $vehicle_brand_name,
                 'vehicle_model_name' => $vehicle_model_name,
                 'vehicle_model_description' => $vehicle_model_description,
             ]
@@ -94,7 +99,8 @@ class VehiclesModelsController extends Controller
     public function show($vehicle_model_id)
     {
         $data = DB::table('vehicles_models')
-            ->join('vehicles_brands', 'vehicles_brands.vehicle_brand_id', '=', 'vehicles_models.vehicle_brand_id')
+            ->join('vehicles_brands', 'vehicles_brands.vehicle_brand_name', '=', 'vehicles_models.vehicle_brand_name')
+            ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles_brands.vehicle_type_name')
             ->where('vehicle_model_id', '=', $vehicle_model_id)->first();
         return view('vehicles_models.show', ['data' => $data]);
     }
@@ -107,9 +113,13 @@ class VehiclesModelsController extends Controller
      */
     public function edit($vehicle_model_id)
     {
-        $data['vehicles_brands'] = DB::table('vehicles_brands')->get();
+        $data['vehicles_brands'] = 
+            DB::table('vehicles_brands')
+                ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles_brands.vehicle_type_name')
+                ->get();
         $data['row'] = DB::table('vehicles_models')
-            ->join('vehicles_brands', 'vehicles_brands.vehicle_brand_id', '=', 'vehicles_models.vehicle_brand_id')
+            ->join('vehicles_brands', 'vehicles_brands.vehicle_brand_name', '=', 'vehicles_models.vehicle_brand_name')
+            ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles_brands.vehicle_type_name')
             ->where('vehicle_model_id', '=', $vehicle_model_id)->first();
         return view('vehicles_models.edit', ['data' => $data]);
     }
@@ -125,12 +135,12 @@ class VehiclesModelsController extends Controller
     {
         # Rules
         $this->validate($request, [
-            'vehicle_brand_id' => 'required',
+            'vehicle_brand_name' => 'required',
             'vehicle_model_name' => 'required|max:60',
         ]);
         # Request
         $vehicle_model_id = $request->input('vehicle_model_id');
-        $vehicle_brand_id = $request->input('vehicle_brand_id');
+        $vehicle_brand_name = $request->input('vehicle_brand_name');
         $vehicle_model_name = $request->input('vehicle_model_name');
         $vehicle_model_description = $request->input('vehicle_model_description');
         # Unique 
@@ -141,7 +151,7 @@ class VehiclesModelsController extends Controller
                 ->where('vehicle_model_id', $vehicle_model_id)
                 ->update(
                     [
-                        'vehicle_brand_id' => $vehicle_brand_id,
+                        'vehicle_brand_name' => $vehicle_brand_name,
                         'vehicle_model_name' => $vehicle_model_name,
                         'vehicle_model_description' => $vehicle_model_description,
                     ]

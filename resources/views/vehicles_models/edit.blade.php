@@ -39,11 +39,11 @@
             <div class="row p-t-20">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label class="control-label">Marca</label>
-                        <select class="custom-select col-12" autofocus="" name="vehicle_brand_id">
+                        <label class="control-label">Tipo/Marca</label>
+                        <select class="custom-select col-12" autofocus="" name="vehicle_brand_name">
                             <option>Seleccione</option>
                             @foreach ($data['vehicles_brands'] as $r)
-                            <option @if ($data['row']->vehicle_brand_id == $r->vehicle_brand_id ) selected=""  @endif value="{{$r->vehicle_brand_id}}">{{$r->vehicle_brand_name}}</option>
+                            <option @if ($data['row']->vehicle_brand_name == $r->vehicle_brand_name ) selected=""  @endif value="{{$r->vehicle_brand_name}}">{{$r->vehicle_type_name}} -> {{$r->vehicle_brand_name}}</option>
                             @endforeach
                         </select>
                         <small class="form-control-feedback"> Seleccione Marca</small> 

@@ -18,10 +18,14 @@ class CreateVehiclesModelsTable extends Migration
             $table->bigIncrements('vehicle_model_id');
             $table->char('vehicle_model_name', 60);
             $table->text('vehicle_model_description')->nullable();
-            $table->bigInteger('vehicle_brand_id');
+            $table->char('vehicle_brand_name', 60);
             # Keys 
-            #$table->primary('vehicle_model_id');
             $table->unique('vehicle_model_name');
+        });
+
+        Schema::table('vehicles_models', function (Blueprint $table) {
+            # Foreign Key Constraints
+            $table->foreign('vehicle_brand_name')->references('vehicle_brand_name')->on('vehicles_brands')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

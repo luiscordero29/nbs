@@ -46,6 +46,7 @@
             <thead>
                 <tr>
                     <th>Id</th>
+                    <th>Tipo</th>
                     <th>Marca</th>
                     <th>Descripción</th>
                     <th>Logo</th>
@@ -56,6 +57,7 @@
     			@foreach ($data as $r)
                     <tr>
                        	<td>{{ $r->vehicle_brand_id }}</td>
+                        <td>{{ $r->vehicle_type_name }}</td>
                         <td>{{ $r->vehicle_brand_name }}</td>
                         <td>{{ $r->vehicle_brand_description }}</td>
                         <td>

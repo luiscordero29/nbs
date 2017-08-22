@@ -39,8 +39,20 @@
             <div class="row p-t-20">
                 <div class="col-md-12">
                     <div class="form-group">
+                        <label class="control-label">Tipo</label>
+                        <select class="custom-select col-12" autofocus="" name="vehicle_type_name">
+                            <option selected="">Seleccione</option>
+                            @foreach ($data['vehicles_types'] as $r)
+                            <option @if (old('vehicle_type_name') == $r->vehicle_type_name ) selected=""  @endif value="{{$r->vehicle_type_name}}">{{$r->vehicle_type_name}}</option>
+                            @endforeach
+                        </select>
+                        <small class="form-control-feedback"> Seleccione Tipo</small> 
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
                         <label class="control-label">Marca</label>
-                        <input id="vehicle_brand_name" name="vehicle_brand_name" class="form-control" placeholder="Marca" type="text" value="{{ old('vehicle_brand_name') }}" autofocus="">
+                        <input id="vehicle_brand_name" name="vehicle_brand_name" class="form-control" placeholder="Marca" type="text" value="{{ old('vehicle_brand_name') }}">
                         <small class="form-control-feedback"> Ingrese la marcar</small> 
                     </div>
                 </div>

@@ -38,8 +38,10 @@ class VehiclesBrandsController extends Controller
             $request->session()->forget('search');
         }
         $data = DB::table('vehicles_brands')
-            ->where('vehicle_brand_name', 'like', '%'.$search.'%')
-            ->orWhere('vehicle_brand_description', 'like', '%'.$search.'%')
+            ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles_brands.vehicle_type_name')
+            ->where('vehicles_brands.vehicle_type_name', 'like', '%'.$search.'%')
+            ->orWhere('vehicles_brands.vehicle_brand_name', 'like', '%'.$search.'%')
+            ->orWhere('vehicles_brands.vehicle_brand_description', 'like', '%'.$search.'%')
             ->paginate(30);
         # View
         return view('vehicles_brands.index', ['data' => $data]);
@@ -52,7 +54,8 @@ class VehiclesBrandsController extends Controller
      */
     public function create(Request $request)
     {
-        return view('vehicles_brands.create');
+        $data['vehicles_types'] = DB::table('vehicles_types')->get();
+        return view('vehicles_brands.create', ['data' => $data]);
     }
 
     /**
@@ -65,10 +68,12 @@ class VehiclesBrandsController extends Controller
     {
         # Rules
         $this->validate($request, [
+            'vehicle_type_name' => 'required',
             'vehicle_brand_name' => 'required|max:60|unique:vehicles_brands,vehicle_brand_name',
             'vehicle_brand_logo' => 'image|mimes:jpeg,png',
         ]);
         # Request
+        $vehicle_type_name = $request->input('vehicle_type_name');
         $vehicle_brand_name = $request->input('vehicle_brand_name');
         $vehicle_brand_description = $request->input('vehicle_brand_description');
         if ($request->hasFile('vehicle_brand_logo')) {
@@ -78,6 +83,7 @@ class VehiclesBrandsController extends Controller
             # Insert
             DB::table('vehicles_brands')->insert(
                 [
+                    'vehicle_type_name' => $vehicle_type_name,
                     'vehicle_brand_name' => $vehicle_brand_name,
                     'vehicle_brand_description' => $vehicle_brand_description,
                     'vehicle_brand_logo' => $vehicle_brand_logo,
@@ -87,6 +93,7 @@ class VehiclesBrandsController extends Controller
             # Insert
             DB::table('vehicles_brands')->insert(
                 [
+                    'vehicle_type_name' => $vehicle_type_name,
                     'vehicle_brand_name' => $vehicle_brand_name,
                     'vehicle_brand_description' => $vehicle_brand_description,
                 ]
@@ -103,7 +110,10 @@ class VehiclesBrandsController extends Controller
      */
     public function show($vehicle_brand_id)
     {
-        $data = DB::table('vehicles_brands')->where('vehicle_brand_id', '=', $vehicle_brand_id)->first();
+        $data = DB::table('vehicles_brands')
+            ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles_brands.vehicle_type_name')
+            ->where('vehicle_brand_id', '=', $vehicle_brand_id)
+            ->first();
         return view('vehicles_brands.show', ['data' => $data]);
     }
 
@@ -115,7 +125,11 @@ class VehiclesBrandsController extends Controller
      */
     public function edit($vehicle_brand_id)
     {
-        $data = DB::table('vehicles_brands')->where('vehicle_brand_id', '=', $vehicle_brand_id)->first();
+        $data['vehicles_types'] = DB::table('vehicles_types')->get();
+        $data['row'] = DB::table('vehicles_brands')
+            ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles_brands.vehicle_type_name')
+            ->where('vehicle_brand_id', '=', $vehicle_brand_id)
+            ->first();
         return view('vehicles_brands.edit', ['data' => $data]);
     }
 
@@ -130,10 +144,12 @@ class VehiclesBrandsController extends Controller
     {
         # Rules
         $this->validate($request, [
+            'vehicle_type_name' => 'required',
             'vehicle_brand_name' => 'required|max:60',
             'vehicle_brand_logo' => 'image|mimes:jpeg,png',
         ]);
         # Request
+        $vehicle_type_name = $request->input('vehicle_type_name');
         $vehicle_brand_id = $request->input('vehicle_brand_id');
         $vehicle_brand_name = $request->input('vehicle_brand_name');
         $vehicle_brand_description = $request->input('vehicle_brand_description');
@@ -149,6 +165,7 @@ class VehiclesBrandsController extends Controller
                     ->where('vehicle_brand_id', $vehicle_brand_id)
                     ->update(
                         [
+                            'vehicle_type_name' => $vehicle_type_name,
                             'vehicle_brand_name' => $vehicle_brand_name,
                             'vehicle_brand_description' => $vehicle_brand_description,
                             'vehicle_brand_logo' => $vehicle_brand_logo,
@@ -160,6 +177,7 @@ class VehiclesBrandsController extends Controller
                     ->where('vehicle_brand_id', $vehicle_brand_id)
                     ->update(
                         [
+                            'vehicle_type_name' => $vehicle_type_name,
                             'vehicle_brand_name' => $vehicle_brand_name,
                             'vehicle_brand_description' => $vehicle_brand_description,
                         ]
