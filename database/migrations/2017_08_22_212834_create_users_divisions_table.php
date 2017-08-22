@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersChargesTable extends Migration
+class CreateUsersDivisionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateUsersChargesTable extends Migration
      */
     public function up()
     {
-        Schema::create('users_charges', function (Blueprint $table) {
+        Schema::create('users_divisions', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             # Fields
-            $table->bigIncrements('user_charge_id');
-            $table->char('user_charge_description', 60);
+            $table->bigIncrements('user_division_id');
+            $table->char('user_division_description', 60);
             #Keys 
-            $table->unique('user_charge_description');  
+            $table->unique('user_division_description');  
         });
     }
 
@@ -30,6 +30,6 @@ class CreateUsersChargesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_charges');
+        Schema::dropIfExists('users_divisions');
     }
 }

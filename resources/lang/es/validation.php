@@ -120,6 +120,16 @@ return [
             ],
             'unique'    => 'El elemento descripción ya está en uso.',
         ],
+        'user_division_description' => [
+            'required'  => 'El campo descripción es obligatorio. ',
+            'max'       => [
+                'numeric' => 'El campo descripción debe ser :max como máximo.',
+                'file'    => 'El archivo descripción debe pesar :max kilobytes como máximo.',
+                'string'  => 'El campo descripción debe contener :max caracteres como máximo.',
+                'array'   => 'El campo descripción debe contener :max elementos como máximo.',
+            ],
+            'unique'    => 'El elemento descripción ya está en uso.',
+        ],
         'vehicle_brand_name' => [
             'required'  => 'El campo marca es obligatorio. ',
             'max'       => [
