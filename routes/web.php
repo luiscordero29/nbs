@@ -17,6 +17,22 @@ Route::get('/',function () {
 });
 /* dashboar */
 Route::get('/home', 'HomeController@index')->name('home');
+/* roles */
+Route::match(['get', 'post'],'roles/index', 'RolesController@index');
+Route::get('roles/create', 'RolesController@create');
+Route::post('roles/store', 'RolesController@store');
+Route::get('roles/show/{rol_id}', 'RolesController@show')->where('rol_id', '[0-9]+');
+Route::get('roles/edit/{rol_id}', 'RolesController@edit')->where('rol_id', '[0-9]+');
+Route::post('roles/update/{rol_id}', 'RolesController@update')->where('rol_id', '[0-9]+');
+Route::get('roles/destroy/{rol_id}', 'RolesController@destroy')->where('rol_id', '[0-9]+');
+/* users */
+Route::match(['get', 'post'],'users/index', 'UsersController@index');
+Route::get('users/create', 'UsersController@create');
+Route::post('users/store', 'UsersController@store');
+Route::get('users/show/{user_id}', 'UsersController@show')->where('user_id', '[0-9]+');
+Route::get('users/edit/{user_id}', 'UsersController@edit')->where('user_id', '[0-9]+');
+Route::post('users/update/{user_id}', 'UsersController@update')->where('user_id', '[0-9]+');
+Route::get('users/destroy/{user_id}', 'UsersController@destroy')->where('user_id', '[0-9]+');
 /* users_types */
 Route::match(['get', 'post'],'users_types/index', 'UsersTypesController@index');
 Route::get('users_types/create', 'UsersTypesController@create');

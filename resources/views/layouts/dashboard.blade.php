@@ -369,6 +369,7 @@
                         <li>
                             <a class="has-arrow" href="#" aria-expanded="false"><i class="fa fa-users"></i><span class="hide-menu">Usuarios </span></a>
                             <ul aria-expanded="false" class="collapse">
+                                <li><a href="/roles/index"><i class="fa fa-caret-right fa-fw"></i> Roles de Usuarios</a></li>
                                 <li><a href="/users/index"><i class="fa fa-caret-right fa-fw"></i> Gestor de Usuarios</a></li>
                                 <li><a href="/users_types/index"><i class="fa fa-caret-right fa-fw"></i> Tipos de Usuario</a></li>
                                 <li><a href="/users_charges/index"><i class="fa fa-caret-right fa-fw"></i> Cargos</a></li>

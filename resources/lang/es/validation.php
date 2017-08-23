@@ -100,6 +100,19 @@ return [
     */
 
     'custom' => [
+        'rol_name' => [
+            'required'  => 'El campo nombre es obligatorio. ',
+            'max'       => [
+                'numeric' => 'El campo nombre debe ser :max como máximo.',
+                'file'    => 'El archivo nombre debe pesar :max kilobytes como máximo.',
+                'string'  => 'El campo nombre debe contener :max caracteres como máximo.',
+                'array'   => 'El campo nombre debe contener :max elementos como máximo.',
+            ],
+            'unique'    => 'El elemento nombre ya está en uso.',
+        ],
+        'rol_description' => [
+            'required'  => 'El campo descripción es obligatorio. ',
+        ],
         'user_type_description' => [
             'required'  => 'El campo descripción es obligatorio. ',
             'max'       => [
