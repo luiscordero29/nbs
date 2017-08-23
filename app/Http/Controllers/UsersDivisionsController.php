@@ -80,8 +80,13 @@ class UsersDivisionsController extends Controller
      */
     public function show($user_division_id)
     {
-        $data = DB::table('users_divisions')->where('user_division_id', '=', $user_division_id)->first();
-        return view('users_divisions.show', ['data' => $data]);
+        $count = DB::table('users_divisions')->where('user_division_id', '=', $user_division_id)->count();
+        if ($count>0) {
+            $data = DB::table('users_divisions')->where('user_division_id', '=', $user_division_id)->first();
+            return view('users_divisions.show', ['data' => $data]);
+        }else{
+            return redirect('users_divisions/index')->with('info', 'No se puede Ver el registro');
+        }
     }
 
     /**
@@ -92,8 +97,13 @@ class UsersDivisionsController extends Controller
      */
     public function edit($user_division_id)
     {
-        $data = DB::table('users_divisions')->where('user_division_id', '=', $user_division_id)->first();
-        return view('users_divisions.edit', ['data' => $data]);
+        $count = DB::table('users_divisions')->where('user_division_id', '=', $user_division_id)->count();
+        if ($count>0) {
+            $data = DB::table('users_divisions')->where('user_division_id', '=', $user_division_id)->first();
+            return view('users_divisions.edit', ['data' => $data]);
+        }else{
+            return redirect('users_divisions/index')->with('info', 'No se puede Editar el registro');
+        }
     }
 
     /**
@@ -134,8 +144,9 @@ class UsersDivisionsController extends Controller
      */
     public function destroy($user_division_id)
     {
-        $data = DB::table('users_divisions')->where('user_division_id', '=', $user_division_id)->first();
-        if (!empty($data->user_division_id)) {
+        $count = DB::table('users_divisions')->where('user_division_id', '=', $user_division_id)->count();
+        if ($count>0) {
+            $data = DB::table('users_divisions')->where('user_division_id', '=', $user_division_id)->first();
             # delete
             DB::table('users_divisions')->where('user_division_id', '=', $user_division_id)->delete();
             return redirect('users_divisions/index')->with('success', 'Registro Elimino');

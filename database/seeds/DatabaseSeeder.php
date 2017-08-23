@@ -15,14 +15,18 @@ class DatabaseSeeder extends Seeder
 
         DB::table('users')->insert(
             [
-                'name' => 'luis cordero',
+                'user_firstname' => 'Luis',
+                'user_lastname' => 'Cordero',
                 'email' => 'luis.cordero@webdiv.co',
-                'password' => '$2y$10$lJ7fQktXBwrarVxYw4p/Fe.zuCQ8.UdaMDdJZXvV9mZbwkzHU/EB.',
-            ],
+                'password' => bcrypt('gabriel02'),
+            ]
+        );
+        DB::table('users')->insert(
             [
-                'name' => 'Juan Cubillos',
+                'user_firstname' => 'Juan',
+                'user_lastname' => 'Cubillos',
                 'email' => 'cubillos@webdiv.co',
-                'password' => '$2y$10$nlO2oPQStJRqeoD8qobFTOwxV87dUM9ot990vxgJx08hi.q4gxory',
+                'password' => bcrypt('cubillos'),
             ]
         );
 

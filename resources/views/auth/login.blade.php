@@ -17,12 +17,12 @@
         @endif
         <div class="form-group m-t-40">
             <div class="col-xs-12">
-                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
+                <input id="email" type="text" placeholder="E-mail" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
             </div>
         </div>
         <div class="form-group">
             <div class="col-xs-12">
-                <input id="password" type="password" class="form-control" name="password" required>
+                <input id="password" type="password" placeholder="Password" class="form-control" name="password" required>
             </div>
         </div>
         <div class="form-group">

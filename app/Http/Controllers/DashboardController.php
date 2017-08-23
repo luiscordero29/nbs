@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AuthController extends Controller
+class DashboardController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -14,7 +14,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('auth');
     }
 
     /**
@@ -24,14 +24,11 @@ class AuthController extends Controller
      */
     public function index()
     {
-        return view('auth.index');
+        return view('dashboard.index');
     }
-
-    public function authenticate()
+    
+    public function login()
     {
-        if (Auth::attempt(['email' => $email, 'password' => $password])) {
-            // Authentication passed...
-            return redirect()->intended('home');
-        }
+        return view('auth.login');
     }
 }

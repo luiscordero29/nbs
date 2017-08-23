@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use DB;
 
-class VehiclesTypesController extends Controller
+class UsersController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -37,7 +37,7 @@ class VehiclesTypesController extends Controller
             $request->session()->forget('info');
             $request->session()->forget('search');
         }
-        $data = DB::table('vehicles_types')
+        $data = DB::table('users')
             ->where('vehicle_type_name', 'like', '%'.$search.'%')
             ->orWhere('vehicle_type_description', 'like', '%'.$search.'%')
             ->paginate(30);

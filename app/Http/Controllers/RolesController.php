@@ -89,8 +89,13 @@ class RolesController extends Controller
      */
     public function show($rol_id)
     {
-        $data = DB::table('roles')->where('rol_id', '=', $rol_id)->first();
-        return view('roles.show', ['data' => $data]);
+        $count = DB::table('roles')->where('rol_id', '=', $rol_id)->count();
+        if ($count>0) {
+            $data = DB::table('roles')->where('rol_id', '=', $rol_id)->first();
+            return view('roles.show', ['data' => $data]);
+        }else{
+            return redirect('roles/index')->with('info', 'No se puede Ver el registro');
+        }
     }
 
     /**
@@ -101,11 +106,16 @@ class RolesController extends Controller
      */
     public function edit($rol_id)
     {
-        $data = DB::table('roles')
-            ->where('rol_id', '=', $rol_id)
-            ->where('rol_protected', '=', 'no')
-            ->first();
-        return view('roles.edit', ['data' => $data]);
+        $count = DB::table('roles')->where('rol_id', '=', $rol_id)->count();
+        if ($count>0) {
+            $data = DB::table('roles')
+                ->where('rol_id', '=', $rol_id)
+                ->where('rol_protected', '=', 'no')
+                ->first();
+            return view('roles.edit', ['data' => $data]);
+        }else{
+            return redirect('roles/index')->with('info', 'No se puede Editar el registro');
+        }
     }
 
     /**
@@ -154,8 +164,9 @@ class RolesController extends Controller
      */
     public function destroy($rol_id)
     {
-        $data = DB::table('roles')->where('rol_id', '=', $rol_id)->first();
-        if (!empty($data->rol_id)) {
+        $count = DB::table('roles')->where('rol_id', '=', $rol_id)->count();
+        if ($count>0) {
+            $data = DB::table('roles')->where('rol_id', '=', $rol_id)->first();
             # delete
             DB::table('roles')->where('rol_id', '=', $rol_id)->delete();
             return redirect('roles/index')->with('success', 'Registro Elimino');

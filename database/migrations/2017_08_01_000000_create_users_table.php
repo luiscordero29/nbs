@@ -16,33 +16,29 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             # Make
-            $table->increments('id');
-            $table->string('name');
+            #$table->increments('id');
+            #$table->string('name');
             $table->string('email')->unique();
             $table->text('password');
             $table->rememberToken();
             $table->timestamps();
-            /*# Fields
+            # Fields
             $table->bigIncrements('user_id');
-            $table->bigInteger('user_type_id');
-            $table->bigInteger('user_division_id');
+            $table->char('user_type_description', 60)->nullable();
+            $table->char('user_division_description', 60)->nullable();
             $table->char('user_firstname', 60);
             $table->char('user_lastname', 60);
-            $table->string('user_email');
-            $table->string('user_position');
+            $table->string('user_position')->nullable();
             $table->binary('user_image')->nullable();
-            $table->string('user_number_id');
-            $table->string('user_number_employee');
+            $table->string('user_number_id')->nullable();
+            $table->string('user_number_employee')->nullable();
             # Keys 
-            #$table->primary('user_id');
-            $table->unique('user_email');
             $table->unique('user_number_id');
             $table->unique('user_number_employee');
             # Foreign Key Constraints
             #$table->foreign('user_id')->references('user_id')->on('types_users')->onDelete('cascade');
             #$table->foreign('user_id')->references('user_id')->on('roles_users')->onDelete('cascade');
             #$table->foreign('user_id')->references('user_id')->on('vehicles_users')->onDelete('cascade');
-            */
         });
 
         /*DB::table('users')->insert(

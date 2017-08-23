@@ -12,11 +12,10 @@
 */
 /* Auth */
 Auth::routes();
-Route::get('/',function () {
-    return redirect('login');
-});
+/* home */
+Route::get('/', 'HomeController@index');
 /* dashboar */
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/dashboard', 'DashboardController@index');
 /* roles */
 Route::match(['get', 'post'],'roles/index', 'RolesController@index');
 Route::get('roles/create', 'RolesController@create');

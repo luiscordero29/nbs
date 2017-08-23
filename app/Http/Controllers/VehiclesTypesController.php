@@ -103,8 +103,13 @@ class VehiclesTypesController extends Controller
      */
     public function show($vehicle_type_id)
     {
-        $data = DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->first();
-        return view('vehicles_types.show', ['data' => $data]);
+        $count = DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->count();
+        if ($count>0) {
+            $data = DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->first();
+            return view('vehicles_types.show', ['data' => $data]);
+        }else{
+            return redirect('vehicles_types/index')->with('info', 'No se puede Ver el registro');
+        }
     }
 
     /**
@@ -115,8 +120,13 @@ class VehiclesTypesController extends Controller
      */
     public function edit($vehicle_type_id)
     {
-        $data = DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->first();
-        return view('vehicles_types.edit', ['data' => $data]);
+        $count = DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->count();
+        if ($count>0) {
+            $data = DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->first();
+            return view('vehicles_types.edit', ['data' => $data]);
+        }else{
+            return redirect('vehicles_types/index')->with('info', 'No se puede Editar el registro');
+        }
     }
 
     /**
@@ -180,9 +190,9 @@ class VehiclesTypesController extends Controller
      */
     public function destroy($vehicle_type_id)
     {
-        $data = DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->first();
-        if (!empty($data->vehicle_type_id)) {
-            # delete
+        $count = DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->count();
+        if ($count>0) {
+            $data = DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->first();
             Storage::delete($data->vehicle_type_icon);
             DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->delete();
             return redirect('vehicles_types/index')->with('success', 'Registro Elimino');
