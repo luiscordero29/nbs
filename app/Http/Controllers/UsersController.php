@@ -38,11 +38,19 @@ class UsersController extends Controller
             $request->session()->forget('search');
         }
         $data = DB::table('users')
-            ->where('vehicle_type_name', 'like', '%'.$search.'%')
-            ->orWhere('vehicle_type_description', 'like', '%'.$search.'%')
+            ->join('roles', 'roles.rol_name', '=', 'users.user_rol_name')
+            ->where('user_firstname', 'like', '%'.$search.'%')
+            ->orWhere('user_lastname', 'like', '%'.$search.'%')
+            ->orWhere('email', 'like', '%'.$search.'%')
+            ->orWhere('user_type_description', 'like', '%'.$search.'%')
+            ->orWhere('user_division_description', 'like', '%'.$search.'%')
+            ->orWhere('user_position_description', 'like', '%'.$search.'%')
+            ->orWhere('user_number_id', 'like', '%'.$search.'%')
+            ->orWhere('user_number_employee', 'like', '%'.$search.'%')
+            ->orWhere('rol_name', 'like', '%'.$search.'%')
             ->paginate(30);
         # View
-        return view('vehicles_types.index', ['data' => $data]);
+        return view('users.index', ['data' => $data]);
     }
 
     /**
@@ -52,7 +60,11 @@ class UsersController extends Controller
      */
     public function create(Request $request)
     {
-        return view('vehicles_types.create');
+        $data['users_types'] = DB::table('users_types')->get();
+        $data['users_positions'] = DB::table('users_positions')->get();
+        $data['users_divisions'] = DB::table('users_divisions')->get();
+        $data['roles'] = DB::table('roles')->get();
+        return view('users.create', ['data' => $data]);
     }
 
     /**
@@ -65,34 +77,68 @@ class UsersController extends Controller
     {
         # Rules
         $this->validate($request, [
-            'vehicle_type_name' => 'required|max:60|unique:vehicles_types,vehicle_type_name',
-            'vehicle_type_icon' => 'image|mimes:jpeg,png',
+            'user_number_id' => 'required|max:60|unique:users,user_number_id',
+            'user_number_employee' => 'required|max:60|unique:users,user_number_employee',
+            'user_firstname' => 'required|max:60',
+            'user_lastname' => 'required|max:60',
+            'user_type_description' => 'required',
+            'user_division_description' => 'required',
+            'user_position_description' => 'required',
+            'email' => 'required|max:250|unique:users,email|email',
+            'user_rol_name' => 'required',
+            'user_image' => 'image|mimes:jpeg,png',
         ]);
         # Request
-        $vehicle_type_name = $request->input('vehicle_type_name');
-        $vehicle_type_description = $request->input('vehicle_type_description');
-        if ($request->hasFile('vehicle_type_icon')) {
-            $extension = $request->file('vehicle_type_icon')->extension();
-            $vehicle_type_icon = $vehicle_type_name.'.'.$extension;
-            $request->vehicle_type_icon->storeAs('public', $vehicle_type_icon);
+        $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $length = 16;
+        $password = substr(str_shuffle(str_repeat($pool, $length)), 0, $length);
+        $user_number_id = $request->input('user_number_id');
+        $user_number_employee = $request->input('user_number_employee');
+        $user_firstname = $request->input('user_firstname');
+        $user_lastname = $request->input('user_lastname');
+        $user_type_description = $request->input('user_type_description');
+        $user_division_description = $request->input('user_division_description');
+        $user_position_description = $request->input('user_position_description');
+        $email = $request->input('email');
+        $user_rol_name = $request->input('user_rol_name');
+        if ($request->hasFile('user_image')) {
+            $extension = $request->file('user_image')->extension();
+            $user_image = $user_number_id.'.'.$extension;
+            $request->user_image->storeAs('public', $user_image);
             # Insert
-            DB::table('vehicles_types')->insert(
+            DB::table('users')->insert(
                 [
-                    'vehicle_type_name' => $vehicle_type_name,
-                    'vehicle_type_description' => $vehicle_type_description,
-                    'vehicle_type_icon' => $vehicle_type_icon,
+                    'user_number_id' => $user_number_id,
+                    'user_number_employee' => $user_number_employee,
+                    'user_firstname' => $user_firstname,
+                    'user_lastname' => $user_lastname,
+                    'user_type_description' => $user_type_description,
+                    'user_division_description' => $user_division_description,
+                    'user_position_description' => $user_position_description,
+                    'user_rol_name' => $user_rol_name,
+                    'email' => $email,
+                    'password' => $password,
+                    'user_image' => $user_image,
                 ]
             );
         }else{
             # Insert
-            DB::table('vehicles_types')->insert(
+            DB::table('users')->insert(
                 [
-                    'vehicle_type_name' => $vehicle_type_name,
-                    'vehicle_type_description' => $vehicle_type_description,
+                    'user_number_id' => $user_number_id,
+                    'user_number_employee' => $user_number_employee,
+                    'user_firstname' => $user_firstname,
+                    'user_lastname' => $user_lastname,
+                    'user_type_description' => $user_type_description,
+                    'user_division_description' => $user_division_description,
+                    'user_position_description' => $user_position_description,
+                    'user_rol_name' => $user_rol_name,
+                    'email' => $email,
+                    'password' => $password,
                 ]
             );
         }
-        return redirect('vehicles_types/create')->with('success', 'Registro Guardado');
+        return redirect('users/create')->with('success', 'Registro Guardado');
     }
 
     /**
@@ -101,10 +147,15 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($vehicle_type_id)
+    public function show($user_id)
     {
-        $data = DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->first();
-        return view('vehicles_types.show', ['data' => $data]);
+        $count = DB::table('users')->where('user_id', '=', $user_id)->count();
+        if ($count>0) {
+            $data = DB::table('users')->join('roles', 'roles.rol_name', '=', 'users.user_rol_name')->where('user_id', '=', $user_id)->first();
+            return view('users.show', ['data' => $data]);
+        }else{
+            return redirect('users/index')->with('info', 'No se puede Ver el registro');
+        }
     }
 
     /**
@@ -113,10 +164,19 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($vehicle_type_id)
+    public function edit($user_id)
     {
-        $data = DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->first();
-        return view('vehicles_types.edit', ['data' => $data]);
+        $count = DB::table('users')->where('user_id', '=', $user_id)->count();
+        if ($count>0) {
+            $data['users_types'] = DB::table('users_types')->get();
+            $data['users_positions'] = DB::table('users_positions')->get();
+            $data['users_divisions'] = DB::table('users_divisions')->get();
+            $data['roles'] = DB::table('roles')->get();
+            $data['row'] = DB::table('users')->join('roles', 'roles.rol_name', '=', 'users.user_rol_name')->where('user_id', '=', $user_id)->first();
+            return view('users.edit', ['data' => $data]);
+        }else{
+            return redirect('users/index')->with('info', 'No se puede Ver el registro');
+        }
     }
 
     /**
@@ -126,49 +186,88 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $vehicle_type_id)
+    public function update(Request $request, $user_id)
     {
         # Rules
         $this->validate($request, [
-            'vehicle_type_name' => 'required|max:60',
-            'vehicle_type_icon' => 'image|mimes:jpeg,png',
+            'user_number_id' => 'required|max:60',
+            'user_number_employee' => 'required|max:60',
+            'user_firstname' => 'required|max:60',
+            'user_lastname' => 'required|max:60',
+            'user_type_description' => 'required',
+            'user_division_description' => 'required',
+            'user_position_description' => 'required',
+            'email' => 'required|max:250|email',
+            'user_rol_name' => 'required',
+            'user_image' => 'image|mimes:jpeg,png',
         ]);
         # Request
-        $vehicle_type_id = $request->input('vehicle_type_id');
-        $vehicle_type_name = $request->input('vehicle_type_name');
-        $vehicle_type_description = $request->input('vehicle_type_description');
+        $user_id = $request->input('user_id');
+        $user_number_id = $request->input('user_number_id');
+        $user_number_employee = $request->input('user_number_employee');
+        $user_firstname = $request->input('user_firstname');
+        $user_lastname = $request->input('user_lastname');
+        $user_type_description = $request->input('user_type_description');
+        $user_division_description = $request->input('user_division_description');
+        $user_position_description = $request->input('user_position_description');
+        $email = $request->input('email');
+        $user_rol_name = $request->input('user_rol_name');
         # Unique 
-        $count = DB::table('vehicles_types')->where('vehicle_type_name', $vehicle_type_name)->where('vehicle_type_id', '<>', $vehicle_type_id)->count();
-        if ($count<1) {
+        $count_user_number_id = DB::table('users')->where('user_number_id', $user_number_id)->where('user_id', '<>', $user_id)->count();
+        $count_user_number_employee = DB::table('users')->where('user_number_employee', $user_number_employee)->where('user_id', '<>', $user_id)->count();
+        $count_email = DB::table('users')->where('email', $email)->where('user_id', '<>', $user_id)->count();
+        if ($count_user_number_id<1 or $count_user_number_employee<1 or $count_email<1) {
             if ($request->hasFile('vehicle_type_icon')) {
                 $extension = $request->file('vehicle_type_icon')->extension();
                 $vehicle_type_icon = $vehicle_type_name.'.'.$extension;
                 $request->vehicle_type_icon->storeAs('public', $vehicle_type_icon);
                 # Update
-                DB::table('vehicles_types')
-                    ->where('vehicle_type_id', $vehicle_type_id)
+                DB::table('users')
+                    ->where('user_id', $user_id)
                     ->update(
                         [
-                            'vehicle_type_name' => $vehicle_type_name,
-                            'vehicle_type_description' => $vehicle_type_description,
-                            'vehicle_type_icon' => $vehicle_type_icon,
+                            'user_number_id' => $user_number_id,
+                            'user_number_employee' => $user_number_employee,
+                            'user_firstname' => $user_firstname,
+                            'user_lastname' => $user_lastname,
+                            'user_type_description' => $user_type_description,
+                            'user_division_description' => $user_division_description,
+                            'user_position_description' => $user_position_description,
+                            'user_rol_name' => $user_rol_name,
+                            'email' => $email,
+                            'user_image' => $user_image,
                         ]
                     );
             }else{
                 # Update
-                DB::table('vehicles_types')
-                    ->where('vehicle_type_id', $vehicle_type_id)
+                DB::table('users')
+                    ->where('user_id', $user_id)
                     ->update(
                         [
-                            'vehicle_type_name' => $vehicle_type_name,
-                            'vehicle_type_description' => $vehicle_type_description,
+                            'user_number_id' => $user_number_id,
+                            'user_number_employee' => $user_number_employee,
+                            'user_firstname' => $user_firstname,
+                            'user_lastname' => $user_lastname,
+                            'user_type_description' => $user_type_description,
+                            'user_division_description' => $user_division_description,
+                            'user_position_description' => $user_position_description,
+                            'user_rol_name' => $user_rol_name,
+                            'email' => $email,
                         ]
                     );
             }
-            return redirect('vehicles_types/edit/'.$vehicle_type_id)->with('success', 'Registro Actualizado');
+            return redirect('users/edit/'.$user_id)->with('success', 'Registro Actualizado');
         }else{
             # Error
-            return redirect('vehicles_types/edit/'.$vehicle_type_id)->with('danger', 'El elemento tipo ya está en uso.');
+            if ($count_user_number_id<1 ) {
+                return redirect('users/edit/'.$user_id)->with('danger', 'El elemento Número ID ya está en uso.');
+            }
+            if ($count_user_number_employee<1 ) {
+                return redirect('users/edit/'.$user_id)->with('danger', 'El elemento Número de Empleado ya está en uso.');
+            }
+            if ($count_email<1 ) {
+                return redirect('users/edit/'.$user_id)->with('danger', 'El elemento E-mail ya está en uso.');
+            }
         }
     }
 
@@ -178,16 +277,17 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($vehicle_type_id)
+    public function destroy($user_id)
     {
-        $data = DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->first();
-        if (!empty($data->vehicle_type_id)) {
+        $count = DB::table('users')->where('user_id', '=', $user_id)->count();
+        if ($count>0) {
             # delete
-            Storage::delete($data->vehicle_type_icon);
-            DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->delete();
-            return redirect('vehicles_types/index')->with('success', 'Registro Elimino');
+            $data = DB::table('users')->where('user_id', '=', $user_id)->first();
+            Storage::delete($data->user_number_id);
+            DB::table('users')->where('user_id', '=', $user_id)->delete();
+            return redirect('users/index')->with('success', 'Registro Elimino');
         }else{
-            return redirect('vehicles_types/index')->with('info', 'No se puede Eliminar el registro');
+            return redirect('users/index')->with('info', 'No se puede Eliminar el registro');
         }
     }
 }

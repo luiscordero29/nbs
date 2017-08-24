@@ -24,30 +24,19 @@ class CreateUsersTable extends Migration
             $table->timestamps();
             # Fields
             $table->bigIncrements('user_id');
-            $table->char('user_type_description', 60)->nullable();
-            $table->char('user_division_description', 60)->nullable();
+            $table->char('user_type_description', 60);
+            $table->char('user_division_description', 60);
+            $table->char('user_position_description', 60);
+            $table->char('user_rol_name', 60);
             $table->char('user_firstname', 60);
             $table->char('user_lastname', 60);
-            $table->string('user_position')->nullable();
             $table->binary('user_image')->nullable();
-            $table->string('user_number_id')->nullable();
-            $table->string('user_number_employee')->nullable();
+            $table->string('user_number_id');
+            $table->string('user_number_employee');
             # Keys 
             $table->unique('user_number_id');
             $table->unique('user_number_employee');
-            # Foreign Key Constraints
-            #$table->foreign('user_id')->references('user_id')->on('types_users')->onDelete('cascade');
-            #$table->foreign('user_id')->references('user_id')->on('roles_users')->onDelete('cascade');
-            #$table->foreign('user_id')->references('user_id')->on('vehicles_users')->onDelete('cascade');
         });
-
-        /*DB::table('users')->insert(
-            [
-                'name' => 'luis cordero',
-                'email' => 'luis.cordero@webdiv.co',
-                'password' => '$2y$10$lJ7fQktXBwrarVxYw4p/Fe.zuCQ8.UdaMDdJZXvV9mZbwkzHU/EB.',
-            ]
-        );*/
     }
 
     /**
@@ -57,6 +46,28 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropIndex('users_user_type_description_foreign');
+            $table->dropIndex('users_user_position_description_foreign');
+            $table->dropIndex('users_user_division_description_foreign');
+            $table->dropIndex('users_user_rol_name_foreign');
+        }); 
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropIndex(['user_type_description']);
+            $table->dropIndex(['user_position_description']);
+            $table->dropIndex(['user_division_description']);
+            $table->dropIndex(['user_rol_name']);
+        }); 
+
+        Schema::table('vehicles', function (Blueprint $table) {
+            $table->dropIndex('vehicles_user_number_id_foreign');
+        }); 
+
+        Schema::table('vehicles', function (Blueprint $table) {
+            $table->dropIndex(['user_number_id']);
+        });
+
         Schema::dropIfExists('users');
     }
 }

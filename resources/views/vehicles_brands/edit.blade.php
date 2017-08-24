@@ -40,7 +40,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="control-label">Tipo</label>
-                        <select class="custom-select col-12" autofocus="" name="vehicle_type_name">
+                        <select class="custom-select col-12" name="vehicle_type_name">
                             <option selected="">Seleccione</option>
                             @foreach ($data['vehicles_types'] as $r)
                             <option @if ($data['row']->vehicle_type_name == $r->vehicle_type_name ) selected=""  @endif value="{{$r->vehicle_type_name}}">{{$r->vehicle_type_name}}</option>
@@ -52,7 +52,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="control-label">Marca</label>
-                        <input id="vehicle_brand_name" name="vehicle_brand_name" class="form-control" placeholder="Marca" type="text" value="{{ $data['row']->vehicle_brand_name }}" autofocus="">
+                        <input id="vehicle_brand_name" name="vehicle_brand_name" class="form-control" placeholder="Marca" type="text" value="{{ $data['row']->vehicle_brand_name }}">
                         <small class="form-control-feedback"> Ingrese la marcar</small> 
                     </div>
                 </div>

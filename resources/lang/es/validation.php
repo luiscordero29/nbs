@@ -100,6 +100,72 @@ return [
     */
 
     'custom' => [
+        'user_number_id' => [
+            'required'  => 'El campo Número ID es obligatorio. ',
+            'max'       => [
+                'numeric' => 'El campo Número ID debe ser :max como máximo.',
+                'file'    => 'El archivo Número ID debe pesar :max kilobytes como máximo.',
+                'string'  => 'El campo Número ID debe contener :max caracteres como máximo.',
+                'array'   => 'El campo Número ID debe contener :max elementos como máximo.',
+            ],
+            'unique'    => 'El elemento Número ID ya está en uso.',
+        ],
+        'user_number_employee' => [
+            'required'  => 'El campo Número de Empleado es obligatorio. ',
+            'max'       => [
+                'numeric' => 'El campo Número de Empleado debe ser :max como máximo.',
+                'file'    => 'El archivo Número de Empleado debe pesar :max kilobytes como máximo.',
+                'string'  => 'El campo Número de Empleado debe contener :max caracteres como máximo.',
+                'array'   => 'El campo Número de Empleado debe contener :max elementos como máximo.',
+            ],
+            'unique'    => 'El elemento Número de Empleado ya está en uso.',
+        ],
+        'email' => [
+            'required'  => 'El campo E-mail es obligatorio. ',
+            'max'       => [
+                'numeric' => 'El campo E-mail debe ser :max como máximo.',
+                'file'    => 'El archivo E-mail debe pesar :max kilobytes como máximo.',
+                'string'  => 'El campo E-mail debe contener :max caracteres como máximo.',
+                'array'   => 'El campo E-mail debe contener :max elementos como máximo.',
+            ],
+            'unique'    => 'El elemento E-mail ya está en uso.',
+            'email'     => 'El campo E-mail no corresponde con una dirección de e-mail válida.',
+
+        ],
+        'user_firstname' => [
+            'required'  => 'El campo Nombres es obligatorio. ',
+            'max'       => [
+                'numeric' => 'El campo Nombres debe ser :max como máximo.',
+                'file'    => 'El archivo Nombres debe pesar :max kilobytes como máximo.',
+                'string'  => 'El campo Nombres debe contener :max caracteres como máximo.',
+                'array'   => 'El campo Nombres debe contener :max elementos como máximo.',
+            ],
+        ],
+        'user_lastname' => [
+            'required'  => 'El campo Apellidos es obligatorio. ',
+            'max'       => [
+                'numeric' => 'El campo Apellidos debe ser :max como máximo.',
+                'file'    => 'El archivo Apellidos debe pesar :max kilobytes como máximo.',
+                'string'  => 'El campo Apellidos debe contener :max caracteres como máximo.',
+                'array'   => 'El campo Apellidos debe contener :max elementos como máximo.',
+            ],
+        ],
+        'user_type_description' => [
+            'required'  => 'El campo Tipo es obligatorio. ',
+        ],
+        'user_division_description' => [
+            'required'  => 'El campo División es obligatorio. ',
+        ],
+        'user_position_description' => [
+            'required'  => 'El campo Cargo es obligatorio. ',
+        ],
+        'user_rol_name' => [
+            'required'  => 'El campo Rol es obligatorio. ',
+        ],
+        'user_image' => [
+            'image'     => 'El campo logo debe ser una imagen.',
+            'mimes'     => 'El campo logo debe ser un archivo de tipo :values.',
+        ],
         'rol_name' => [
             'required'  => 'El campo nombre es obligatorio. ',
             'max'       => [

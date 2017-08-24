@@ -15,14 +15,14 @@ class RolesTableSeeder extends Seeder
         DB::table('roles')->insert(
         	[
 	        	'rol_name' => 'users',
-	        	'rol_description' => 'USUARIOS',
+	        	'rol_description' => 'USUARIO',
 	        	'rol_protected' => 'yes',
 	    	]
 	    );
         DB::table('roles')->insert(
             [
                 'rol_name' => 'admins',
-                'rol_description' => 'ADMINISTRADORES',
+                'rol_description' => 'ADMINISTRADOR',
                 'rol_protected' => 'yes',
             ]
         );

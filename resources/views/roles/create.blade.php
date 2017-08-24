@@ -35,7 +35,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="control-label">Nombre</label>
-                        <input id="rol_name" name="rol_name" class="form-control" placeholder="Nombre" type="text" value="{{ old('rol_name') }}" autofocus="">
+                        <input id="rol_name" name="rol_name" class="form-control" placeholder="Nombre" type="text" value="{{ old('rol_name') }}">
                         <small class="form-control-feedback"> Ingrese la descripción</small> 
                     </div>
                 </div>

@@ -40,14 +40,14 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="control-label">Nombre</label>
-                        <input id="rol_name" name="rol_name" class="form-control" placeholder="Nombre" type="text" value="{{ $data->rol_name }}" autofocus="">
+                        <input id="rol_name" name="rol_name" class="form-control" placeholder="Nombre" type="text" value="{{ $data->rol_name }}">
                         <small class="form-control-feedback"> Editar descripción</small> 
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="control-label">Descripción</label>
-                        <input id="rol_description" name="rol_description" class="form-control" placeholder="Descripción" type="text" value="{{ $data->rol_description }}" autofocus="">
+                        <input id="rol_description" name="rol_description" class="form-control" placeholder="Descripción" type="text" value="{{ $data->rol_description }}">
                         <small class="form-control-feedback"> Editar descripción</small> 
                     </div>
                 </div>

@@ -14,6 +14,11 @@ class UsersTypesTableSeeder extends Seeder
     {
         $faker = Faker\Factory::create();
         DB::table('users_types')->delete();
+        DB::table('users_types')->insert(
+            [
+                'user_type_description' => 'EMPLEADO TEMPORAL',
+            ]
+        );
         for ($i=0; $i < 100; $i++) { 
 	        DB::table('users_types')->insert([
 	            'user_type_description' => $faker->unique()->company,

@@ -21,6 +21,15 @@ class CreateUsersTypesTable extends Migration
             #Keys 
             $table->unique('user_type_description');  
         });
+
+        Schema::table('users', function (Blueprint $table) {
+            # Foreign Key Constraints
+            $table
+                ->foreign('user_type_description')
+                ->references('user_type_description')
+                ->on('users_types')
+                ->onDelete('cascade')->onUpdate('cascade');
+        });
     }
 
     /**

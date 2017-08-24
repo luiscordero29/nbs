@@ -21,6 +21,15 @@ class CreateUsersDivisionsTable extends Migration
             #Keys 
             $table->unique('user_division_description');  
         });
+
+        Schema::table('users', function (Blueprint $table) {
+            # Foreign Key Constraints
+            $table
+                ->foreign('user_division_description')
+                ->references('user_division_description')
+                ->on('users_divisions')
+                ->onDelete('cascade')->onUpdate('cascade');
+        });
     }
 
     /**

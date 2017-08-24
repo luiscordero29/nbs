@@ -40,7 +40,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="control-label">Tipo</label>
-                        <input id="vehicle_type_name" name="vehicle_type_name" class="form-control" placeholder="Tipo" type="text" value="{{ $data->vehicle_type_name }}" autofocus="">
+                        <input id="vehicle_type_name" name="vehicle_type_name" class="form-control" placeholder="Tipo" type="text" value="{{ $data->vehicle_type_name }}">
                         <small class="form-control-feedback"> Ingrese el tipo de vehiculo</small> 
                     </div>
                 </div>

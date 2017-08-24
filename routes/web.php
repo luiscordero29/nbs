@@ -40,15 +40,15 @@ Route::get('users_types/show/{user_type_id}', 'UsersTypesController@show')->wher
 Route::get('users_types/edit/{user_type_id}', 'UsersTypesController@edit')->where('user_type_id', '[0-9]+');
 Route::post('users_types/update/{user_type_id}', 'UsersTypesController@update')->where('user_type_id', '[0-9]+');
 Route::get('users_types/destroy/{user_type_id}', 'UsersTypesController@destroy')->where('user_type_id', '[0-9]+');
-/* users_charges */
-Route::match(['get', 'post'],'users_charges/index', 'UsersChargesController@index');
-Route::get('users_charges/create', 'UsersChargesController@create');
-Route::post('users_charges/store', 'UsersChargesController@store');
-Route::get('users_charges/show/{user_charge_id}', 'UsersChargesController@show')->where('user_charge_id', '[0-9]+');
-Route::get('users_charges/edit/{user_charge_id}', 'UsersChargesController@edit')->where('user_charge_id', '[0-9]+');
-Route::post('users_charges/update/{user_charge_id}', 'UsersChargesController@update')->where('user_charge_id', '[0-9]+');
-Route::get('users_charges/destroy/{user_charge_id}', 'UsersChargesController@destroy')->where('user_charge_id', '[0-9]+');
-/* users_charges */
+/* users_positions */
+Route::match(['get', 'post'],'users_positions/index', 'UsersPositionsController@index');
+Route::get('users_positions/create', 'UsersPositionsController@create');
+Route::post('users_positions/store', 'UsersPositionsController@store');
+Route::get('users_positions/show/{user_position_id}', 'UsersPositionsController@show')->where('user_position_id', '[0-9]+');
+Route::get('users_positions/edit/{user_position_id}', 'UsersPositionsController@edit')->where('user_position_id', '[0-9]+');
+Route::post('users_positions/update/{user_position_id}', 'UsersPositionsController@update')->where('user_position_id', '[0-9]+');
+Route::get('users_positions/destroy/{user_position_id}', 'UsersPositionsController@destroy')->where('user_position_id', '[0-9]+');
+/* users_divisions */
 Route::match(['get', 'post'],'users_divisions/index', 'UsersDivisionsController@index');
 Route::get('users_divisions/create', 'UsersDivisionsController@create');
 Route::post('users_divisions/store', 'UsersDivisionsController@store');

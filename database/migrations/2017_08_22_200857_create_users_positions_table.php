@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRolesTable extends Migration
+class CreateUsersPositionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,23 +13,21 @@ class CreateRolesTable extends Migration
      */
     public function up()
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('users_positions', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             # Fields
-            $table->bigIncrements('rol_id');
-            $table->char('rol_name', 60);
-            $table->text('rol_description');
-            $table->enum('rol_protected', ['yes', 'no']);
+            $table->bigIncrements('user_position_id');
+            $table->char('user_position_description', 60);
             #Keys 
-            $table->unique('rol_name');  
+            $table->unique('user_position_description');  
         });
 
         Schema::table('users', function (Blueprint $table) {
             # Foreign Key Constraints
             $table
-                ->foreign('user_rol_name')
-                ->references('rol_name')
-                ->on('roles')
+                ->foreign('user_position_description')
+                ->references('user_position_description')
+                ->on('users_positions')
                 ->onDelete('cascade')->onUpdate('cascade');
         });
     }
@@ -41,8 +39,6 @@ class CreateRolesTable extends Migration
      */
     public function down()
     {
-         
-
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('users_positions');
     }
 }

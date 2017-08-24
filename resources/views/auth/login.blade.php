@@ -17,7 +17,7 @@
         @endif
         <div class="form-group m-t-40">
             <div class="col-xs-12">
-                <input id="email" type="text" placeholder="E-mail" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
+                <input id="email" type="text" placeholder="E-mail" class="form-control" name="email" value="{{ old('email') }}" required>
             </div>
         </div>
         <div class="form-group">
