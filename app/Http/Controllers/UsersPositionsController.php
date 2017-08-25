@@ -36,7 +36,7 @@ class UsersPositionsController extends Controller
             $request->session()->forget('info');
             $request->session()->forget('search');
         }
-        $data = DB::table('users_positions')->where('user_position_description', 'like', '%'.$search.'%')->paginate(30);
+        $data['rows'] = DB::table('users_positions')->where('user_position_description', 'like', '%'.$search.'%')->paginate(30);
         # View
         return view('users_positions.index', ['data' => $data]);
     }
@@ -48,6 +48,7 @@ class UsersPositionsController extends Controller
      */
     public function create(Request $request)
     {
+        # View
         return view('users_positions.create');
     }
 
@@ -80,8 +81,15 @@ class UsersPositionsController extends Controller
      */
     public function show($user_position_id)
     {
-        $data = DB::table('users_positions')->where('user_position_id', '=', $user_position_id)->first();
-        return view('users_positions.show', ['data' => $data]);
+        $count = DB::table('users_positions')->where('user_position_id', '=', $user_position_id)->count();
+        if ($count>0) {
+            # Show
+            $data['row'] = DB::table('users_positions')->where('user_position_id', '=', $user_position_id)->first();
+            return view('users_positions.show', ['data' => $data]);
+        }else{
+            # Error
+            return redirect('users_positions/index')->with('info', 'No se puede Editar el registro');
+        }
     }
 
     /**
@@ -92,8 +100,15 @@ class UsersPositionsController extends Controller
      */
     public function edit($user_position_id)
     {
-        $data = DB::table('users_positions')->where('user_position_id', '=', $user_position_id)->first();
-        return view('users_positions.edit', ['data' => $data]);
+        $count = DB::table('users_positions')->where('user_position_id', '=', $user_position_id)->count();
+        if ($count>0) {
+            # Edit
+            $data['row'] = DB::table('users_positions')->where('user_position_id', '=', $user_position_id)->first();
+            return view('users_positions.edit', ['data' => $data]);
+        }else{
+            # Error
+            return redirect('users_positions/index')->with('info', 'No se puede Editar el registro');
+        }
     }
 
     /**
@@ -121,7 +136,7 @@ class UsersPositionsController extends Controller
                 ->update(['user_position_description' => $user_position_description]);
             return redirect('users_positions/edit/'.$user_position_id)->with('success', 'Registro Actualizado');
         }else{
-            # Update
+            # Error
             return redirect('users_positions/edit/'.$user_position_id)->with('danger', 'El elemento descripción ya está en uso.');
         }
     }
@@ -134,12 +149,13 @@ class UsersPositionsController extends Controller
      */
     public function destroy($user_position_id)
     {
-        $data = DB::table('users_positions')->where('user_position_id', '=', $user_position_id)->first();
-        if (!empty($data->user_position_id)) {
-            # delete
+        $count = DB::table('users_positions')->where('user_position_id', '=', $user_position_id)->count();
+        if ($count>0) {
+            # Delete
             DB::table('users_positions')->where('user_position_id', '=', $user_position_id)->delete();
             return redirect('users_positions/index')->with('success', 'Registro Elimino');
         }else{
+            # Error
             return redirect('users_positions/index')->with('info', 'No se puede Eliminar el registro');
         }
     }

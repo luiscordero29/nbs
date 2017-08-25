@@ -37,7 +37,7 @@ class UsersController extends Controller
             $request->session()->forget('info');
             $request->session()->forget('search');
         }
-        $data = DB::table('users')
+        $data['rows'] = DB::table('users')
             ->join('roles', 'roles.rol_name', '=', 'users.user_rol_name')
             ->where('user_firstname', 'like', '%'.$search.'%')
             ->orWhere('user_lastname', 'like', '%'.$search.'%')
@@ -64,6 +64,7 @@ class UsersController extends Controller
         $data['users_positions'] = DB::table('users_positions')->get();
         $data['users_divisions'] = DB::table('users_divisions')->get();
         $data['roles'] = DB::table('roles')->get();
+        # View
         return view('users.create', ['data' => $data]);
     }
 
@@ -151,9 +152,11 @@ class UsersController extends Controller
     {
         $count = DB::table('users')->where('user_id', '=', $user_id)->count();
         if ($count>0) {
-            $data = DB::table('users')->join('roles', 'roles.rol_name', '=', 'users.user_rol_name')->where('user_id', '=', $user_id)->first();
+            # Show
+            $data['row'] = DB::table('users')->join('roles', 'roles.rol_name', '=', 'users.user_rol_name')->where('user_id', '=', $user_id)->first();
             return view('users.show', ['data' => $data]);
         }else{
+            # Error
             return redirect('users/index')->with('info', 'No se puede Ver el registro');
         }
     }
@@ -168,6 +171,7 @@ class UsersController extends Controller
     {
         $count = DB::table('users')->where('user_id', '=', $user_id)->count();
         if ($count>0) {
+            # Edit
             $data['users_types'] = DB::table('users_types')->get();
             $data['users_positions'] = DB::table('users_positions')->get();
             $data['users_divisions'] = DB::table('users_divisions')->get();
@@ -175,6 +179,7 @@ class UsersController extends Controller
             $data['row'] = DB::table('users')->join('roles', 'roles.rol_name', '=', 'users.user_rol_name')->where('user_id', '=', $user_id)->first();
             return view('users.edit', ['data' => $data]);
         }else{
+            # Error
             return redirect('users/index')->with('info', 'No se puede Ver el registro');
         }
     }
@@ -281,12 +286,13 @@ class UsersController extends Controller
     {
         $count = DB::table('users')->where('user_id', '=', $user_id)->count();
         if ($count>0) {
-            # delete
+            # Delete
             $data = DB::table('users')->where('user_id', '=', $user_id)->first();
             Storage::delete($data->user_number_id);
             DB::table('users')->where('user_id', '=', $user_id)->delete();
             return redirect('users/index')->with('success', 'Registro Elimino');
         }else{
+            # Error
             return redirect('users/index')->with('info', 'No se puede Eliminar el registro');
         }
     }

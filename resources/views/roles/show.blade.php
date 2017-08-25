@@ -16,8 +16,8 @@
 @section('content')
     <h4 class="card-title">Ver Rol</h4>
     <p class="card-text">
-        <b>ID:</b> {{ $data->rol_id }} <br />
-        <b>Nombre:</b> {{ $data->rol_name }} <br />
-        <b>Descripción:</b> {{ $data->rol_description }}
+        <b>ID:</b> {{ $data['row']->rol_id }} <br />
+        <b>Nombre:</b> {{ $data['row']->rol_name }} <br />
+        <b>Descripción:</b> {{ $data['row']->rol_description }}
     </p>
 @endsection

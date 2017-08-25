@@ -23,7 +23,7 @@ class CreateVehiclesTable extends Migration
             $table->binary('vehicle_image')->nullable();
             $table->enum('vehicle_status', ['yes', 'no']);
             $table->char('vehicle_model_name', 60);
-            $table->char('color_name', 60);
+            $table->char('vehicle_color_name', 60);
             $table->char('user_number_id',60);
             #Keys 
             $table->unique('vehicle_code');  
@@ -32,8 +32,8 @@ class CreateVehiclesTable extends Migration
         Schema::table('vehicles', function (Blueprint $table) {
             # Foreign Key Constraints
             $table
-                ->foreign('color_name')
-                ->references('color_name')
+                ->foreign('vehicle_color_name')
+                ->references('vehicle_color_name')
                 ->on('vehicles_colors')
                 ->onDelete('no action')->onUpdate('cascade');
             $table
@@ -55,9 +55,7 @@ class CreateVehiclesTable extends Migration
      * @return void
      */
     public function down()
-    {
-         
-
+    {        
         Schema::dropIfExists('vehicles');
     }
 }

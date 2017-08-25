@@ -100,6 +100,16 @@ return [
     */
 
     'custom' => [
+        'vehicle_color_name' => [
+            'required'  => 'El campo Color es obligatorio. ',
+            'max'       => [
+                'numeric' => 'El campo Color debe ser :max como máximo.',
+                'file'    => 'El archivo Color debe pesar :max kilobytes como máximo.',
+                'string'  => 'El campo Color debe contener :max caracteres como máximo.',
+                'array'   => 'El campo Color debe contener :max elementos como máximo.',
+            ],
+            'unique'    => 'El elemento Color ya está en uso.',
+        ],
         'user_number_id' => [
             'required'  => 'El campo Número ID es obligatorio. ',
             'max'       => [

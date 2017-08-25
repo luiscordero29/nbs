@@ -36,7 +36,7 @@ class UsersDivisionsController extends Controller
             $request->session()->forget('info');
             $request->session()->forget('search');
         }
-        $data = DB::table('users_divisions')->where('user_division_description', 'like', '%'.$search.'%')->paginate(30);
+        $data['rows'] = DB::table('users_divisions')->where('user_division_description', 'like', '%'.$search.'%')->paginate(30);
         # View
         return view('users_divisions.index', ['data' => $data]);
     }
@@ -48,6 +48,7 @@ class UsersDivisionsController extends Controller
      */
     public function create(Request $request)
     {
+        # View
         return view('users_divisions.create');
     }
 
@@ -82,9 +83,11 @@ class UsersDivisionsController extends Controller
     {
         $count = DB::table('users_divisions')->where('user_division_id', '=', $user_division_id)->count();
         if ($count>0) {
-            $data = DB::table('users_divisions')->where('user_division_id', '=', $user_division_id)->first();
+            # Show
+            $data['row'] = DB::table('users_divisions')->where('user_division_id', '=', $user_division_id)->first();
             return view('users_divisions.show', ['data' => $data]);
         }else{
+            # Error
             return redirect('users_divisions/index')->with('info', 'No se puede Ver el registro');
         }
     }
@@ -99,9 +102,11 @@ class UsersDivisionsController extends Controller
     {
         $count = DB::table('users_divisions')->where('user_division_id', '=', $user_division_id)->count();
         if ($count>0) {
-            $data = DB::table('users_divisions')->where('user_division_id', '=', $user_division_id)->first();
+            # Edit
+            $data['row'] = DB::table('users_divisions')->where('user_division_id', '=', $user_division_id)->first();
             return view('users_divisions.edit', ['data' => $data]);
         }else{
+            # Error
             return redirect('users_divisions/index')->with('info', 'No se puede Editar el registro');
         }
     }
@@ -131,7 +136,7 @@ class UsersDivisionsController extends Controller
                 ->update(['user_division_description' => $user_division_description]);
             return redirect('users_divisions/edit/'.$user_division_id)->with('success', 'Registro Actualizado');
         }else{
-            # Update
+            # Error
             return redirect('users_divisions/edit/'.$user_division_id)->with('danger', 'El elemento descripción ya está en uso.');
         }
     }
@@ -146,10 +151,11 @@ class UsersDivisionsController extends Controller
     {
         $count = DB::table('users_divisions')->where('user_division_id', '=', $user_division_id)->count();
         if ($count>0) {
-            # delete
+            # Delete
             DB::table('users_divisions')->where('user_division_id', '=', $user_division_id)->delete();
             return redirect('users_divisions/index')->with('success', 'Registro Elimino');
         }else{
+            # Error
             return redirect('users_divisions/index')->with('info', 'No se puede Eliminar el registro');
         }
     }

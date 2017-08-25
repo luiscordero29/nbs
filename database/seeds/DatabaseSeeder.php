@@ -105,7 +105,7 @@ class DatabaseSeeder extends Seeder
         DB::table('vehicles_colors')->delete();
         for ($i=0; $i < 60; $i++) { 
             DB::table('vehicles_colors')->insert([
-                'color_name' => $faker->unique()->name,
+                'vehicle_color_name' => $faker->unique()->name,
             ]);
         }
         # insertar usuarios para poder asignar vehiculos 

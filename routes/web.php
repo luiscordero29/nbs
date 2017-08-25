@@ -15,6 +15,7 @@ Auth::routes();
 /* home */
 Route::get('/', 'HomeController@index');
 /* dashboar */
+Route::get('/home', 'DashboardController@index');
 Route::get('/dashboard', 'DashboardController@index');
 /* roles */
 Route::match(['get', 'post'],'roles/index', 'RolesController@index');
@@ -80,3 +81,11 @@ Route::get('vehicles_types/show/{vehicle_type_id}', 'VehiclesTypesController@sho
 Route::get('vehicles_types/edit/{vehicle_type_id}', 'VehiclesTypesController@edit')->where('vehicle_type_id', '[0-9]+');
 Route::post('vehicles_types/update/{vehicle_type_id}', 'VehiclesTypesController@update')->where('vehicle_type_id', '[0-9]+');
 Route::get('vehicles_types/destroy/{vehicle_type_id}', 'VehiclesTypesController@destroy')->where('vehicle_type_id', '[0-9]+');
+/* vehicles_colors */
+Route::match(['get', 'post'],'vehicles_colors/index', 'VehiclesColorsController@index');
+Route::get('vehicles_colors/create', 'VehiclesColorsController@create');
+Route::post('vehicles_colors/store', 'VehiclesColorsController@store');
+Route::get('vehicles_colors/show/{vehicle_color_id}', 'VehiclesColorsController@show')->where('vehicle_color_id', '[0-9]+');
+Route::get('vehicles_colors/edit/{vehicle_color_id}', 'VehiclesColorsController@edit')->where('vehicle_color_id', '[0-9]+');
+Route::post('vehicles_colors/update/{vehicle_color_id}', 'VehiclesColorsController@update')->where('vehicle_color_id', '[0-9]+');
+Route::get('vehicles_colors/destroy/{vehicle_color_id}', 'VehiclesColorsController@destroy')->where('vehicle_color_id', '[0-9]+');

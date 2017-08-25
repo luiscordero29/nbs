@@ -46,20 +46,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropIndex('users_user_type_description_foreign');
-            $table->dropIndex('users_user_position_description_foreign');
-            $table->dropIndex('users_user_division_description_foreign');
-            $table->dropIndex('users_user_rol_name_foreign');
-        }); 
-
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropIndex(['user_type_description']);
-            $table->dropIndex(['user_position_description']);
-            $table->dropIndex(['user_division_description']);
-            $table->dropIndex(['user_rol_name']);
-        }); 
-
         Schema::dropIfExists('users');
     }
 }

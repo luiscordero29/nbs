@@ -36,14 +36,6 @@ class CreateVehiclesModelsTable extends Migration
      */
     public function down()
     {
-        Schema::table('vehicles', function (Blueprint $table) {
-            $table->dropIndex('vehicles_vehicle_model_name_foreign');
-        }); 
-
-        Schema::table('vehicles', function (Blueprint $table) {
-            $table->dropIndex(['vehicle_model_name']);
-        }); 
-
         Schema::dropIfExists('vehicles_models');
     }
 }

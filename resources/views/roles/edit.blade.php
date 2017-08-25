@@ -14,7 +14,7 @@
     </div>
 @endsection
 @section('content')
-	<form method="POST" action="/roles/update/{{ $data->rol_id }}">
+	<form method="POST" action="/roles/update/{{ $data['row']->rol_id }}">
 		{{ csrf_field() }}
         <div class="form-body">
             <h3 class="card-title">Editar Rol</h3>
@@ -40,14 +40,14 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="control-label">Nombre</label>
-                        <input id="rol_name" name="rol_name" class="form-control" placeholder="Nombre" type="text" value="{{ $data->rol_name }}">
+                        <input id="rol_name" name="rol_name" class="form-control" placeholder="Nombre" type="text" value="{{ $data['row']->rol_name }}">
                         <small class="form-control-feedback"> Editar descripción</small> 
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="control-label">Descripción</label>
-                        <input id="rol_description" name="rol_description" class="form-control" placeholder="Descripción" type="text" value="{{ $data->rol_description }}">
+                        <input id="rol_description" name="rol_description" class="form-control" placeholder="Descripción" type="text" value="{{ $data['row']->rol_description }}">
                         <small class="form-control-feedback"> Editar descripción</small> 
                     </div>
                 </div>
@@ -58,7 +58,7 @@
         <div class="form-actions">
             <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Guardar</button>
             <a href="/roles/index" class="btn btn-inverse">Regresar</a>
-            <input type="hidden" name="rol_id" value="{{ $data->rol_id }}">
+            <input type="hidden" name="rol_id" value="{{ $data['row']->rol_id }}">
         </div>
     </form>
 @endsection

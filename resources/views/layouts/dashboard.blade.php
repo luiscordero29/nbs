@@ -382,8 +382,8 @@
                         <li>
                             <a class="has-arrow" href="#" aria-expanded="false"><i class="fa fa-car"></i><span class="hide-menu">Vehiculos </span></a>
                             <ul aria-expanded="false" class="collapse">
-                                <li><a href="#"><i class="fa fa-caret-right fa-fw"></i> Vehiculos</a></li>
-                                <li><a href="#"><i class="fa fa-caret-right fa-fw"></i> Vehiculos Colores</a></li>
+                                <li><a href="/vehicles/index"><i class="fa fa-caret-right fa-fw"></i> Vehiculos</a></li>
+                                <li><a href="/vehicles_colors/index"><i class="fa fa-caret-right fa-fw"></i> Vehiculos Colores</a></li>
                                 <li><a href="/vehicles_types/index"><i class="fa fa-caret-right fa-fw"></i> Vehiculos Tipos</a></li>
                                 <li><a href="/vehicles_brands/index"><i class="fa fa-caret-right fa-fw"></i> Vehiculos Marcas</a></li>
                                 <li><a href="/vehicles_models/index"><i class="fa fa-caret-right fa-fw"></i> Vehiculos Modelos</a></li>

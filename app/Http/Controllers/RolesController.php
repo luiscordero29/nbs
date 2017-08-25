@@ -36,7 +36,7 @@ class RolesController extends Controller
             $request->session()->forget('info');
             $request->session()->forget('search');
         }
-        $data = DB::table('roles')
+        $data['rows'] = DB::table('roles')
             ->where('rol_name', 'like', '%'.$search.'%')
             ->orWhere('rol_description', 'like', '%'.$search.'%')
             ->paginate(30);
@@ -51,6 +51,7 @@ class RolesController extends Controller
      */
     public function create(Request $request)
     {
+        # View
         return view('roles.create');
     }
 
@@ -91,9 +92,11 @@ class RolesController extends Controller
     {
         $count = DB::table('roles')->where('rol_id', '=', $rol_id)->count();
         if ($count>0) {
-            $data = DB::table('roles')->where('rol_id', '=', $rol_id)->first();
+            # Show
+            $data['row'] = DB::table('roles')->where('rol_id', '=', $rol_id)->first();
             return view('roles.show', ['data' => $data]);
         }else{
+            # Error
             return redirect('roles/index')->with('info', 'No se puede Ver el registro');
         }
     }
@@ -108,7 +111,7 @@ class RolesController extends Controller
     {
         $count = DB::table('roles')->where('rol_id', '=', $rol_id)->count();
         if ($count>0) {
-            $data = DB::table('roles')
+            $data['row'] = DB::table('roles')
                 ->where('rol_id', '=', $rol_id)
                 ->where('rol_protected', '=', 'no')
                 ->first();
