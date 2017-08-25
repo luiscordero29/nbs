@@ -146,7 +146,6 @@ class UsersTypesController extends Controller
     {
         $count = DB::table('users_types')->where('user_type_id', '=', $user_type_id)->count();
         if ($count>0) {
-            $data = DB::table('users_types')->where('user_type_id', '=', $user_type_id)->first();
             # delete
             DB::table('users_types')->where('user_type_id', '=', $user_type_id)->delete();
             return redirect('users_types/index')->with('success', 'Registro Elimino');

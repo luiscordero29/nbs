@@ -183,7 +183,6 @@ class VehiclesModelsController extends Controller
     {
         $count = DB::table('vehicles_models')->where('vehicle_model_id', '=', $vehicle_model_id)->count();
         if ($count>0) {
-            $data = DB::table('vehicles_models')->where('vehicle_model_id', '=', $vehicle_model_id)->first();
             # delete
             DB::table('vehicles_models')->where('vehicle_model_id', '=', $vehicle_model_id)->delete();
             return redirect('vehicles_models/index')->with('success', 'Registro Elimino');

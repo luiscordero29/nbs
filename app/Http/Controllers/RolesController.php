@@ -166,7 +166,6 @@ class RolesController extends Controller
     {
         $count = DB::table('roles')->where('rol_id', '=', $rol_id)->count();
         if ($count>0) {
-            $data = DB::table('roles')->where('rol_id', '=', $rol_id)->first();
             # delete
             DB::table('roles')->where('rol_id', '=', $rol_id)->delete();
             return redirect('roles/index')->with('success', 'Registro Elimino');

@@ -192,6 +192,7 @@ class VehiclesTypesController extends Controller
     {
         $count = DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->count();
         if ($count>0) {
+            # Delete
             $data = DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->first();
             Storage::delete($data->vehicle_type_icon);
             DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->delete();

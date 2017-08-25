@@ -189,7 +189,7 @@ return [
             ],
             'unique'    => 'El elemento descripción ya está en uso.',
         ],
-        'user_charge_description' => [
+        'user_position_description' => [
             'required'  => 'El campo descripción es obligatorio. ',
             'max'       => [
                 'numeric' => 'El campo descripción debe ser :max como máximo.',

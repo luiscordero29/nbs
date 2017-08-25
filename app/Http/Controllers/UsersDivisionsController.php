@@ -146,7 +146,6 @@ class UsersDivisionsController extends Controller
     {
         $count = DB::table('users_divisions')->where('user_division_id', '=', $user_division_id)->count();
         if ($count>0) {
-            $data = DB::table('users_divisions')->where('user_division_id', '=', $user_division_id)->first();
             # delete
             DB::table('users_divisions')->where('user_division_id', '=', $user_division_id)->delete();
             return redirect('users_divisions/index')->with('success', 'Registro Elimino');

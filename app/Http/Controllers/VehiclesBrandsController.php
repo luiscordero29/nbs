@@ -210,8 +210,8 @@ class VehiclesBrandsController extends Controller
     {
         $count = DB::table('vehicles_brands')->where('vehicle_brand_id', '=', $vehicle_brand_id)->count();
         if ($count>0) {
-            $data = DB::table('vehicles_brands')->where('vehicle_brand_id', '=', $vehicle_brand_id)->first();
             # delete
+            $data = DB::table('vehicles_brands')->where('vehicle_brand_id', '=', $vehicle_brand_id)->first();
             Storage::delete($data->vehicle_brand_logo);
             DB::table('vehicles_brands')->where('vehicle_brand_id', '=', $vehicle_brand_id)->delete();
             return redirect('vehicles_brands/index')->with('success', 'Registro Elimino');
