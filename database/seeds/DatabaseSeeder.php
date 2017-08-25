@@ -13,15 +13,15 @@ class DatabaseSeeder extends Seeder
     {
         $faker = Faker\Factory::create();
         # $this->call(UsersTypesTableSeeder::class);
-        DB::table('users_divisions')->delete();
-        DB::table('users_divisions')->insert(
+        DB::table('users_types')->delete();
+        DB::table('users_types')->insert(
             [
-                'user_division_description' => 'DIVISION WEB',
+                'user_type_description' => 'EMPLEADO TEMPORAL',
             ]
         );
         for ($i=0; $i < 100; $i++) { 
-            DB::table('users_divisions')->insert([
-                'user_division_description' => $faker->unique()->company,
+            DB::table('users_types')->insert([
+                'user_type_description' => $faker->unique()->company,
             ]);
         }
         #$this->call(RolesTableSeeder::class);
