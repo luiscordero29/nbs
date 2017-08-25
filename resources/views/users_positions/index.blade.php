@@ -9,7 +9,7 @@
         </ol>
     </div>
     <div class="col-md-3 col-3 align-self-center">
-        <a href="/users_charges/create" class="btn pull-right hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> Registrar</a>
+        <a href="/users_positions/create" class="btn pull-right hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> Registrar</a>
     </div>
 @endsection
 @section('content')
@@ -19,7 +19,7 @@
         	<p>Lista de Cargos</p>
         </div>
         <div class="col-3">
-            <form method="POST" action="/users_charges/index">
+            <form method="POST" action="/users_positions/index">
                 {{ csrf_field() }}
                 <div class="form-group">
                     <input id="search" name="search" class="form-control" placeholder="Buscar" type="text" 
@@ -53,12 +53,12 @@
             <tbody>
     			@foreach ($data as $r)
                     <tr>
-                       	<td>{{ $r->user_charge_id }}</td>
-                        <td>{{ $r->user_charge_description }}</td>
+                       	<td>{{ $r->user_position_id }}</td>
+                        <td>{{ $r->user_position_description }}</td>
                         <td class="text-nowrap">
-                            <a href="/users_charges/show/{{ $r->user_charge_id }}" data-toggle="tooltip" data-original-title="Ver"> <i class="fa fa-eye text-inverse m-r-10"></i> </a>
-                            <a href="/users_charges/edit/{{ $r->user_charge_id }}" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                            <a href="/users_charges/destroy/{{ $r->user_charge_id }}" data-toggle="tooltip" data-original-title="Eliminar"> <i class="fa fa-close text-danger"></i> </a>
+                            <a href="/users_positions/show/{{ $r->user_position_id }}" data-toggle="tooltip" data-original-title="Ver"> <i class="fa fa-eye text-inverse m-r-10"></i> </a>
+                            <a href="/users_positions/edit/{{ $r->user_position_id }}" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                            <a href="/users_positions/destroy/{{ $r->user_position_id }}" data-toggle="tooltip" data-original-title="Eliminar"> <i class="fa fa-close text-danger"></i> </a>
                         </td>
                     </tr>             
 				@endforeach
