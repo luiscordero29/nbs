@@ -14,7 +14,7 @@
     </div>
 @endsection
 @section('content')
-	<form method="POST" action="/users_types/update/{{ $data->user_type_id }}">
+	<form method="POST" action="/users_types/update/{{ $data['row']->user_type_id }}">
 		{{ csrf_field() }}
         <div class="form-body">
             <h3 class="card-title">Editar Tipo de Usuario</h3>
@@ -40,7 +40,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="control-label">Descripción</label>
-                        <input id="user_type_description" name="user_type_description" class="form-control" placeholder="Descripción" type="text" value="{{ $data->user_type_description }}">
+                        <input id="user_type_description" name="user_type_description" class="form-control" placeholder="Descripción" type="text" value="{{ $data['row']->user_type_description }}">
                         <small class="form-control-feedback"> Editar descripción</small> 
                     </div>
                 </div>
@@ -51,7 +51,7 @@
         <div class="form-actions">
             <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Guardar</button>
             <a href="/users_types/index" class="btn btn-inverse">Regresar</a>
-            <input type="hidden" name="user_type_id" value="{{ $data->user_type_id }}">
+            <input type="hidden" name="user_type_id" value="{{ $data['row']->user_type_id }}">
         </div>
     </form>
 @endsection

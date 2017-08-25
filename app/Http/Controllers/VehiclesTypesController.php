@@ -37,7 +37,7 @@ class VehiclesTypesController extends Controller
             $request->session()->forget('info');
             $request->session()->forget('search');
         }
-        $data = DB::table('vehicles_types')
+        $data['rows'] = DB::table('vehicles_types')
             ->where('vehicle_type_name', 'like', '%'.$search.'%')
             ->orWhere('vehicle_type_description', 'like', '%'.$search.'%')
             ->paginate(30);
@@ -52,6 +52,7 @@ class VehiclesTypesController extends Controller
      */
     public function create(Request $request)
     {
+        # View
         return view('vehicles_types.create');
     }
 
@@ -105,9 +106,11 @@ class VehiclesTypesController extends Controller
     {
         $count = DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->count();
         if ($count>0) {
-            $data = DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->first();
+            # Show
+            $data['row'] = DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->first();
             return view('vehicles_types.show', ['data' => $data]);
         }else{
+            # Error
             return redirect('vehicles_types/index')->with('info', 'No se puede Ver el registro');
         }
     }
@@ -122,9 +125,11 @@ class VehiclesTypesController extends Controller
     {
         $count = DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->count();
         if ($count>0) {
-            $data = DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->first();
+            # Edit
+            $data['row'] = DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->first();
             return view('vehicles_types.edit', ['data' => $data]);
         }else{
+            # Error
             return redirect('vehicles_types/index')->with('info', 'No se puede Editar el registro');
         }
     }
@@ -198,6 +203,7 @@ class VehiclesTypesController extends Controller
             DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->delete();
             return redirect('vehicles_types/index')->with('success', 'Registro Elimino');
         }else{
+            # Error
             return redirect('vehicles_types/index')->with('info', 'No se puede Eliminar el registro');
         }
     }

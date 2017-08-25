@@ -16,12 +16,12 @@
 @section('content')
     <h4 class="card-title">Ver Tipo de Vehiculo</h4>
     <p class="card-text">
-        <b>ID:</b> {{ $data->vehicle_type_id }} <br />
-        <b>Marca:</b> {{ $data->vehicle_type_name }} <br /> 
-        <b>Descripción:</b> {{ $data->vehicle_type_description }}<br /> 
+        <b>ID:</b> {{ $data['row']->vehicle_type_id }} <br />
+        <b>Marca:</b> {{ $data['row']->vehicle_type_name }} <br /> 
+        <b>Descripción:</b> {{ $data['row']->vehicle_type_description }}<br /> 
         <b>Icono:</b> <br /> 
-        @if ($data->vehicle_type_icon)
-            <img src="{{ asset( 'storage/' . $data->vehicle_type_icon) }}" class="img-responsive" >                                
+        @if ($data['row']->vehicle_type_icon)
+            <img src="{{ asset( 'storage/' . $data['row']->vehicle_type_icon) }}" class="img-responsive" >                                
         @endif
     </p>
 @endsection

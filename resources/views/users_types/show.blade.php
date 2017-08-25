@@ -16,7 +16,7 @@
 @section('content')
     <h4 class="card-title">Ver Tipo de Usuario</h4>
     <p class="card-text">
-        <b>ID:</b> {{ $data->user_type_id }} <br />
-        <b>Descripción:</b> {{ $data->user_type_description }}
+        <b>ID:</b> {{ $data['row']->user_type_id }} <br />
+        <b>Descripción:</b> {{ $data['row']->user_type_description }}
     </p>
 @endsection

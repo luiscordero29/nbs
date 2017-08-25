@@ -14,7 +14,7 @@
     </div>
 @endsection
 @section('content')
-	<form method="POST" action="/vehicles_types/update/{{ $data->vehicle_type_id }}" enctype="multipart/form-data">
+	<form method="POST" action="/vehicles_types/update/{{ $data['row']->vehicle_type_id }}" enctype="multipart/form-data">
 		{{ csrf_field() }}
         <div class="form-body">
             <h3 class="card-title">Editar Tipo de Vehiculo</h3>
@@ -40,14 +40,14 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="control-label">Tipo</label>
-                        <input id="vehicle_type_name" name="vehicle_type_name" class="form-control" placeholder="Tipo" type="text" value="{{ $data->vehicle_type_name }}">
+                        <input id="vehicle_type_name" name="vehicle_type_name" class="form-control" placeholder="Tipo" type="text" value="{{ $data['row']->vehicle_type_name }}">
                         <small class="form-control-feedback"> Ingrese el tipo de vehiculo</small> 
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="control-label">Descripción</label>
-                        <input id="vehicle_type_description" name="vehicle_type_description" class="form-control" placeholder="Descripción" type="text" value="{{ $data->vehicle_type_description }}">
+                        <input id="vehicle_type_description" name="vehicle_type_description" class="form-control" placeholder="Descripción" type="text" value="{{ $data['row']->vehicle_type_description }}">
                         <small class="form-control-feedback"> Ingrese la descripción del tipo de vehiculo</small> 
                     </div>
                 </div>
@@ -56,8 +56,8 @@
                         <label class="control-label">Icono</label>
                         <input type="file" name="vehicle_type_icon" />
                         <br >
-                        @if ($data->vehicle_type_icon)
-                            <img src="{{ asset( 'storage/' . $data->vehicle_type_icon) }}" width="50px" height="auto">                                
+                        @if ($data['row']->vehicle_type_icon)
+                            <img src="{{ asset( 'storage/' . $data['row']->vehicle_type_icon) }}" width="50px" height="auto">                                
                         @endif
                     </div>
                 </div>
@@ -68,7 +68,7 @@
         <div class="form-actions">
             <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Guardar</button>
             <a href="/vehicles_types/index" class="btn btn-inverse">Regresar</a>
-            <input type="hidden" name="vehicle_type_id" value="{{ $data->vehicle_type_id }}">
+            <input type="hidden" name="vehicle_type_id" value="{{ $data['row']->vehicle_type_id }}">
         </div>
     </form>
 @endsection

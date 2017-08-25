@@ -51,7 +51,7 @@
                 </tr>
             </thead>
             <tbody>
-    			@foreach ($data as $r)
+    			@foreach ($data['rows'] as $r)
                     <tr>
                        	<td>{{ $r->user_type_id }}</td>
                         <td>{{ $r->user_type_description }}</td>
@@ -65,5 +65,5 @@
              	</tbody>
         </table>
     </div>
-    {{ $data->links() }}
+    {{ $data['rows']->links() }}
 @endsection

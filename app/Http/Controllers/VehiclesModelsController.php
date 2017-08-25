@@ -36,7 +36,7 @@ class VehiclesModelsController extends Controller
             $request->session()->forget('info');
             $request->session()->forget('search');
         }
-        $data = DB::table('vehicles_models')
+        $data['rows'] = DB::table('vehicles_models')
             ->join('vehicles_brands', 'vehicles_brands.vehicle_brand_name', '=', 'vehicles_models.vehicle_brand_name')
             ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles_brands.vehicle_type_name')
             ->where('vehicles_brands.vehicle_type_name', 'like', '%'.$search.'%')
@@ -55,6 +55,7 @@ class VehiclesModelsController extends Controller
      */
     public function create(Request $request)
     {
+        # View
         $data['vehicles_brands'] = 
             DB::table('vehicles_brands')
                 ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles_brands.vehicle_type_name')
@@ -100,12 +101,14 @@ class VehiclesModelsController extends Controller
     {
         $count = DB::table('vehicles_models')->where('vehicle_model_id', '=', $vehicle_model_id)->count();
         if ($count>0) {
-            $data = DB::table('vehicles_models')
+            # Show
+            $data['row'] = DB::table('vehicles_models')
                 ->join('vehicles_brands', 'vehicles_brands.vehicle_brand_name', '=', 'vehicles_models.vehicle_brand_name')
                 ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles_brands.vehicle_type_name')
                 ->where('vehicle_model_id', '=', $vehicle_model_id)->first();
             return view('vehicles_models.show', ['data' => $data]);
         }else{
+            # Error
             return redirect('vehicles_models/index')->with('info', 'No se puede Ver el registro');
         }
     }
@@ -120,6 +123,7 @@ class VehiclesModelsController extends Controller
     {
         $count = DB::table('vehicles_models')->where('vehicle_model_id', '=', $vehicle_model_id)->count();
         if ($count>0) {
+            # Edit
             $data['vehicles_brands'] = 
                 DB::table('vehicles_brands')
                     ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles_brands.vehicle_type_name')
@@ -130,6 +134,7 @@ class VehiclesModelsController extends Controller
                 ->where('vehicle_model_id', '=', $vehicle_model_id)->first();
             return view('vehicles_models.edit', ['data' => $data]);
         }else{
+            # Error
             return redirect('vehicles_models/index')->with('info', 'No se puede Editar el registro');
         }
     }
@@ -183,10 +188,11 @@ class VehiclesModelsController extends Controller
     {
         $count = DB::table('vehicles_models')->where('vehicle_model_id', '=', $vehicle_model_id)->count();
         if ($count>0) {
-            # delete
+            # Delete
             DB::table('vehicles_models')->where('vehicle_model_id', '=', $vehicle_model_id)->delete();
             return redirect('vehicles_models/index')->with('success', 'Registro Elimino');
         }else{
+            # Error
             return redirect('vehicles_models/index')->with('info', 'No se puede Eliminar el registro');
         }
     }

@@ -16,7 +16,7 @@
 @section('content')
     <h4 class="card-title">Ver Cargo</h4>
     <p class="card-text">
-        <b>ID:</b> {{ $data->user_position_id }} <br />
-        <b>Descripción:</b> {{ $data->user_position_description }}
+        <b>ID:</b> {{ $data['row']->user_position_id }} <br />
+        <b>Descripción:</b> {{ $data['row']->user_position_description }}
     </p>
 @endsection

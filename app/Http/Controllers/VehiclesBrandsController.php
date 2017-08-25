@@ -37,7 +37,7 @@ class VehiclesBrandsController extends Controller
             $request->session()->forget('info');
             $request->session()->forget('search');
         }
-        $data = DB::table('vehicles_brands')
+        $data['rows'] = DB::table('vehicles_brands')
             ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles_brands.vehicle_type_name')
             ->where('vehicles_brands.vehicle_type_name', 'like', '%'.$search.'%')
             ->orWhere('vehicles_brands.vehicle_brand_name', 'like', '%'.$search.'%')
@@ -54,6 +54,7 @@ class VehiclesBrandsController extends Controller
      */
     public function create(Request $request)
     {
+        # View 
         $data['vehicles_types'] = DB::table('vehicles_types')->get();
         return view('vehicles_brands.create', ['data' => $data]);
     }
@@ -112,12 +113,14 @@ class VehiclesBrandsController extends Controller
     {
         $count = DB::table('vehicles_brands')->where('vehicle_brand_id', '=', $vehicle_brand_id)->count();
         if ($count>0) {
-            $data = DB::table('vehicles_brands')
+            # Show
+            $data['row'] = DB::table('vehicles_brands')
                 ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles_brands.vehicle_type_name')
                 ->where('vehicle_brand_id', '=', $vehicle_brand_id)
                 ->first();
             return view('vehicles_brands.show', ['data' => $data]);
         }else{
+            # Error
             return redirect('vehicles_brands/index')->with('info', 'No se puede Ver el registro');
         }
     }
@@ -132,6 +135,7 @@ class VehiclesBrandsController extends Controller
     {
         $count = DB::table('vehicles_brands')->where('vehicle_brand_id', '=', $vehicle_brand_id)->count();
         if ($count>0) {
+            # Edit 
             $data['vehicles_types'] = DB::table('vehicles_types')->get();
             $data['row'] = DB::table('vehicles_brands')
                 ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles_brands.vehicle_type_name')
@@ -139,6 +143,7 @@ class VehiclesBrandsController extends Controller
                 ->first();
             return view('vehicles_brands.edit', ['data' => $data]);
         }else{
+            # Error
             return redirect('vehicles_brands/index')->with('info', 'No se puede Editar el registro');
         }
     }
@@ -195,7 +200,7 @@ class VehiclesBrandsController extends Controller
             }
             return redirect('vehicles_brands/edit/'.$vehicle_brand_id)->with('success', 'Registro Actualizado');
         }else{
-            # Update
+            # Error
             return redirect('vehicles_brands/edit/'.$vehicle_brand_id)->with('danger', 'El elemento marca ya está en uso.');
         }
     }
@@ -210,12 +215,13 @@ class VehiclesBrandsController extends Controller
     {
         $count = DB::table('vehicles_brands')->where('vehicle_brand_id', '=', $vehicle_brand_id)->count();
         if ($count>0) {
-            # delete
+            # Delete
             $data = DB::table('vehicles_brands')->where('vehicle_brand_id', '=', $vehicle_brand_id)->first();
             Storage::delete($data->vehicle_brand_logo);
             DB::table('vehicles_brands')->where('vehicle_brand_id', '=', $vehicle_brand_id)->delete();
             return redirect('vehicles_brands/index')->with('success', 'Registro Elimino');
         }else{
+            # Error
             return redirect('vehicles_brands/index')->with('info', 'No se puede Eliminar el registro');
         }
     }
