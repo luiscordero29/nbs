@@ -84,7 +84,7 @@ class UsersController extends Controller
             'user_type_description' => 'required',
             'user_division_description' => 'required',
             'user_position_description' => 'required',
-            'email' => 'required|max:250|unique:users,email|email',
+            'email' => 'required|max:160|unique:users,email|email',
             'user_rol_name' => 'required',
             'user_image' => 'image|mimes:jpeg,png',
         ]);
@@ -197,7 +197,7 @@ class UsersController extends Controller
             'user_type_description' => 'required',
             'user_division_description' => 'required',
             'user_position_description' => 'required',
-            'email' => 'required|max:250|email',
+            'email' => 'required|max:160|email',
             'user_rol_name' => 'required',
             'user_image' => 'image|mimes:jpeg,png',
         ]);

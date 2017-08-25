@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             # Make
             #$table->increments('id');
             #$table->string('name');
-            $table->string('email')->unique();
+            $table->char('email',160)->unique();
             $table->text('password');
             $table->rememberToken();
             $table->timestamps();
@@ -31,8 +31,8 @@ class CreateUsersTable extends Migration
             $table->char('user_firstname', 60);
             $table->char('user_lastname', 60);
             $table->binary('user_image')->nullable();
-            $table->string('user_number_id');
-            $table->string('user_number_employee');
+            $table->char('user_number_id',60);
+            $table->char('user_number_employee',60);
             # Keys 
             $table->unique('user_number_id');
             $table->unique('user_number_employee');
@@ -59,14 +59,6 @@ class CreateUsersTable extends Migration
             $table->dropIndex(['user_division_description']);
             $table->dropIndex(['user_rol_name']);
         }); 
-
-        Schema::table('vehicles', function (Blueprint $table) {
-            $table->dropIndex('vehicles_user_number_id_foreign');
-        }); 
-
-        Schema::table('vehicles', function (Blueprint $table) {
-            $table->dropIndex(['user_number_id']);
-        });
 
         Schema::dropIfExists('users');
     }

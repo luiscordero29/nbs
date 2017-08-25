@@ -24,7 +24,7 @@ class CreateVehiclesTable extends Migration
             $table->enum('vehicle_status', ['yes', 'no']);
             $table->char('vehicle_model_name', 60);
             $table->char('color_name', 60);
-            $table->string('user_number_id');
+            $table->char('user_number_id',60);
             #Keys 
             $table->unique('vehicle_code');  
         });
