@@ -14,17 +14,17 @@ class DatabaseSeeder extends Seeder
     {
 
         Eloquent::unguard();
-        
-        $this->call(UsersTypesTableSeeder::class);
-        $this->call(RolesTableSeeder::class);
-        $this->call(UsersPositionsTableSeeder::class);
-        $this->call(UsersDivisionsTableSeeder::class);
-        $this->call(VehiclesTypesTableSeeder::class);
-        $this->call(VehiclesBrandsTableSeeder::class);
-        $this->call(VehiclesModelsTableSeeder::class);
-        $this->call(VehiclesColorsTableSeeder::class);
+
+        $this->call(UsersTypesTableSeeder);
+        $this->call(RolesTableSeeder);
+        $this->call(UsersPositionsTableSeeder);
+        $this->call(UsersDivisionsTableSeeder);
+        $this->call(VehiclesTypesTableSeeder);
+        $this->call(VehiclesBrandsTableSeeder);
+        $this->call(VehiclesModelsTableSeeder);
+        $this->call(VehiclesColorsTableSeeder);
         # insertar usuarios para poder asignar vehiculos 
-        $this->call(VehiclesTableSeeder::class);
+        $this->call(VehiclesTableSeeder);
         
         DB::table('users')->delete();
 
