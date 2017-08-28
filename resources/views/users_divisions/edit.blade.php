@@ -4,7 +4,7 @@
     <div class="col-md-9 col-9 align-self-center">
         <h3 class="text-themecolor m-b-0 m-t-0">Editar División</h3>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/dashboard/index">Administración</a></li>
+            <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
             <li class="breadcrumb-item"><a href="/users_divisions/index">Divisiones</a></li>
             <li class="breadcrumb-item active">Editar División </li>
         </ol>

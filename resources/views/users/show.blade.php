@@ -4,7 +4,7 @@
     <div class="col-md-9 col-9 align-self-center">
         <h3 class="text-themecolor m-b-0 m-t-0">Ver Usuario</h3>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/dashboard/index">Administración</a></li>
+            <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
             <li class="breadcrumb-item"><a href="/users/index">Gestor de Usuarios</a></li>
             <li class="breadcrumb-item active">Ver Usuario </li>
         </ol>

@@ -15,8 +15,17 @@ Auth::routes();
 /* home */
 Route::get('/', 'HomeController@index');
 /* dashboar */
-Route::get('/home', 'DashboardController@index');
-Route::get('/dashboard', 'DashboardController@index');
+Route::get('home', 'DashboardController@index');
+Route::get('dashboard', 'DashboardController@index');
+Route::get('auth', 'DashboardController@auth');
+/* profile */
+Route::get('dashboard/profile', 'DashboardController@profile');
+Route::get('dashboard/profile/edit', 'DashboardController@profile_edit');
+Route::post('dashboard/profile/edit/store', 'DashboardController@profile_edit_store');
+Route::get('dashboard/profile/upload', 'DashboardController@profile_upload');
+Route::post('dashboard/profile/upload/store', 'DashboardController@profile_upload_store');
+Route::get('dashboard/profile/password', 'DashboardController@profile_password');
+Route::post('dashboard/profile/password/store', 'DashboardController@profile_password_store');
 /* roles */
 Route::match(['get', 'post'],'roles/index', 'RolesController@index');
 Route::get('roles/create', 'RolesController@create');

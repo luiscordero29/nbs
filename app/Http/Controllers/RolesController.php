@@ -26,6 +26,8 @@ class RolesController extends Controller
      */
     public function index(Request $request)
     {
+        # User
+        $data['user'] = Auth::user();
         # Request
         $method = $request->method();
         $search = $request->input('search');
@@ -51,8 +53,10 @@ class RolesController extends Controller
      */
     public function create(Request $request)
     {
+        # User
+        $data['user'] = Auth::user();
         # View
-        return view('roles.create');
+        return view('roles.create', ['data' => $data]);
     }
 
     /**
@@ -90,6 +94,8 @@ class RolesController extends Controller
      */
     public function show($rol_id)
     {
+        # User
+        $data['user'] = Auth::user();
         $count = DB::table('roles')->where('rol_id', '=', $rol_id)->count();
         if ($count>0) {
             # Show
@@ -109,6 +115,8 @@ class RolesController extends Controller
      */
     public function edit($rol_id)
     {
+        # User
+        $data['user'] = Auth::user();
         $count = DB::table('roles')->where('rol_id', '=', $rol_id)->count();
         if ($count>0) {
             $data['row'] = DB::table('roles')

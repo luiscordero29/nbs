@@ -26,6 +26,8 @@ class UsersTypesController extends Controller
      */
     public function index(Request $request)
     {
+        # User
+        $data['user'] = Auth::user();
         # Request
         $method = $request->method();
         $search = $request->input('search');
@@ -48,8 +50,10 @@ class UsersTypesController extends Controller
      */
     public function create(Request $request)
     {
+        # User
+        $data['user'] = Auth::user();
         # View
-        return view('users_types.create');
+        return view('users_types.create', ['data' => $data]);
     }
 
     /**
@@ -81,6 +85,8 @@ class UsersTypesController extends Controller
      */
     public function show($user_type_id)
     {
+        # User
+        $data['user'] = Auth::user();
         $count = DB::table('users_types')->where('user_type_id', '=', $user_type_id)->count();
         if ($count>0) {
             # Show
@@ -100,6 +106,8 @@ class UsersTypesController extends Controller
      */
     public function edit($user_type_id)
     {
+        # User
+        $data['user'] = Auth::user();
         $count = DB::table('users_types')->where('user_type_id', '=', $user_type_id)->count();
         if ($count>0) {
             # Edit

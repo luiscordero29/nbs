@@ -4,7 +4,7 @@
     <div class="col-md-9 col-9 align-self-center">
         <h3 class="text-themecolor m-b-0 m-t-0">Ver Color</h3>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/dashboard/index">Administración</a></li>
+            <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
             <li class="breadcrumb-item"><a href="/vehicles_colors/index">Colores de Vehiculos</a></li>
             <li class="breadcrumb-item active">Ver Color </li>
         </ol>
@@ -16,7 +16,7 @@
 @section('content')
     <h4 class="card-title">Ver Color</h4>
     <p class="card-text">
-        <b>ID:</b> {{ $data->vehicle_color_id }} <br />
-        <b>Color:</b> {{ $data->vehicle_color_name }} <br /> 
+        <b>ID:</b> {{ $data['row']->vehicle_color_id }} <br />
+        <b>Color:</b> {{ $data['row']->vehicle_color_name }} <br /> 
     </p>
 @endsection

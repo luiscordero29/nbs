@@ -4,7 +4,7 @@
     <div class="col-md-9 col-9 align-self-center">
         <h3 class="text-themecolor m-b-0 m-t-0">Colores de Vehiculos</h3>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/dashboard/index">Administración</a></li>
+            <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
             <li class="breadcrumb-item active">Colores de Vehiculos </li>
         </ol>
     </div>
@@ -51,7 +51,7 @@
                 </tr>
             </thead>
             <tbody>
-    			@foreach ($data as $r)
+    			@foreach ($data['rows'] as $r)
                     <tr>
                         <td>{{ $r->vehicle_color_id }}</td>
                        	<td>{{ $r->vehicle_color_name }}</td>
@@ -65,5 +65,5 @@
              	</tbody>
         </table>
     </div>
-    {{ $data->links() }}
+    {{ $data['rows']->links() }}
 @endsection

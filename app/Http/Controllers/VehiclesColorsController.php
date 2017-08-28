@@ -26,6 +26,8 @@ class VehiclesColorsController extends Controller
      */
     public function index(Request $request)
     {
+        # User
+        $data['user'] = Auth::user();
         # Request
         $method = $request->method();
         $search = $request->input('search');
@@ -50,8 +52,10 @@ class VehiclesColorsController extends Controller
      */
     public function create(Request $request)
     {
+        # User
+        $data['user'] = Auth::user();
         # View
-        return view('vehicles_colors.create');
+        return view('vehicles_colors.create', ['data' => $data]);
     }
 
     /**
@@ -85,6 +89,8 @@ class VehiclesColorsController extends Controller
      */
     public function show($vehicle_color_id)
     {
+        # User
+        $data['user'] = Auth::user();
         $count = DB::table('vehicles_colors')->where('vehicle_color_id', '=', $vehicle_color_id)->count();
         if ($count>0) {
             # Show
@@ -106,6 +112,8 @@ class VehiclesColorsController extends Controller
      */
     public function edit($vehicle_color_id)
     {
+        # User
+        $data['user'] = Auth::user();
         $count = DB::table('vehicles_colors')->where('vehicle_color_id', '=', $vehicle_color_id)->count();
         if ($count>0) {
             # Edit

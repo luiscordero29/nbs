@@ -27,6 +27,8 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
+        # User
+        $data['user'] = Auth::user();
         # Request
         $method = $request->method();
         $search = $request->input('search');
@@ -60,6 +62,8 @@ class UsersController extends Controller
      */
     public function create(Request $request)
     {
+        # User
+        $data['user'] = Auth::user();
         $data['users_types'] = DB::table('users_types')->get();
         $data['users_positions'] = DB::table('users_positions')->get();
         $data['users_divisions'] = DB::table('users_divisions')->get();
@@ -150,6 +154,8 @@ class UsersController extends Controller
      */
     public function show($user_id)
     {
+        # User
+        $data['user'] = Auth::user();
         $count = DB::table('users')->where('user_id', '=', $user_id)->count();
         if ($count>0) {
             # Show
@@ -169,6 +175,8 @@ class UsersController extends Controller
      */
     public function edit($user_id)
     {
+        # User
+        $data['user'] = Auth::user();
         $count = DB::table('users')->where('user_id', '=', $user_id)->count();
         if ($count>0) {
             # Edit

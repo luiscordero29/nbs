@@ -27,6 +27,8 @@ class VehiclesTypesController extends Controller
      */
     public function index(Request $request)
     {
+        # User
+        $data['user'] = Auth::user();
         # Request
         $method = $request->method();
         $search = $request->input('search');
@@ -52,8 +54,10 @@ class VehiclesTypesController extends Controller
      */
     public function create(Request $request)
     {
+        # User
+        $data['user'] = Auth::user();
         # View
-        return view('vehicles_types.create');
+        return view('vehicles_types.create', ['data' => $data]);
     }
 
     /**
@@ -104,6 +108,8 @@ class VehiclesTypesController extends Controller
      */
     public function show($vehicle_type_id)
     {
+        # User
+        $data['user'] = Auth::user();
         $count = DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->count();
         if ($count>0) {
             # Show
@@ -123,6 +129,8 @@ class VehiclesTypesController extends Controller
      */
     public function edit($vehicle_type_id)
     {
+        # User
+        $data['user'] = Auth::user();
         $count = DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->count();
         if ($count>0) {
             # Edit

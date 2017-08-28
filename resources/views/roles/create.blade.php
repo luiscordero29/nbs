@@ -4,7 +4,7 @@
     <div class="col-md-9 col-9 align-self-center">
         <h3 class="text-themecolor m-b-0 m-t-0">Registrar Rol</h3>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/dashboard/index">Administración</a></li>
+            <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
             <li class="breadcrumb-item"><a href="/roles/index">Roles</a></li>
             <li class="breadcrumb-item active">Registrar Rol </li>
         </ol>

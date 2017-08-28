@@ -273,29 +273,41 @@
                         </li>
                         */ ?>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="../assets/images/users/1.jpg" alt="user" class="profile-pic" /></a>
+                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @if( ! empty($data['user']->user_image) )
+                                <img src="{{ asset( 'storage/' . $data['user']->user_image) }}" alt="user" class="profile-pic"/> 
+                                @else
+                                <img src="/assets/images/users/profile.png" alt="user" class="profile-pic"/> 
+                                @endif
+                            </a>
+                            
                             <div class="dropdown-menu dropdown-menu-right animated flipInY">
                                 <ul class="dropdown-user">
                                     <li>
                                         <div class="dw-user-box">
-                                            <div class="u-img"><img src="../assets/images/users/1.jpg" alt="user"></div>
+                                            <div class="u-img">
+                                                @if( ! empty($data['user']->user_image) )
+                                                <img src="{{ asset( 'storage/' . $data['user']->user_image) }}" alt="user"/> 
+                                                @else
+                                                <img src="/assets/images/users/profile.png" alt="user"/> 
+                                                @endif
+                                            </div>
                                             <div class="u-text">
-                                                <h4>Steave Jobs</h4>
-                                                <p class="text-muted">varun@gmail.com</p><a href="profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a></div>
+                                                <h4>{{ $data['user']->user_firstname }} {{ $data['user']->user_lastname}}</h4>
+                                                <p class="text-muted">{{ $data['user']->email}}</p><a href="/dashboard/profile" class="btn btn-rounded btn-danger btn-sm">Ver Datos</a></div>
                                         </div>
                                     </li>
                                     <li role="separator" class="divider"></li>
-                                    <li><a href="#"><i class="ti-user"></i> My Profile</a></li>
-                                    <li><a href="#"><i class="ti-wallet"></i> My Balance</a></li>
-                                    <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="#"><i class="ti-settings"></i> Account Setting</a></li>
+                                    <li><a href="/dashboard/profile"><i class="fa fa-user"></i> Mis Datos</a></li>
+                                    <li><a href="/dashboard/profile/edit"><i class="fa fa-edit"></i> Editar Mis Datos</a></li>
+                                    <li><a href="/dashboard/profile/upload"><i class="fa fa-upload"></i> Subir Foto</a></li>
+                                    <li><a href="/dashboard/profile/password"><i class="fa fa-key"></i> Cambiar Clave</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li>    
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                            <i class="fa fa-power-off"></i> Logout
+                                            <i class="fa fa-power-off"></i> Salir
                                         </a>
                                     </li>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -326,19 +338,28 @@
                 <!-- User profile -->
                 <div class="user-profile">
                     <!-- User profile image -->
-                    <div class="profile-img"> <img src="../assets/images/users/1.jpg" alt="user" /> </div>
+                    <div class="profile-img"> 
+                        @if( ! empty($data['user']->user_image) )
+                        <img src="{{ asset( 'storage/' . $data['user']->user_image) }}" alt="user" /> 
+                        @else
+                        <img src="/assets/images/users/profile.png" alt="user" /> 
+                        @endif
+                    </div>
                     <!-- User profile text-->
-                    <div class="profile-text"> <a href="#" class="dropdown-toggle link u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Markarn Doe <span class="caret"></span></a>
+                    <div class="profile-text"> 
+                        <a href="#" class="dropdown-toggle link u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+                            {{ $data['user']->user_firstname }} {{ $data['user']->user_lastname}} 
+                        <span class="caret"></span></a>
                         <div class="dropdown-menu animated flipInY">
-                            <a href="#" class="dropdown-item"><i class="ti-user"></i> My Profile</a>
-                            <a href="#" class="dropdown-item"><i class="ti-wallet"></i> My Balance</a>
-                            <a href="#" class="dropdown-item"><i class="ti-email"></i> Inbox</a>
-                            <div class="dropdown-divider"></div> <a href="#" class="dropdown-item"><i class="ti-settings"></i> Account Setting</a>
+                            <a href="/dashboard/profile" class="dropdown-item"><i class="fa fa-user"></i> Mis Datos</a>
+                            <a href="/dashboard/profile/edit" class="dropdown-item"><i class="fa fa-edit"></i> Editar Mis Datos</a>
+                            <a href="/dashboard/profile/upload" class="dropdown-item"><i class="fa fa-upload"></i> Subir Foto</a>
+                            <a href="/dashboard/profile/password" class="dropdown-item"><i class="fa fa-key"></i> Cambiar Clave</a>
                             <div class="dropdown-divider"></div> 
                                 <a href="{{ route('logout') }}" class="dropdown-item"
                                     onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();">
-                                    <i class="fa fa-power-off"></i> Logout
+                                    <i class="fa fa-power-off"></i> Salir
                                 </a>
                         </div>
                     </div>

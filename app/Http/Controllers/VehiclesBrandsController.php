@@ -27,6 +27,8 @@ class VehiclesBrandsController extends Controller
      */
     public function index(Request $request)
     {
+        # User
+        $data['user'] = Auth::user();
         # Request
         $method = $request->method();
         $search = $request->input('search');
@@ -54,6 +56,8 @@ class VehiclesBrandsController extends Controller
      */
     public function create(Request $request)
     {
+        # User
+        $data['user'] = Auth::user();
         # View 
         $data['vehicles_types'] = DB::table('vehicles_types')->get();
         return view('vehicles_brands.create', ['data' => $data]);
@@ -111,6 +115,8 @@ class VehiclesBrandsController extends Controller
      */
     public function show($vehicle_brand_id)
     {
+        # User
+        $data['user'] = Auth::user();
         $count = DB::table('vehicles_brands')->where('vehicle_brand_id', '=', $vehicle_brand_id)->count();
         if ($count>0) {
             # Show
@@ -133,6 +139,8 @@ class VehiclesBrandsController extends Controller
      */
     public function edit($vehicle_brand_id)
     {
+        # User
+        $data['user'] = Auth::user();
         $count = DB::table('vehicles_brands')->where('vehicle_brand_id', '=', $vehicle_brand_id)->count();
         if ($count>0) {
             # Edit 
