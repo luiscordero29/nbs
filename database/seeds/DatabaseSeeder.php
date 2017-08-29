@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $faker = Faker\Factory::create();
-        # $this->call(UsersTypesTableSeeder::class);
+        # Table users_types
         DB::table('users_types')->delete();
         DB::table('users_types')->insert(
             [
@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
                 'user_type_description' => $faker->unique()->company,
             ]);
         }
-        #$this->call(RolesTableSeeder::class);
+        # Table roles
         DB::table('roles')->delete();
         DB::table('roles')->insert(
             [
@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
                 'rol_protected' => 'yes',
             ]
         );
-        #$this->call(UsersPositionsTableSeeder::class);
+        # Table users_positions
         DB::table('users_positions')->delete();
         DB::table('users_positions')->insert(
             [
@@ -57,7 +57,7 @@ class DatabaseSeeder extends Seeder
                 'user_position_description' => $faker->unique()->company,
             ]);
         }
-        #$this->call(UsersDivisionsTableSeeder::class);
+        # Table users_divisiones
         DB::table('users_divisions')->delete();
         DB::table('users_divisions')->insert(
             [
@@ -69,7 +69,7 @@ class DatabaseSeeder extends Seeder
                 'user_division_description' => $faker->unique()->company,
             ]);
         }
-        #$this->call(VehiclesTypesTableSeeder::class);
+        # Table vehicles_types
         DB::table('vehicles_types')->delete();
         for ($i=0; $i < 100; $i++) { 
             DB::table('vehicles_types')->insert([
@@ -77,7 +77,7 @@ class DatabaseSeeder extends Seeder
                 'vehicle_type_description' => $faker->text,
             ]);
         }
-        #$this->call(VehiclesBrandsTableSeeder::class);
+        # Table vehicle_brans
         DB::table('vehicles_brands')->delete();
         $data = DB::table('vehicles_types')->limit(30)->get();
         foreach ($data as $r) {
@@ -89,7 +89,7 @@ class DatabaseSeeder extends Seeder
                 ]);
             }
         }
-        #$this->call(VehiclesModelsTableSeeder::class);
+        # Table vehicles_models
         DB::table('vehicles_models')->delete();
         $data = DB::table('vehicles_brands')->limit(30)->get();
         foreach ($data as $r) {
@@ -101,16 +101,14 @@ class DatabaseSeeder extends Seeder
                 ]);
             }
         }
-        #$this->call(VehiclesColorsTableSeeder::class);
+        # Table vehicles_colors
         DB::table('vehicles_colors')->delete();
         for ($i=0; $i < 60; $i++) { 
             DB::table('vehicles_colors')->insert([
                 'vehicle_color_name' => $faker->unique()->name,
             ]);
         }
-        # insertar usuarios para poder asignar vehiculos 
-        #$this->call(VehiclesTableSeeder::class);
-        
+        # Table users
         DB::table('users')->delete();
 
         DB::table('users')->insert(

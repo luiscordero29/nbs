@@ -67,6 +67,7 @@ class VehiclesController extends Controller
         # User
         $data['user'] = Auth::user();
         # View 
+        $data['vehicles_colors'] = DB::table('vehicles_colors')->get();
         $data['vehicles_types'] = DB::table('vehicles_types')->get();
         $data['users'] = DB::table('users')->get();
         return view('vehicles.create', ['data' => $data]);
@@ -82,34 +83,56 @@ class VehiclesController extends Controller
     {
         # Rules
         $this->validate($request, [
+            'user_number_id' => 'required',
             'vehicle_type_name' => 'required',
-            'vehicle_brand_name' => 'required|max:60|unique:vehicles,vehicle_brand_name',
-            'vehicle_brand_logo' => 'image|mimes:jpeg,png',
+            'vehicle_brand_name' => 'required',
+            'vehicle_model_name' => 'required',
+            'vehicle_name' => 'required|max:60',
+            'vehicle_color_name' => 'required',
+            'vehicle_status' => 'required',
+            'vehicle_code' => 'required|max:8|unique:vehicles,vehicle_code',
+            'vehicle_year' => 'required|digits:4|date_format:Y',
+            'vehicle_image' => 'image|mimes:jpeg,png',
         ]);
         # Request
+        $user_number_id = $request->input('user_number_id');
+        $vehicle_type_name = $request->input('vehicle_type_name');
         $vehicle_type_name = $request->input('vehicle_type_name');
         $vehicle_brand_name = $request->input('vehicle_brand_name');
-        $vehicle_brand_description = $request->input('vehicle_brand_description');
-        if ($request->hasFile('vehicle_brand_logo')) {
-            $extension = $request->file('vehicle_brand_logo')->extension();
-            $vehicle_brand_logo = $vehicle_brand_name.'.'.$extension;
-            $request->vehicle_brand_logo->storeAs('public', $vehicle_brand_logo);
+        $vehicle_model_name = $request->input('vehicle_model_name');
+        $vehicle_name = $request->input('vehicle_name');
+        $vehicle_color_name = $request->input('vehicle_color_name');
+        $vehicle_status = $request->input('vehicle_status');
+        $vehicle_code = $request->input('vehicle_code');
+        $vehicle_year = $request->input('vehicle_year');
+        if ($request->hasFile('vehicle_image')) {
+            $extension = $request->file('vehicle_image')->extension();
+            $vehicle_image = $vehicle_code.'.'.$extension;
+            $request->vehicle_image->storeAs('public', $vehicle_image);
             # Insert
             DB::table('vehicles')->insert(
                 [
-                    'vehicle_type_name' => $vehicle_type_name,
-                    'vehicle_brand_name' => $vehicle_brand_name,
-                    'vehicle_brand_description' => $vehicle_brand_description,
-                    'vehicle_brand_logo' => $vehicle_brand_logo,
+                    'user_number_id' => $user_number_id,
+                    'vehicle_model_name' => $vehicle_model_name,
+                    'vehicle_name' => $vehicle_name,
+                    'vehicle_code' => $vehicle_code,
+                    'vehicle_color_name' => $vehicle_color_name,
+                    'vehicle_status' => $vehicle_status,
+                    'vehicle_year' => $vehicle_year,
+                    'vehicle_image' => $vehicle_image,
                 ]
             );
         }else{
             # Insert
             DB::table('vehicles')->insert(
                 [
-                    'vehicle_type_name' => $vehicle_type_name,
-                    'vehicle_brand_name' => $vehicle_brand_name,
-                    'vehicle_brand_description' => $vehicle_brand_description,
+                    'user_number_id' => $user_number_id,
+                    'vehicle_model_name' => $vehicle_model_name,
+                    'vehicle_name' => $vehicle_name,
+                    'vehicle_code' => $vehicle_code,
+                    'vehicle_color_name' => $vehicle_color_name,
+                    'vehicle_status' => $vehicle_status,
+                    'vehicle_year' => $vehicle_year,
                 ]
             );
         }
@@ -122,16 +145,20 @@ class VehiclesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($vehicle_brand_id)
+    public function show($vehicle_id)
     {
         # User
         $data['user'] = Auth::user();
-        $count = DB::table('vehicles')->where('vehicle_brand_id', '=', $vehicle_brand_id)->count();
+        $count = DB::table('vehicles')->where('vehicle_id', '=', $vehicle_id)->count();
         if ($count>0) {
             # Show
             $data['row'] = DB::table('vehicles')
-                ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles.vehicle_type_name')
-                ->where('vehicle_brand_id', '=', $vehicle_brand_id)
+                ->join('users', 'users.user_number_id', '=', 'vehicles.user_number_id')
+                ->join('vehicles_colors', 'vehicles_colors.vehicle_color_name', '=', 'vehicles.vehicle_color_name')
+                ->join('vehicles_models', 'vehicles_models.vehicle_model_name', '=', 'vehicles.vehicle_model_name')
+                ->join('vehicles_brands', 'vehicles_brands.vehicle_brand_name', '=', 'vehicles_models.vehicle_brand_name')
+                ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles_brands.vehicle_type_name')
+                ->where('vehicle_id', '=', $vehicle_id)
                 ->first();
             return view('vehicles.show', ['data' => $data]);
         }else{
@@ -146,17 +173,23 @@ class VehiclesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($vehicle_brand_id)
+    public function edit($vehicle_id)
     {
         # User
         $data['user'] = Auth::user();
-        $count = DB::table('vehicles')->where('vehicle_brand_id', '=', $vehicle_brand_id)->count();
+        $count = DB::table('vehicles')->where('vehicle_id', '=', $vehicle_id)->count();
         if ($count>0) {
             # Edit 
+            $data['vehicles_colors'] = DB::table('vehicles_colors')->get();
             $data['vehicles_types'] = DB::table('vehicles_types')->get();
+            $data['users'] = DB::table('users')->get();
             $data['row'] = DB::table('vehicles')
-                ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles.vehicle_type_name')
-                ->where('vehicle_brand_id', '=', $vehicle_brand_id)
+                ->join('users', 'users.user_number_id', '=', 'vehicles.user_number_id')
+                ->join('vehicles_colors', 'vehicles_colors.vehicle_color_name', '=', 'vehicles.vehicle_color_name')
+                ->join('vehicles_models', 'vehicles_models.vehicle_model_name', '=', 'vehicles.vehicle_model_name')
+                ->join('vehicles_brands', 'vehicles_brands.vehicle_brand_name', '=', 'vehicles_models.vehicle_brand_name')
+                ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles_brands.vehicle_type_name')
+                ->where('vehicle_id', '=', $vehicle_id)
                 ->first();
             return view('vehicles.edit', ['data' => $data]);
         }else{
@@ -172,53 +205,75 @@ class VehiclesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $vehicle_brand_id)
+    public function update(Request $request, $vehicle_id)
     {
         # Rules
         $this->validate($request, [
+            'user_number_id' => 'required',
             'vehicle_type_name' => 'required',
-            'vehicle_brand_name' => 'required|max:60',
-            'vehicle_brand_logo' => 'image|mimes:jpeg,png',
+            'vehicle_brand_name' => 'required',
+            'vehicle_model_name' => 'required',
+            'vehicle_name' => 'required|max:60',
+            'vehicle_color_name' => 'required',
+            'vehicle_status' => 'required',
+            'vehicle_code' => 'required|max:8|unique:vehicles,vehicle_code',
+            'vehicle_year' => 'required|digits:4|date_format:Y',
+            'vehicle_image' => 'image|mimes:jpeg,png',
         ]);
         # Request
+        $vehicle_id = $request->input('vehicle_id');
+        $user_number_id = $request->input('user_number_id');
         $vehicle_type_name = $request->input('vehicle_type_name');
-        $vehicle_brand_id = $request->input('vehicle_brand_id');
+        $vehicle_type_name = $request->input('vehicle_type_name');
         $vehicle_brand_name = $request->input('vehicle_brand_name');
-        $vehicle_brand_description = $request->input('vehicle_brand_description');
+        $vehicle_model_name = $request->input('vehicle_model_name');
+        $vehicle_name = $request->input('vehicle_name');
+        $vehicle_color_name = $request->input('vehicle_color_name');
+        $vehicle_status = $request->input('vehicle_status');
+        $vehicle_code = $request->input('vehicle_code');
+        $vehicle_year = $request->input('vehicle_year');
         # Unique 
-        $count = DB::table('vehicles')->where('vehicle_brand_name', $vehicle_brand_name)->where('vehicle_brand_id', '<>', $vehicle_brand_id)->count();
+        $count = DB::table('vehicles')->where('vehicle_id', $vehicle_id)->where('vehicle_code', '<>', $vehicle_code)->count();
         if ($count<1) {
-            if ($request->hasFile('vehicle_brand_logo')) {
-                $extension = $request->file('vehicle_brand_logo')->extension();
-                $vehicle_brand_logo = $vehicle_brand_name.'.'.$extension;
-                $request->vehicle_brand_logo->storeAs('public', $vehicle_brand_logo);
+            if ($request->hasFile('vehicle_image')) {
+                $extension = $request->file('vehicle_image')->extension();
+                $vehicle_image = $vehicle_code.'.'.$extension;
+                $request->vehicle_image->storeAs('public', $vehicle_image);
                 # Update
                 DB::table('vehicles')
-                    ->where('vehicle_brand_id', $vehicle_brand_id)
+                    ->where('vehicle_id', $vehicle_id)
                     ->update(
                         [
-                            'vehicle_type_name' => $vehicle_type_name,
-                            'vehicle_brand_name' => $vehicle_brand_name,
-                            'vehicle_brand_description' => $vehicle_brand_description,
-                            'vehicle_brand_logo' => $vehicle_brand_logo,
+                            'user_number_id' => $user_number_id,
+                            'vehicle_model_name' => $vehicle_model_name,
+                            'vehicle_name' => $vehicle_name,
+                            'vehicle_code' => $vehicle_code,
+                            'vehicle_color_name' => $vehicle_color_name,
+                            'vehicle_status' => $vehicle_status,
+                            'vehicle_year' => $vehicle_year,
+                            'vehicle_image' => $vehicle_image,
                         ]
                     );
             }else{
                 # Update
                 DB::table('vehicles')
-                    ->where('vehicle_brand_id', $vehicle_brand_id)
+                    ->where('vehicle_id', $vehicle_id)
                     ->update(
                         [
-                            'vehicle_type_name' => $vehicle_type_name,
-                            'vehicle_brand_name' => $vehicle_brand_name,
-                            'vehicle_brand_description' => $vehicle_brand_description,
+                            'user_number_id' => $user_number_id,
+                            'vehicle_model_name' => $vehicle_model_name,
+                            'vehicle_name' => $vehicle_name,
+                            'vehicle_code' => $vehicle_code,
+                            'vehicle_color_name' => $vehicle_color_name,
+                            'vehicle_status' => $vehicle_status,
+                            'vehicle_year' => $vehicle_year,
                         ]
                     );
             }
-            return redirect('vehicles/edit/'.$vehicle_brand_id)->with('success', 'Registro Actualizado');
+            return redirect('vehicles/edit/'.$vehicle_id)->with('success', 'Registro Actualizado');
         }else{
             # Error
-            return redirect('vehicles/edit/'.$vehicle_brand_id)->with('danger', 'El elemento marca ya está en uso.');
+            return redirect('vehicles/edit/'.$vehicle_id)->with('danger', 'El elemento marca ya está en uso.');
         }
     }
 
@@ -228,14 +283,14 @@ class VehiclesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($vehicle_brand_id)
+    public function destroy($vehicle_id)
     {
-        $count = DB::table('vehicles')->where('vehicle_brand_id', '=', $vehicle_brand_id)->count();
+        $count = DB::table('vehicles')->where('vehicle_id', '=', $vehicle_id)->count();
         if ($count>0) {
             # Delete
-            $data = DB::table('vehicles')->where('vehicle_brand_id', '=', $vehicle_brand_id)->first();
-            Storage::delete($data->vehicle_brand_logo);
-            DB::table('vehicles')->where('vehicle_brand_id', '=', $vehicle_brand_id)->delete();
+            $data = DB::table('vehicles')->where('vehicle_id', '=', $vehicle_id)->first();
+            Storage::delete($data->vehicle_image);
+            DB::table('vehicles')->where('vehicle_id', '=', $vehicle_id)->delete();
             return redirect('vehicles/index')->with('success', 'Registro Elimino');
         }else{
             # Error

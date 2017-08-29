@@ -100,11 +100,37 @@ return [
     */
 
     'custom' => [
+        'vehicle_name' => [
+            'required'  => 'El campo Apodo es obligatorio. ',
+        ],
+        'vehicle_status' => [
+            'required'  => 'El campo Pico y Placa es obligatorio. ',
+        ],
+        'vehicle_code' => [
+            'required'  => 'El campo Placa es obligatorio. ',
+            'max'       => [
+                'numeric' => 'El campo Placa debe ser :max como máximo.',
+                'file'    => 'El archivo Placa debe pesar :max kilobytes como máximo.',
+                'string'  => 'El campo Placa debe contener :max caracteres como máximo.',
+                'array'   => 'El campo Placa debe contener :max elementos como máximo.',
+            ],
+            'unique'    => 'El elemento Placa ya está en uso.',
+        ],
+        'vehicle_year' => [
+            'required'  => 'El campo Año es obligatorio. ',
+            'digits'    => 'El campo Año debe ser un número de :digits dígitos.',
+            'date_format' => 'El campo Año no corresponde con el formato de fecha :format.',
+        ],
+        'vehicle_image' => [
+            'required'  => 'El campo para la foto es obligatorio. ',
+            'image'     => 'El campo para la foto debe ser una imagen.',
+            'mimes'     => 'El campo para la foto debe ser un archivo de tipo :values.',
+        ],
         'vehicle_color_name' => [
-            'clave'  => 'El campo Clave es obligatorio. ',
+            'required'  => 'El campo Clave es obligatorio. ',
         ],
         'repetir_clave' => [
-            'clave'  => 'El campo Repetir Clave es obligatorio. ',
+            'required'  => 'El campo Repetir Clave es obligatorio. ',
             'same'   => 'Los campos Repetir Clave y Clave deben coincidir.',
         ],
         'vehicle_color_name' => [

@@ -79,24 +79,47 @@
                         <small class="form-control-feedback"> Seleccione Modelo</small> 
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="form-group">
                         <label class="control-label">Apodo</label>
                         <input id="vehicle_name" name="vehicle_name" class="form-control" placeholder="Apodo" type="text" value="{{ old('vehicle_name') }}">
                         <small class="form-control-feedback"> Ingrese el Apodo</small> 
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Color</label>
+                        <select class="custom-select select2 col-12" name="vehicle_color_name" id="vehicle_color_name">
+                            <option>Seleccione</option>
+                            @foreach ($data['vehicles_colors'] as $r)
+                            <option @if (old('vehicle_color_name') == $r->vehicle_color_name ) selected=""  @endif value="{{$r->vehicle_color_name}}">{{$r->vehicle_color_name}}</option>
+                            @endforeach
+                        </select>
+                        <small class="form-control-feedback"> Seleccione Tipo</small> 
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Pico y Placa</label>
+                        <select class="custom-select select2 col-12" name="vehicle_status" id="vehicle_status">
+                            <option>Seleccione</option>
+                            <option @if (old('vehicle_status') == 'yes' ) selected=""  @endif value="yes">SI</option>
+                            <option @if (old('vehicle_status') == 'no' ) selected=""  @endif value="no">NO</option>
+                        </select>
+                        <small class="form-control-feedback"> Seleccione Tipo</small> 
+                    </div>
+                </div>
+                <div class="col-md-6">
                     <div class="form-group">
                         <label class="control-label">Placa</label>
                         <input id="vehicle_code" name="vehicle_code" class="form-control" placeholder="Placa" type="text" value="{{ old('vehicle_code') }}">
                         <small class="form-control-feedback"> Ingrese la placa</small> 
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <div class="form-group">
                         <label class="control-label">Año</label>
-                        <input id="vehicle_year" name="vehicle_year" class="form-control" placeholder="Descripción" type="text" value="{{ old('vehicle_year') }}">
+                        <input id="vehicle_year" name="vehicle_year" class="form-control" placeholder="Año" type="text" value="{{ old('vehicle_year') }}">
                         <small class="form-control-feedback"> Ingrese la Año</small> 
                     </div>
                 </div>

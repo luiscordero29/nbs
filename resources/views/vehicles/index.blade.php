@@ -55,61 +55,64 @@
             <tbody>
     			@foreach ($data['rows'] as $r)
                     <tr>
+                        <td>{{ $r->vehicle_id }}</td>
                        	<td>
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-12">
                                     <b>Número ID: </b>{{ $r->user_number_id }}
                                 </div>
-                                <div class="col-6">
+                                <div class="col-12">
                                     <b>Número de Empleado: </b>{{ $r->user_number_employee }}
                                 </div>
-                                <div class="col-6">
+                                <div class="col-12">
                                     <b>Apellidos: </b>{{ $r->user_firstname }}
                                 </div>
-                                <div class="col-6">
+                                <div class="col-12">
                                     <b>Nombres: </b>{{ $r->user_lastname }}
                                 </div>
-                                <div class="col-4">
+                                <div class="col-12">
                                     <b>Tipo: </b>{{ $r->user_type_description }}
                                 </div> 
-                                <div class="col-4">
+                                <div class="col-12">
                                     <b>División: </b>{{ $r->user_division_description }}
                                 </div> 
-                                <div class="col-4">
+                                <div class="col-12">
                                     <b>Cargo: </b>{{ $r->user_position_description }}
                                 </div>   
-                                <div class="col-8">
+                                <div class="col-12">
                                     <b>E-mail: </b>{{ $r->email }}<br />
-                                </div>
-                                <div class="col-4">
-                                    <b>Rol: </b>{{ $r->rol_description }}<br />
                                 </div>
                             </div>
                         </td>
                         <td>
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-12">
                                     <b>Tipo: </b>{{ $r->vehicle_type_name }}
                                 </div>
-                                <div class="col-4">
+                                <div class="col-12">
                                     <b>Marca: </b>{{ $r->vehicle_brand_name }}
                                 </div>
-                                <div class="col-4">
+                                <div class="col-12">
                                     <b>Modelo: </b>{{ $r->vehicle_model_name }}
                                 </div>
-                                <div class="col-9">
+                                <div class="col-12">
                                     <b>Apodo: </b>{{ $r->vehicle_name }}
                                 </div>
-                                <div class="col-3">
-                                    <b>Pico y Placa: </b>{{ $r->vehicle_status }}
+                                <div class="col-12">
+                                    <b>Pico y Placa: </b>
+                                    @if($r->vehicle_status == 'yes')
+                                        SI
+                                    @else
+                                        NO
+                                    @endif
                                 </div>
-                                <div class="col-4">
+                                <div class="col-12">
                                     <b>Placa: </b>{{ $r->vehicle_code }}
                                 </div> 
-                                <div class="col-4">
+                                <div class="col-12">
                                     <b>Año: </b>{{ $r->vehicle_year }}
                                 </div> 
-                                <div class="col-4">
+                                <div class="col-12">
                                     <b>Color: </b>{{ $r->vehicle_color_name }}
                                 </div>
                             </div>
