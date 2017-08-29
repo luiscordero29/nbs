@@ -66,6 +66,16 @@ Route::get('users_divisions/show/{user_division_id}', 'UsersDivisionsController@
 Route::get('users_divisions/edit/{user_division_id}', 'UsersDivisionsController@edit')->where('user_division_id', '[0-9]+');
 Route::post('users_divisions/update/{user_division_id}', 'UsersDivisionsController@update')->where('user_division_id', '[0-9]+');
 Route::get('users_divisions/destroy/{user_division_id}', 'UsersDivisionsController@destroy')->where('user_division_id', '[0-9]+');
+/* vehicles */
+Route::match(['get', 'post'],'vehicles/index', 'VehiclesController@index');
+Route::get('vehicles/create', 'VehiclesController@create');
+Route::post('vehicles/store', 'VehiclesController@store');
+Route::get('vehicles/show/{vehicle_id}', 'VehiclesController@show')->where('vehicle_id', '[0-9]+');
+Route::get('vehicles/edit/{vehicle_id}', 'VehiclesController@edit')->where('vehicle_id', '[0-9]+');
+Route::post('vehicles/update/{vehicle_id}', 'VehiclesController@update')->where('vehicle_id', '[0-9]+');
+Route::get('vehicles/destroy/{vehicle_id}', 'VehiclesController@destroy')->where('vehicle_id', '[0-9]+');
+Route::get('vehicles/getbrands/{vehicle_type_name}', 'VehiclesController@getbrands');
+Route::get('vehicles/getmodels/{vehicle_brand_name}', 'VehiclesController@getmodels');
 /* vehicles_brands */
 Route::match(['get', 'post'],'vehicles_brands/index', 'VehiclesBrandsController@index');
 Route::get('vehicles_brands/create', 'VehiclesBrandsController@create');

@@ -101,6 +101,13 @@ return [
 
     'custom' => [
         'vehicle_color_name' => [
+            'clave'  => 'El campo Clave es obligatorio. ',
+        ],
+        'repetir_clave' => [
+            'clave'  => 'El campo Repetir Clave es obligatorio. ',
+            'same'   => 'Los campos Repetir Clave y Clave deben coincidir.',
+        ],
+        'vehicle_color_name' => [
             'required'  => 'El campo Color es obligatorio. ',
             'max'       => [
                 'numeric' => 'El campo Color debe ser :max como máximo.',
@@ -173,8 +180,9 @@ return [
             'required'  => 'El campo Rol es obligatorio. ',
         ],
         'user_image' => [
-            'image'     => 'El campo logo debe ser una imagen.',
-            'mimes'     => 'El campo logo debe ser un archivo de tipo :values.',
+            'required'  => 'El campo para la foto es obligatorio. ',
+            'image'     => 'El campo para la foto debe ser una imagen.',
+            'mimes'     => 'El campo para la foto debe ser un archivo de tipo :values.',
         ],
         'rol_name' => [
             'required'  => 'El campo nombre es obligatorio. ',

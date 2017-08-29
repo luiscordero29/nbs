@@ -17,11 +17,14 @@
     <link href="{{ asset('assets/main/css/style.css') }}" rel="stylesheet">
     <!-- You can change the theme colors from here -->
     <link href="{{ asset('assets/main/css/colors/blue.css') }}" id="theme" rel="stylesheet">
+    <link href="{{ asset('assets/plugins/select2/dist/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
+    
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+
 <![endif]-->
 </head>
 
@@ -48,9 +51,11 @@
                 <div class="navbar-header" >
                     <a class="navbar-brand" href="/dashboard">
                         <!-- Logo icon -->
-                        
+                        <b>
+                            <img src="{{ asset('assets/images/logo-icon.png') }}" alt="Nidoo Business Solutions" class="dark-logo" />
+                        </b>
                         <span>
-                        <img src="{{ asset('assets/images/logo.svg') }}" alt="Nidoo Business Solutions" style="height: 70px; width: auto;" />
+                            <img src="{{ asset('assets/images/logo-text.png') }}" alt="Nidoo Business Solutions" class="dark-logo" />
                         </span>
                     </a>
                 </div>
@@ -371,22 +376,22 @@
                         <li class="nav-devider"></li>
                         <li class="nav-small-cap">Nidoo Business Solution</li>
                         <li>
-                            <a href="#"><i class="fa fa-car"></i>Mis Vehiculos</a>
+                            <a href="#"><i class="fa fa-car"></i> <span class="hide-menu">Mis Vehiculos</span></a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-star-o"></i>Recompensas</a>
+                            <a href="#"><i class="fa fa-star-o"></i> <span class="hide-menu">Recompensas</span></a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-calendar"></i>Reservación</a>
+                            <a href="#"><i class="fa fa-calendar"></i> <span class="hide-menu">Reservación</span></a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-car"></i>Car Pool</a>
+                            <a href="#"><i class="fa fa-car"></i> <span class="hide-menu">Car Pool</span></a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-flag"></i>Disponibilidad</a>
+                            <a href="#"><i class="fa fa-flag"></i> <span class="hide-menu">Disponibilidad</span></a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-money"></i>Creditos</a>
+                            <a href="#"><i class="fa fa-money"></i> <span class="hide-menu">Creditos</span></a>
                         </li>
                         <li class="nav-devider"></li>
                         <li class="nav-small-cap">Administración</li>
@@ -743,7 +748,9 @@
     <!-- ============================================================== -->
     <!-- Style switcher -->
     <!-- ============================================================== -->
-    <script src="{{ asset('assets/plugins/styleswitcher/jQuery.style.switcher.js') }}></script>
+    <script src="{{ asset('assets/plugins/styleswitcher/jQuery.style.switcher.js') }}"></script>
+    <script src="{{ asset('assets/plugins/select2/dist/js/select2.full.min.js') }}" type="text/javascript"></script>
+    @yield('script')
 </body>
 
 </html>
