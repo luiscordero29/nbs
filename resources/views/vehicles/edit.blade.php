@@ -41,7 +41,6 @@
                     <div class="form-group">
                         <label class="control-label">Empleado</label>
                         <select class="custom-select select2 col-12" name="user_number_id" id="user_number_id">
-                            <option>Seleccione</option>
                             @foreach ($data['users'] as $r)
                             <option @if ($data['row']->user_number_id == $r->user_number_id ) selected=""  @endif value="{{$r->user_number_id}}">{{$r->user_number_id}} {{$r->user_firstname}} {{$r->user_lastname}} </option>
                             @endforeach
@@ -52,8 +51,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="control-label">Tipo</label>
-                        <select class="custom-select select2 col-12" name="vehicle_type_name" id="vehicles_create_vehicle_type_name">
-                            <option>Seleccione</option>
+                        <select class="custom-select select2 col-12" name="vehicle_type_name" id="vehicles_vehicle_type_name">
                             @foreach ($data['vehicles_types'] as $r)
                             <option @if ($data['row']->vehicle_type_name == $r->vehicle_type_name ) selected=""  @endif value="{{$r->vehicle_type_name}}">{{$r->vehicle_type_name}}</option>
                             @endforeach
@@ -64,8 +62,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="control-label">Marca</label>
-                        <select class="custom-select select2 col-12" name="vehicle_brand_name" id="vehicles_create_vehicle_brand_name">
-                            <option>Seleccione</option>  
+                        <select class="custom-select select2 col-12" name="vehicle_brand_name" id="vehicles_vehicle_brand_name">
                             <option selected="" value="{{$data['row']->vehicle_brand_name}}">{{$data['row']->vehicle_brand_name}}</option>                          
                         </select>
                         <small class="form-control-feedback"> Seleccione Marca</small> 
@@ -75,7 +72,6 @@
                     <div class="form-group">
                         <label class="control-label">Modelo</label>
                         <select class="custom-select select2 col-12" name="vehicle_model_name" id="vehicles_create_vehicle_model_name">
-                            <option>Seleccione</option>
                             <option selected="" value="{{$data['row']->vehicle_model_name}}">{{$data['row']->vehicle_model_name}}</option>                          
                         </select>
                         <small class="form-control-feedback"> Seleccione Modelo</small> 
@@ -92,7 +88,6 @@
                     <div class="form-group">
                         <label class="control-label">Color</label>
                         <select class="custom-select select2 col-12" name="vehicle_color_name" id="vehicle_color_name">
-                            <option>Seleccione</option>
                             @foreach ($data['vehicles_colors'] as $r)
                             <option @if($data['row']->vehicle_color_name == $r->vehicle_color_name) selected=""  @endif value="{{$r->vehicle_color_name}}">{{$r->vehicle_color_name}}</option>
                             @endforeach
@@ -104,7 +99,6 @@
                     <div class="form-group">
                         <label class="control-label">Pico y Placa</label>
                         <select class="custom-select select2 col-12" name="vehicle_status" id="vehicle_status">
-                            <option>Seleccione</option>
                             <option @if($data['row']->vehicle_status == 'yes') selected=""  @endif value="yes">SI</option>
                             <option @if($data['row']->vehicle_status == 'no') selected=""  @endif value="no">NO</option>
                         </select>
@@ -149,20 +143,18 @@
 @section('script')
     <script type="text/javascript">
         $(".select2").select2();
-        $('#vehicles_create_vehicle_type_name').change(function(even) {
+        $('#vehicles_vehicle_type_name').change(function(even) {
             var vehicle_type_name = $(this).val();
             $.getJSON( "/vehicles/getbrands/" + vehicle_type_name, function( data ) {
-                $("#vehicles_create_vehicle_brand_name").html('<option>Seleccione</option>')
                 $.each( data, function( key, val ) {
-                    $("#vehicles_create_vehicle_brand_name").append('<option value="' + val['vehicle_brand_name'] + '">' + val['vehicle_brand_name'] + '</option>')
+                    $("#vehicles_vehicle_brand_name").append('<option value="' + val['vehicle_brand_name'] + '">' + val['vehicle_brand_name'] + '</option>')
                     console.log( key + " - " + val['vehicle_brand_name'] );
                 });
             });
         });
-        $('#vehicles_create_vehicle_brand_name').change(function(even) {
+        $('#vehicles_vehicle_brand_name').change(function(even) {
             var vehicle_brand_name = $(this).val();
             $.getJSON( "/vehicles/getmodels/" + vehicle_brand_name, function( data ) {
-                $("#vehicles_create_vehicle_model_name").html('<option>Seleccione</option>')
                 $.each( data, function( key, val ) {
                     $("#vehicles_create_vehicle_model_name").append('<option value="' + val['vehicle_model_name'] + '">' + val['vehicle_model_name'] + '</option>')
                     console.log( key + " - " + val['vehicle_model_name'] );

@@ -60,10 +60,7 @@ class VehiclesModelsController extends Controller
         # User
         $data['user'] = Auth::user();
         # View
-        $data['vehicles_brands'] = 
-            DB::table('vehicles_brands')
-                ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles_brands.vehicle_type_name')
-                ->get();
+        $data['vehicles_types'] = DB::table('vehicles_types')->get();
         return view('vehicles_models.create', ['data' => $data]);
     }
 
@@ -77,10 +74,12 @@ class VehiclesModelsController extends Controller
     {
         # Rules
         $this->validate($request, [
+            'vehicle_type_name' => 'required',
             'vehicle_brand_name' => 'required',
             'vehicle_model_name' => 'required|max:60|unique:vehicles_models,vehicle_model_name',
         ]);
         # Request
+        $vehicle_type_name = $request->input('vehicle_type_name');
         $vehicle_brand_name = $request->input('vehicle_brand_name');
         $vehicle_model_name = $request->input('vehicle_model_name');
         $vehicle_model_description = $request->input('vehicle_model_description');
@@ -132,10 +131,7 @@ class VehiclesModelsController extends Controller
         $count = DB::table('vehicles_models')->where('vehicle_model_id', '=', $vehicle_model_id)->count();
         if ($count>0) {
             # Edit
-            $data['vehicles_brands'] = 
-                DB::table('vehicles_brands')
-                    ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles_brands.vehicle_type_name')
-                    ->get();
+            $data['vehicles_types'] = DB::table('vehicles_types')->get();
             $data['row'] = DB::table('vehicles_models')
                 ->join('vehicles_brands', 'vehicles_brands.vehicle_brand_name', '=', 'vehicles_models.vehicle_brand_name')
                 ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles_brands.vehicle_type_name')
@@ -158,11 +154,13 @@ class VehiclesModelsController extends Controller
     {
         # Rules
         $this->validate($request, [
+            'vehicle_type_name' => 'required',
             'vehicle_brand_name' => 'required',
             'vehicle_model_name' => 'required|max:60',
         ]);
         # Request
         $vehicle_model_id = $request->input('vehicle_model_id');
+        $vehicle_type_name = $request->input('vehicle_type_name');
         $vehicle_brand_name = $request->input('vehicle_brand_name');
         $vehicle_model_name = $request->input('vehicle_model_name');
         $vehicle_model_description = $request->input('vehicle_model_description');
@@ -203,5 +201,14 @@ class VehiclesModelsController extends Controller
             # Error
             return redirect('vehicles_models/index')->with('info', 'No se puede Eliminar el registro');
         }
+    }
+
+    public function getbrands(Request $request, $vehicle_type_name)
+    {
+        $data['rows'] = DB::table('vehicles_brands')
+            ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles_brands.vehicle_type_name')
+            ->where('vehicles_brands.vehicle_type_name', $vehicle_type_name)
+            ->get();
+        return response()->json($data['rows']);
     }
 }

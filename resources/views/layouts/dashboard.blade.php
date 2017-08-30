@@ -376,7 +376,7 @@
                         <li class="nav-devider"></li>
                         <li class="nav-small-cap">Nidoo Business Solution</li>
                         <li>
-                            <a href="#"><i class="fa fa-car"></i> <span class="hide-menu">Mis Vehiculos</span></a>
+                            <a href="/user_vehicles/index"><i class="fa fa-car"></i> <span class="hide-menu">Mis Vehiculos</span></a>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-star-o"></i> <span class="hide-menu">Recompensas</span></a>

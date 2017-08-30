@@ -26,6 +26,22 @@ Route::get('dashboard/profile/upload', 'DashboardController@profile_upload');
 Route::post('dashboard/profile/upload/store', 'DashboardController@profile_upload_store');
 Route::get('dashboard/profile/password', 'DashboardController@profile_password');
 Route::post('dashboard/profile/password/store', 'DashboardController@profile_password_store');
+########################
+# User
+########################
+/* user_vehicles */
+Route::get('user_vehicles/index', 'UserVehiclesController@index');
+Route::get('user_vehicles/create', 'UserVehiclesController@create');
+Route::post('user_vehicles/store', 'UserVehiclesController@store');
+Route::get('user_vehicles/show/{vehicle_id}', 'UserVehiclesController@show')->where('vehicle_id', '[0-9]+');
+Route::get('user_vehicles/edit/{vehicle_id}', 'UserVehiclesController@edit')->where('vehicle_id', '[0-9]+');
+Route::post('user_vehicles/update/{vehicle_id}', 'UserVehiclesController@update')->where('vehicle_id', '[0-9]+');
+Route::get('user_vehicles/destroy/{vehicle_id}', 'UserVehiclesController@destroy')->where('vehicle_id', '[0-9]+');
+Route::get('user_vehicles/getbrands/{vehicle_type_name}', 'UserVehiclesController@getbrands');
+Route::get('user_vehicles/getmodels/{vehicle_brand_name}', 'UserVehiclesController@getmodels');
+########################
+# Administration
+########################
 /* roles */
 Route::match(['get', 'post'],'roles/index', 'RolesController@index');
 Route::get('roles/create', 'RolesController@create');
@@ -42,6 +58,16 @@ Route::get('users/show/{user_id}', 'UsersController@show')->where('user_id', '[0
 Route::get('users/edit/{user_id}', 'UsersController@edit')->where('user_id', '[0-9]+');
 Route::post('users/update/{user_id}', 'UsersController@update')->where('user_id', '[0-9]+');
 Route::get('users/destroy/{user_id}', 'UsersController@destroy')->where('user_id', '[0-9]+');
+/* users_vehicles */
+Route::get('users_vehicles/index/{user_id}', 'UsersVehiclesController@index')->where('user_id', '[0-9]+');
+Route::get('users_vehicles/create/{user_id}', 'UsersVehiclesController@create')->where('user_id', '[0-9]+');
+Route::post('users_vehicles/store/{user_id}', 'UsersVehiclesController@store')->where('user_id', '[0-9]+');
+Route::get('users_vehicles/show/{user_id}/{vehicle_id}', 'UsersVehiclesController@show')->where('user_id', '[0-9]+')->where('vehicle_id', '[0-9]+');
+Route::get('users_vehicles/edit/{user_id}/{vehicle_id}', 'UsersVehiclesController@edit')->where('user_id', '[0-9]+')->where('vehicle_id', '[0-9]+');
+Route::post('users_vehicles/update/{user_id}/{vehicle_id}', 'UsersVehiclesController@update')->where('user_id', '[0-9]+')->where('vehicle_id', '[0-9]+');
+Route::get('users_vehicles/destroy/{user_id}/{vehicle_id}', 'UsersVehiclesController@destroy')->where('user_id', '[0-9]+')->where('vehicle_id', '[0-9]+');
+Route::get('users_vehicles/getbrands/{vehicle_type_name}', 'UsersVehiclesController@getbrands');
+Route::get('users_vehicles/getmodels/{vehicle_brand_name}', 'UsersVehiclesController@getmodels');
 /* users_types */
 Route::match(['get', 'post'],'users_types/index', 'UsersTypesController@index');
 Route::get('users_types/create', 'UsersTypesController@create');
@@ -92,6 +118,7 @@ Route::get('vehicles_models/show/{vehicle_model_id}', 'VehiclesModelsController@
 Route::get('vehicles_models/edit/{vehicle_model_id}', 'VehiclesModelsController@edit')->where('vehicle_model_id', '[0-9]+');
 Route::post('vehicles_models/update/{vehicle_model_id}', 'VehiclesModelsController@update')->where('vehicle_model_id', '[0-9]+');
 Route::get('vehicles_models/destroy/{vehicle_model_id}', 'VehiclesModelsController@destroy')->where('vehicle_model_id', '[0-9]+');
+Route::get('vehicles_models/getbrands/{vehicle_type_name}', 'VehiclesModelsController@getbrands');
 /* vehicles_types */
 Route::match(['get', 'post'],'vehicles_types/index', 'VehiclesTypesController@index');
 Route::get('vehicles_types/create', 'VehiclesTypesController@create');

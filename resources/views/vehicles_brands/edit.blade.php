@@ -40,7 +40,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="control-label">Tipo</label>
-                        <select class="custom-select col-12" name="vehicle_type_name">
+                        <select class="custom-select select2 col-12" name="vehicle_type_name">
                             <option selected="">Seleccione</option>
                             @foreach ($data['vehicles_types'] as $r)
                             <option @if ($data['row']->vehicle_type_name == $r->vehicle_type_name ) selected=""  @endif value="{{$r->vehicle_type_name}}">{{$r->vehicle_type_name}}</option>
@@ -83,4 +83,9 @@
             <input type="hidden" name="vehicle_brand_id" value="{{ $data['row']->vehicle_brand_id }}">
         </div>
     </form>
+@endsection
+@section('script')
+    <script type="text/javascript">
+        $(".select2").select2();
+    </script>
 @endsection
