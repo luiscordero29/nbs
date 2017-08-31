@@ -135,3 +135,11 @@ Route::get('vehicles_colors/show/{vehicle_color_id}', 'VehiclesColorsController@
 Route::get('vehicles_colors/edit/{vehicle_color_id}', 'VehiclesColorsController@edit')->where('vehicle_color_id', '[0-9]+');
 Route::post('vehicles_colors/update/{vehicle_color_id}', 'VehiclesColorsController@update')->where('vehicle_color_id', '[0-9]+');
 Route::get('vehicles_colors/destroy/{vehicle_color_id}', 'VehiclesColorsController@destroy')->where('vehicle_color_id', '[0-9]+');
+/* parkings_sections */
+Route::match(['get', 'post'],'parkings_sections/index', 'ParkingsSectionsController@index');
+Route::get('parkings_sections/create', 'ParkingsSectionsController@create');
+Route::post('parkings_sections/store', 'ParkingsSectionsController@store');
+Route::get('parkings_sections/show/{parking_section_id}', 'ParkingsSectionsController@show')->where('parking_section_id', '[0-9]+');
+Route::get('parkings_sections/edit/{parking_section_id}', 'ParkingsSectionsController@edit')->where('parking_section_id', '[0-9]+');
+Route::post('parkings_sections/update/{parking_section_id}', 'ParkingsSectionsController@update')->where('parking_section_id', '[0-9]+');
+Route::get('parkings_sections/destroy/{parking_section_id}', 'ParkingsSectionsController@destroy')->where('parking_section_id', '[0-9]+');

@@ -100,6 +100,16 @@ return [
     */
 
     'custom' => [
+        'parking_section_name' => [
+            'required'  => 'El campo Sección es obligatorio. ',
+            'max'       => [
+                'numeric' => 'El campo Sección debe ser :max como máximo.',
+                'file'    => 'El archivo Sección debe pesar :max kilobytes como máximo.',
+                'string'  => 'El campo Sección debe contener :max caracteres como máximo.',
+                'array'   => 'El campo Sección debe contener :max elementos como máximo.',
+            ],
+            'unique'    => 'El elemento Sección ya está en uso.',
+        ],
         'vehicle_name' => [
             'required'  => 'El campo Apodo es obligatorio. ',
         ],
