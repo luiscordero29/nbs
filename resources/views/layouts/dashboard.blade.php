@@ -420,7 +420,7 @@
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="/parkings_sections/index"><i class="fa fa-caret-right fa-fw"></i> Secciones</a></li>
                                 <li><a href="/parkings_dimensions/index"><i class="fa fa-caret-right fa-fw"></i> Dimensiones</a></li>
-                                <li><a href="/parkings_lot/index"><i class="fa fa-caret-right fa-fw"></i> Crear Lote</a></li>
+                                <li><a href="/parkings_lot/create"><i class="fa fa-caret-right fa-fw"></i> Crear Lote</a></li>
                                 <li><a href="/parkings/index"><i class="fa fa-caret-right fa-fw"></i> Parqueaderos</a></li>
                             </ul>
                         </li>

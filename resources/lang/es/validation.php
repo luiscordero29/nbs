@@ -100,6 +100,10 @@ return [
     */
 
     'custom' => [
+        'parking_number' => [
+            'required'  => 'El campo Cantidad de Parqueadero es obligatorio. ',
+            'integer'   => 'El campo Cantidad de Parqueadero debe ser un número entero.',     
+        ],
         'parking_name' => [
             'required'  => 'El campo Parqueadero es obligatorio. ',
             'max'       => [

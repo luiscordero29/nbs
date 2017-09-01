@@ -159,3 +159,6 @@ Route::get('parkings/show/{parking_id}', 'ParkingsController@show')->where('park
 Route::get('parkings/edit/{parking_id}', 'ParkingsController@edit')->where('parking_id', '[0-9]+');
 Route::post('parkings/update/{parking_id}', 'ParkingsController@update')->where('parking_id', '[0-9]+');
 Route::get('parkings/destroy/{parking_id}', 'ParkingsController@destroy')->where('parking_id', '[0-9]+');
+/* parkings_lot */
+Route::get('parkings_lot/create', 'ParkingsLotController@create');
+Route::post('parkings_lot/store', 'ParkingsLotController@store');
