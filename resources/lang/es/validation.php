@@ -100,6 +100,50 @@ return [
     */
 
     'custom' => [
+        'parking_name' => [
+            'required'  => 'El campo Parqueadero es obligatorio. ',
+            'max'       => [
+                'numeric' => 'El campo Parqueadero debe ser :max como máximo.',
+                'file'    => 'El archivo Parqueadero debe pesar :max kilobytes como máximo.',
+                'string'  => 'El campo Parqueadero debe contener :max caracteres como máximo.',
+                'array'   => 'El campo Parqueadero debe contener :max elementos como máximo.',
+            ],
+            'unique'    => 'El elemento Parqueadero ya está en uso.',
+        ],
+        'parking_description' => [
+            'required'  => 'El campo descripción es obligatorio. ',
+        ],
+        'parking_dimension_name' => [
+            'required'  => 'El campo Dimensión es obligatorio. ',
+            'max'       => [
+                'numeric' => 'El campo Dimensión debe ser :max como máximo.',
+                'file'    => 'El archivo Dimensión debe pesar :max kilobytes como máximo.',
+                'string'  => 'El campo Dimensión debe contener :max caracteres como máximo.',
+                'array'   => 'El campo Dimensión debe contener :max elementos como máximo.',
+            ],
+            'unique'    => 'El elemento Dimensión ya está en uso.',
+        ],
+        'parking_dimension_size' => [
+            'required'  => 'El campo Tamaño es obligatorio. ',
+            'max'       => [
+                'numeric' => 'El campo Tamaño debe ser :max como máximo.',
+                'file'    => 'El archivo Tamaño debe pesar :max kilobytes como máximo.',
+                'string'  => 'El campo Tamaño debe contener :max caracteres como máximo.',
+                'array'   => 'El campo Tamaño debe contener :max elementos como máximo.',
+            ],
+        ],
+        'parking_dimension_long' => [
+            'required'  => 'El campo Largo es obligatorio. ',
+            'numeric' => 'El campo Largo debe ser :max como máximo.',
+        ],
+        'parking_dimension_height' => [
+            'required'  => 'El campo Alto es obligatorio. ',
+            'numeric' => 'El campo Alto debe ser :max como máximo.',
+        ],
+        'parking_dimension_width' => [
+            'required'  => 'El campo Ancho es obligatorio. ',
+            'numeric' => 'El campo Ancho debe ser :max como máximo.',
+        ],
         'parking_section_name' => [
             'required'  => 'El campo Sección es obligatorio. ',
             'max'       => [
@@ -109,6 +153,11 @@ return [
                 'array'   => 'El campo Sección debe contener :max elementos como máximo.',
             ],
             'unique'    => 'El elemento Sección ya está en uso.',
+        ],
+        'parking_dimension_icon' => [
+            'required'  => 'El campo para la foto es obligatorio. ',
+            'image'     => 'El campo para la foto debe ser una imagen.',
+            'mimes'     => 'El campo para la foto debe ser un archivo de tipo :values.',
         ],
         'vehicle_name' => [
             'required'  => 'El campo Apodo es obligatorio. ',

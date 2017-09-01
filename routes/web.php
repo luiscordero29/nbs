@@ -151,3 +151,11 @@ Route::get('parkings_dimensions/show/{parking_dimension_id}', 'ParkingsDimension
 Route::get('parkings_dimensions/edit/{parking_dimension_id}', 'ParkingsDimensionsController@edit')->where('parking_dimension_id', '[0-9]+');
 Route::post('parkings_dimensions/update/{parking_dimension_id}', 'ParkingsDimensionsController@update')->where('parking_dimension_id', '[0-9]+');
 Route::get('parkings_dimensions/destroy/{parking_dimension_id}', 'ParkingsDimensionsController@destroy')->where('parking_dimension_id', '[0-9]+');
+/* parkings */
+Route::match(['get', 'post'],'parkings/index', 'ParkingsController@index');
+Route::get('parkings/create', 'ParkingsController@create');
+Route::post('parkings/store', 'ParkingsController@store');
+Route::get('parkings/show/{parking_id}', 'ParkingsController@show')->where('parking_id', '[0-9]+');
+Route::get('parkings/edit/{parking_id}', 'ParkingsController@edit')->where('parking_id', '[0-9]+');
+Route::post('parkings/update/{parking_id}', 'ParkingsController@update')->where('parking_id', '[0-9]+');
+Route::get('parkings/destroy/{parking_id}', 'ParkingsController@destroy')->where('parking_id', '[0-9]+');

@@ -9,5 +9,5 @@
     </div>
 @endsection
 @section('content')
-    <h1>Hello Dashboarh </h1>
+    <h1>Bienvenido a Nidoo Business Solutions</h1>
 @endsection
