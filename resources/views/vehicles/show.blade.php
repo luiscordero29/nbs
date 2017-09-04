@@ -101,10 +101,12 @@
                     </div>
                     <div class="col-3">
                         <b>Pico y Placa: </b>
-                        @if($data['row']->vehicle_status == 'yes')
-                            SI
+                        @if($data['row']->vehicle_status == 'does not apply')
+                            NO APLICA
+                        @elseif ($r->vehicle_status == 'even')
+                            PAR
                         @else
-                            NO
+                            IMPAR
                         @endif
                     </div>
                     <div class="col-3">
@@ -140,10 +142,12 @@
                     </div>
                     <div class="col-3">
                         <b>Pico y Placa: </b>
-                        @if($data['row']->vehicle_status == 'yes')
-                            SI
+                        @if($data['row']->vehicle_status == 'does not apply')
+                            NO APLICA
+                        @elseif ($r->vehicle_status == 'even')
+                            PAR
                         @else
-                            NO
+                            IMPAR
                         @endif
                     </div>
                     <div class="col-3">

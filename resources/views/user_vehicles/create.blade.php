@@ -86,8 +86,9 @@
                     <div class="form-group">
                         <label class="control-label">Pico y Placa</label>
                         <select class="custom-select select2 col-12" name="vehicle_status" id="vehicle_status">
-                            <option @if (old('vehicle_status') == 'yes' ) selected=""  @endif value="yes">SI</option>
-                            <option @if (old('vehicle_status') == 'no' ) selected=""  @endif value="no">NO</option>
+                            <option @if (old('vehicle_status') == 'does not apply' ) selected=""  @endif value="does not apply">NO APLICA</option>
+                            <option @if (old('vehicle_status') == 'even' ) selected=""  @endif value="even">PAR</option>
+                            <option @if (old('vehicle_status') == 'odd' ) selected=""  @endif value="odd">IMPAR</option>
                         </select>
                         <small class="form-control-feedback"> Seleccione Tipo</small> 
                     </div>

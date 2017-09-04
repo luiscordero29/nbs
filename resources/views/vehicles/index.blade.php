@@ -100,10 +100,12 @@
                                 </div>
                                 <div class="col-12">
                                     <b>Pico y Placa: </b>
-                                    @if($r->vehicle_status == 'yes')
-                                        SI
+                                    @if($r->vehicle_status == 'does not apply')
+                                        NO APLICA
+                                    @elseif ($r->vehicle_status == 'even')
+                                        PAR
                                     @else
-                                        NO
+                                        IMPAR
                                     @endif
                                 </div>
                                 <div class="col-12">
