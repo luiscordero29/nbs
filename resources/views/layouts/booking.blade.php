@@ -18,7 +18,8 @@
     <!-- You can change the theme colors from here -->
     <link href="{{ asset('assets/main/css/colors/blue.css') }}" id="theme" rel="stylesheet">
     <link href="{{ asset('assets/plugins/select2/dist/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
-    
+    <!-- Date picker plugins css -->
+    <link href="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -694,17 +695,11 @@
                 <!-- ============================================================== -->
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-block">
+                
                                 @section('content')
                                 	nidoo-dashboard-layout:content
 						        @show
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                            
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->
                 <!-- ============================================================== -->
@@ -744,6 +739,8 @@
     <script src="{{ asset('assets/main/js/sidebarmenu.js') }}"></script>
     <!--stickey kit -->
     <script src="{{ asset('assets/plugins/sticky-kit-master/dist/sticky-kit.min.js') }}"></script>
+    <!-- Date Picker Plugin JavaScript -->
+    <script src="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
     <!--Custom JavaScript -->
     <script src="{{ asset('assets/main/js/custom.min.js') }}"></script>
     <!-- ============================================================== -->

@@ -162,3 +162,5 @@ Route::get('parkings/destroy/{parking_id}', 'ParkingsController@destroy')->where
 /* parkings_lot */
 Route::get('parkings_lot/create', 'ParkingsLotController@create');
 Route::post('parkings_lot/store', 'ParkingsLotController@store');
+/* booking */
+Route::match(['get', 'post'],'booking/index', 'BookingController@index');
