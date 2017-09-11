@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use DB;
+use DB; 
+use DateTime;
 
 class BookingController extends Controller
 {
@@ -39,21 +40,25 @@ class BookingController extends Controller
             $request->session()->forget('info');
             $request->session()->forget('search');
         }
-        $data['rows'] = DB::table('users')
-            ->join('roles', 'roles.rol_name', '=', 'users.user_rol_name')
-            ->where('user_firstname', 'like', '%'.$search.'%')
-            ->orWhere('user_lastname', 'like', '%'.$search.'%')
-            ->orWhere('email', 'like', '%'.$search.'%')
-            ->orWhere('user_type_description', 'like', '%'.$search.'%')
-            ->orWhere('user_division_description', 'like', '%'.$search.'%')
-            ->orWhere('user_position_description', 'like', '%'.$search.'%')
-            ->orWhere('user_number_id', 'like', '%'.$search.'%')
-            ->orWhere('user_number_employee', 'like', '%'.$search.'%')
-            ->orWhere('rol_name', 'like', '%'.$search.'%')
+        $data['rows'] = DB::table('parkings')
+            ->join('parkings_sections', 'parkings_sections.parking_section_name', '=', 'parkings.parking_section_name')
+            ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'parkings.vehicle_type_name')
+            ->join('parkings_dimensions', 'parkings_dimensions.parking_dimension_name', '=', 'parkings.parking_dimension_name')
+            ->where('parkings.parking_name', 'like', '%'.$search.'%')
+            ->orWhere('parkings.parking_description', 'like', '%'.$search.'%')
+            ->orWhere('vehicles_types.vehicle_type_name', 'like', '%'.$search.'%')
+            ->orWhere('parkings_sections.parking_section_name', 'like', '%'.$search.'%')
+            ->orWhere('parkings_dimensions.parking_dimension_name', 'like', '%'.$search.'%')
+            ->orWhere('parkings_dimensions.parking_dimension_size', 'like', '%'.$search.'%')
+            ->orWhere('parkings_dimensions.parking_dimension_long', 'like', '%'.$search.'%')
+            ->orWhere('parkings_dimensions.parking_dimension_height', 'like', '%'.$search.'%')
+            ->orWhere('parkings_dimensions.parking_dimension_width', 'like', '%'.$search.'%')
             ->paginate(30);
         $data['parkings_sections'] = DB::table('parkings_sections')->get();
         $data['parking_section'] = DB::table('parkings_sections')->first();
-        $data['today'] = date("d/m/Y");
+        $data['parkings'] = DB::table('parkings')->where('parking_section_name',$data['parking_section']->parking_section_name)->get();
+        $data['today'] = date("Y-m-d");
+        $data['booking'] = array('today' => $data['today'], 'parkings' => $data['parkings']);
         # View
         return view('booking.index', ['data' => $data]);
     }

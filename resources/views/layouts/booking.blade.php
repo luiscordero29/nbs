@@ -18,6 +18,7 @@
     <!-- You can change the theme colors from here -->
     <link href="{{ asset('assets/main/css/colors/blue.css') }}" id="theme" rel="stylesheet">
     <link href="{{ asset('assets/plugins/select2/dist/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/main/css/custom.css') }}" id="custom" rel="stylesheet">
     <!-- Date picker plugins css -->
     <link href="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
