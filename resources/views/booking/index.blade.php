@@ -26,7 +26,7 @@
                         <div class="col-md-3">
                             <div class="form-group row">
                                 <label for="parking_section_name-text-input" class="control-label">Sección: </label>
-                                <select id="parking_section_name" class="custom-select select2 col-md-12" name="parking_section_name">
+                                <select id="parking_section_name" class="custom-select col-md-12" name="parking_section_name">
                                     @foreach ($data['parkings_sections'] as $r)
                                     <option @if ($data['parking_section']->parking_section_name == $r->parking_section_name ) selected=""  @endif value="{{$r->parking_section_name}}">{{$r->parking_section_name}}</option>
                                     @endforeach
@@ -92,63 +92,102 @@
                     }
                     echo $week.' '.$date;
 
-                    @endphp
+                @endphp
 
-                    <hr>
+                <hr>
                     
-                    <table class="table table-bordered">
-                        <thead>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Parqueadero</th>
+                            <th>Empleado</th>
+                            <th>Vehiculo</th>
+                            <th class="text-nowrap">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($data['rows'] as $r)
                             <tr>
-                                <th>Id</th>
-                                <th>Sección</th>
-                                <th>Tipo</th>
-                                <th>Parqueadero</th>
-                                <th>Dimensión</th>
-                                <th>Foto</th>
-                                <th class="text-nowrap">Acción</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($data['rows'] as $r)
-                                <tr>
-                                    <td>{{ $r->parking_id }}</td>
-                                    <td>{{ $r->parking_section_name }}</td>
-                                    <td>{{ $r->vehicle_type_name }}</td>
-                                    <td>
-                                        <b>Nombre: </b>{{ $r->parking_name }} <br />
-                                        <b>Descripción: </b>{{ $r->parking_description }} <br />
-                                    </td>
-                                    <td>
-                                        <b>Nombre: </b>{{ $r->parking_dimension_name }} <br />
-                                        <b>Tamaño: </b>{{ $r->parking_dimension_size }} <br />
-                                        <b>Largo: </b>{{ $r->parking_dimension_long }} <br />
-                                        <b>Alto: </b>{{ $r->parking_dimension_height }} <br />
-                                        <b>Ancho: </b>{{ $r->parking_dimension_width }} <br />
-                                    </td>
-                                    <td>
-                                        @if ($r->parking_photo)
-                                            <img src="{{ asset( 'storage/' . $r->parking_photo) }}" width="150px" height="auto">                                
-                                        @endif
-                                    </td>
-                                    <td class="text-nowrap">
-                                        <a href="/parkings/show/{{ $r->parking_id }}" data-toggle="tooltip" data-original-title="Ver"> <i class="fa fa-eye text-inverse m-r-10"></i> </a>
-                                        <a href="/parkings/edit/{{ $r->parking_id }}" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                                        <a href="/parkings/destroy/{{ $r->parking_id }}" data-toggle="tooltip" data-original-title="Eliminar"> <i class="fa fa-close text-danger"></i> </a>
-                                    </td>
-                                </tr>             
-                            @endforeach
-                            </tbody>
-                    </table>
-                </div>
+                                <td>
+                                    <b>ID:</b> {{ $r->parking_id }} <br />
+                                    <b>Sección:</b> {{ $r->parking_section_name }} <br />
+                                    <b>Tipo:</b> {{ $r->vehicle_type_name }} <br />
+                                    <b>Nombre: </b>{{ $r->parking_name }} <br />
+                                    <b>Descripción: </b>{{ $r->parking_description }}   
+                                </td>
+                                <td>
+                                    
+                                </td>
+                                <td>
+                                      
+                                </td>                                   
+                                <td class="text-nowrap">
+                                    <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
+                                        <button type="button" class="btn btn-sm btn-success btn-booking-create" data-parking_id="{{ $r->parking_id }}"><i class="fa fa-car"></i> Asignar</button>
+                                    </div>
+                                </td>
+                            </tr>             
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
-   
+    </div>
 </div>
-
+<div id="modal-booking-create" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Asignar Reservar</h4>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="/parkings/store">
+                    {{ csrf_field() }}
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="control-label">Empleado</label>
+                            <select class="custom-select select2" name="user_number_id" id="user_number_id" style="width: 100%">
+                                @foreach ($data['users'] as $r)
+                                <option @if (old('user_number_id') == $r->user_number_id ) selected=""  @endif value="{{$r->user_number_id}}">{{$r->user_number_id}} {{$r->user_firstname}} {{$r->user_lastname}} </option>
+                                @endforeach
+                            </select>
+                            <small class="form-control-feedback"> Seleccione Empleado</small> 
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Vehiculo</label>
+                            <select class="custom-select select2" name="vehicle_brand_name" id="vehicles_vehicle_brand_name" style="width: 100%">
+                            </select>
+                            <small class="form-control-feedback"> Seleccione Vehiculo</small> 
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger waves-effect waves-light">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 @section('script')
 <script type="text/javascript">
-    jQuery('#datepicker-autoclose').datepicker({
+    $(".select2").select2();
+        $('#vehicles_vehicle_type_name').change(function(even) {
+            var vehicle_type_name = $(this).val();
+            $.getJSON( "/vehicles/getbrands/" + vehicle_type_name, function( data ) {
+                $.each( data, function( key, val ) {
+                    $("#vehicles_vehicle_brand_name").append('<option value="' + val['vehicle_brand_name'] + '">' + val['vehicle_brand_name'] + '</option>')
+                    console.log( key + " - " + val['vehicle_brand_name'] );
+                });
+            });
+        });
+    $( ".btn-booking-create" ).on( "click", function( e ) {
+        var parking_id  = $(this).data('parking_id');
+        $('#modal-booking-create').modal('show')
+    });
+    $('#datepicker-autoclose').datepicker({
         format: 'dd/mm/yyyy',
         autoclose: true,
         todayHighlight: true

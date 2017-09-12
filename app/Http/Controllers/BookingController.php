@@ -59,6 +59,7 @@ class BookingController extends Controller
         $data['parkings'] = DB::table('parkings')->where('parking_section_name',$data['parking_section']->parking_section_name)->get();
         $data['today'] = date("Y-m-d");
         $data['booking'] = array('today' => $data['today'], 'parkings' => $data['parkings']);
+        $data['users'] = DB::table('users')->get();
         # View
         return view('booking.index', ['data' => $data]);
     }
