@@ -100,6 +100,21 @@ return [
     */
 
     'custom' => [
+        'vehicles_user_number_id' => [
+            'required'  => 'El campo Empleado es obligatorio. ',
+        ],
+        'users_user_type_description' => [
+            'required'  => 'El campo Tipo es obligatorio. ',
+        ],
+        'users_user_division_description' => [
+            'required'  => 'El campo División es obligatorio. ',
+        ],
+        'users_user_position_description' => [
+            'required'  => 'El campo Cargo es obligatorio. ',
+        ],
+        'users_user_rol_name' => [
+            'required'  => 'El campo Rol es obligatorio. ',
+        ],
         'parking_number' => [
             'required'  => 'El campo Cantidad de Parqueadero es obligatorio. ',
             'integer'   => 'El campo Cantidad de Parqueadero debe ser un número entero.',     

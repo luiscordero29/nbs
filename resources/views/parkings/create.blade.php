@@ -36,6 +36,7 @@
                     <div class="form-group">
                         <label class="control-label">Tipo de Vehiculo</label>
                         <select class="custom-select select2 col-12" name="vehicle_type_name">
+                            <option value="">Seleccione</option>
                             @foreach ($data['vehicles_types'] as $r)
                             <option @if (old('vehicle_type_name') == $r->vehicle_type_name ) selected=""  @endif value="{{$r->vehicle_type_name}}">{{$r->vehicle_type_name}}</option>
                             @endforeach
@@ -47,6 +48,7 @@
                     <div class="form-group">
                         <label class="control-label">Dimensión del Parqueadero</label>
                         <select class="custom-select select2 col-12" name="parking_dimension_name">
+                            <option value="">Seleccione</option>
                             @foreach ($data['parkings_dimensions'] as $r)
                             <option @if (old('parking_dimension_name') == $r->parking_dimension_name ) selected=""  @endif value="{{$r->parking_dimension_name}}">{{$r->parking_dimension_name}}</option>
                             @endforeach
@@ -58,6 +60,7 @@
                     <div class="form-group">
                         <label class="control-label">Sección</label>
                         <select class="custom-select select2 col-12" name="parking_section_name">
+                            <option value="">Seleccione</option>
                             @foreach ($data['parkings_sections'] as $r)
                             <option @if (old('parking_section_name') == $r->parking_section_name ) selected=""  @endif value="{{$r->parking_section_name}}">{{$r->parking_section_name}}</option>
                             @endforeach

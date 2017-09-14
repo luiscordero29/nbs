@@ -42,6 +42,7 @@
                     <div class="form-group">
                         <label class="control-label">Tipo</label>
                         <select class="custom-select select2 col-12" name="vehicle_type_name" id="vehicles_models_vehicle_type_name">
+                            <option value="" selected>Seleccione</option>
                             @foreach ($data['vehicles_types'] as $r)
                             <option @if (old('vehicle_type_name') == $r->vehicle_type_name ) selected=""  @endif value="{{$r->vehicle_type_name}}">{{$r->vehicle_type_name}}</option>
                             @endforeach
@@ -53,6 +54,7 @@
                     <div class="form-group">
                         <label class="control-label">Marca</label>
                         <select class="custom-select select2 col-12" name="vehicle_brand_name" id="vehicles_models_vehicle_brand_name">                           
+                            <option value="" selected>Seleccione</option>
                         </select>
                         <small class="form-control-feedback"> Seleccione Marca</small> 
                     </div>
@@ -87,8 +89,10 @@
         $('#vehicles_models_vehicle_type_name').change(function(even) {
             var vehicle_type_name = $(this).val();
             $.getJSON( "/vehicles_models/getbrands/" + vehicle_type_name, function( data ) {
+                $("#vehicles_models_vehicle_brand_name").html('');
+                $("#vehicles_models_vehicle_brand_name").append('<option value="">Seleccione</option>');
                 $.each( data, function( key, val ) {
-                    $("#vehicles_models_vehicle_brand_name").append('<option value="' + val['vehicle_brand_name'] + '">' + val['vehicle_brand_name'] + '</option>')
+                    $("#vehicles_models_vehicle_brand_name").append('<option value="' + val['vehicle_brand_name'] + '">' + val['vehicle_brand_name'] + '</option>');
                     console.log( key + " - " + val['vehicle_brand_name'] );
                 });
             });

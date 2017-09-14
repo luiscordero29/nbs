@@ -40,7 +40,8 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="control-label">Empleado</label>
-                        <select class="custom-select select2 col-12" name="user_number_id" id="user_number_id">
+                        <select class="custom-select select2 col-12" name="vehicles_user_number_id" id="user_number_id">
+                            <option value="" selected>Seleccione</option>
                             @foreach ($data['users'] as $r)
                             <option @if (old('user_number_id') == $r->user_number_id ) selected=""  @endif value="{{$r->user_number_id}}">{{$r->user_number_id}} {{$r->user_firstname}} {{$r->user_lastname}} </option>
                             @endforeach
@@ -52,6 +53,7 @@
                     <div class="form-group">
                         <label class="control-label">Tipo</label>
                         <select class="custom-select select2 col-12" name="vehicle_type_name" id="vehicles_vehicle_type_name">
+                            <option value="" selected>Seleccione</option>
                             @foreach ($data['vehicles_types'] as $r)
                             <option @if (old('vehicle_type_name') == $r->vehicle_type_name ) selected=""  @endif value="{{$r->vehicle_type_name}}">{{$r->vehicle_type_name}}</option>
                             @endforeach
@@ -63,6 +65,7 @@
                     <div class="form-group">
                         <label class="control-label">Marca</label>
                         <select class="custom-select select2 col-12" name="vehicle_brand_name" id="vehicles_vehicle_brand_name">
+                            <option value="" selected>Seleccione</option>
                         </select>
                         <small class="form-control-feedback"> Seleccione Marca</small> 
                     </div>
@@ -71,6 +74,7 @@
                     <div class="form-group">
                         <label class="control-label">Modelo</label>
                         <select class="custom-select select2 col-12" name="vehicle_model_name" id="vehicles_create_vehicle_model_name">
+                            <option value="" selected>Seleccione</option>
                         </select>
                         <small class="form-control-feedback"> Seleccione Modelo</small> 
                     </div>
@@ -86,6 +90,7 @@
                     <div class="form-group">
                         <label class="control-label">Color</label>
                         <select class="custom-select select2 col-12" name="vehicle_color_name" id="vehicle_color_name">
+                            <option value="" selected>Seleccione</option>
                             @foreach ($data['vehicles_colors'] as $r)
                             <option @if (old('vehicle_color_name') == $r->vehicle_color_name ) selected=""  @endif value="{{$r->vehicle_color_name}}">{{$r->vehicle_color_name}}</option>
                             @endforeach
@@ -97,6 +102,7 @@
                     <div class="form-group">
                         <label class="control-label">Pico y Placa</label>
                         <select class="custom-select select2 col-12" name="vehicle_status" id="vehicle_status">
+                            <option value="" selected>Seleccione</option>
                             <option @if (old('vehicle_status') == 'does not apply' ) selected=""  @endif value="does not apply">NO APLICA</option>
                             <option @if (old('vehicle_status') == 'even' ) selected=""  @endif value="even">PAR</option>
                             <option @if (old('vehicle_status') == 'odd' ) selected=""  @endif value="odd">IMPAR</option>

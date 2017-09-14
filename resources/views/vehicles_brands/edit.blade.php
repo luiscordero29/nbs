@@ -41,7 +41,7 @@
                     <div class="form-group">
                         <label class="control-label">Tipo</label>
                         <select class="custom-select select2 col-12" name="vehicle_type_name">
-                            <option selected="">Seleccione</option>
+                            <option value="" selected>Seleccione</option>
                             @foreach ($data['vehicles_types'] as $r)
                             <option @if ($data['row']->vehicle_type_name == $r->vehicle_type_name ) selected=""  @endif value="{{$r->vehicle_type_name}}">{{$r->vehicle_type_name}}</option>
                             @endforeach

@@ -134,7 +134,7 @@
         </div>
     </div>
 </div>
-<div id="modal-booking-create" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+<div id="modal-booking-create" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-booking-create" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -147,7 +147,8 @@
                     <div class="form-body">
                         <div class="form-group">
                             <label class="control-label">Empleado</label>
-                            <select class="custom-select select2" name="user_number_id" id="user_number_id" style="width: 100%">
+                            <select class="custom-select select2" name="user_number_id" id="booking_user_number_id" style="width: 100%">
+                                <option value="">Seleccione</option>
                                 @foreach ($data['users'] as $r)
                                 <option @if (old('user_number_id') == $r->user_number_id ) selected=""  @endif value="{{$r->user_number_id}}">{{$r->user_number_id}} {{$r->user_firstname}} {{$r->user_lastname}} </option>
                                 @endforeach
@@ -156,7 +157,8 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label">Vehiculo</label>
-                            <select class="custom-select select2" name="vehicle_brand_name" id="vehicles_vehicle_brand_name" style="width: 100%">
+                            <select class="custom-select select2" name="vehicle_brand_name" id="booking_vehicle_brand_name" style="width: 100%">
+                                <option value="">Seleccione</option>
                             </select>
                             <small class="form-control-feedback"> Seleccione Vehiculo</small> 
                         </div>

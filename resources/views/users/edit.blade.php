@@ -68,7 +68,8 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="control-label">Tipo</label>
-                        <select class="custom-select select2 col-4" name="user_type_description">
+                        <select class="custom-select select2 col-4" name="users_user_type_description">
+                            <option value="">Seleccione</option>
                             @foreach ($data['users_types'] as $r)
                             <option @if ($data['row']->user_type_description == $r->user_type_description ) selected=""  @endif value="{{$r->user_type_description}}">{{$r->user_type_description}}</option>
                             @endforeach
@@ -79,7 +80,8 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="control-label">División</label>
-                        <select class="custom-select select2 col-4" name="user_division_description">
+                        <select class="custom-select select2 col-4" name="users_user_division_description">
+                            <option value="">Seleccione</option>
                             @foreach ($data['users_divisions'] as $r)
                             <option @if ($data['row']->user_division_description == $r->user_division_description ) selected=""  @endif value="{{$r->user_division_description}}">{{$r->user_division_description}}</option>
                             @endforeach
@@ -90,7 +92,8 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="control-label">Cargo</label>
-                        <select class="custom-select select2 col-4" name="user_position_description">
+                        <select class="custom-select select2 col-4" name="users_user_position_description">
+                            <option value="">Seleccione</option>
                             @foreach ($data['users_positions'] as $r)
                             <option @if ($data['row']->user_position_description == $r->user_position_description ) selected=""  @endif value="{{$r->user_position_description}}">{{$r->user_position_description}}</option>
                             @endforeach
@@ -108,7 +111,8 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="control-label">Rol</label>
-                        <select class="custom-select select2 col-4" name="user_rol_name">
+                        <select class="custom-select select2 col-4" name="users_user_rol_name">
+                            <option value="">Seleccione</option>
                             @foreach ($data['roles'] as $r)
                             <option @if ($data['row']->user_rol_name == $r->rol_name ) selected=""  @endif value="{{$r->rol_name}}">{{$r->rol_description}}</option>
                             @endforeach

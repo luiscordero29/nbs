@@ -86,11 +86,11 @@ class UsersController extends Controller
             'user_number_employee' => 'required|max:60|unique:users,user_number_employee',
             'user_firstname' => 'required|max:60',
             'user_lastname' => 'required|max:60',
-            'user_type_description' => 'required',
-            'user_division_description' => 'required',
-            'user_position_description' => 'required',
+            'users_user_type_description' => 'required',
+            'users_user_division_description' => 'required',
+            'users_user_position_description' => 'required',
             'email' => 'required|max:160|unique:users,email|email',
-            'user_rol_name' => 'required',
+            'users_user_rol_name' => 'required',
             'user_image' => 'image|mimes:jpeg,png',
         ]);
         # Request
@@ -101,11 +101,11 @@ class UsersController extends Controller
         $user_number_employee = $request->input('user_number_employee');
         $user_firstname = $request->input('user_firstname');
         $user_lastname = $request->input('user_lastname');
-        $user_type_description = $request->input('user_type_description');
-        $user_division_description = $request->input('user_division_description');
-        $user_position_description = $request->input('user_position_description');
+        $user_type_description = $request->input('users_user_type_description');
+        $user_division_description = $request->input('users_user_division_description');
+        $user_position_description = $request->input('users_user_position_description');
         $email = $request->input('email');
-        $user_rol_name = $request->input('user_rol_name');
+        $user_rol_name = $request->input('users_user_rol_name');
         if ($request->hasFile('user_image')) {
             $extension = $request->file('user_image')->extension();
             $user_image = $user_number_id.'.'.$extension;
@@ -207,11 +207,11 @@ class UsersController extends Controller
             'user_number_employee' => 'required|max:60',
             'user_firstname' => 'required|max:60',
             'user_lastname' => 'required|max:60',
-            'user_type_description' => 'required',
-            'user_division_description' => 'required',
-            'user_position_description' => 'required',
+            'users_user_type_description' => 'required',
+            'users_user_division_description' => 'required',
+            'users_user_position_description' => 'required',
             'email' => 'required|max:160|email',
-            'user_rol_name' => 'required',
+            'users_user_rol_name' => 'required',
             'user_image' => 'image|mimes:jpeg,png',
         ]);
         # Request
@@ -220,11 +220,11 @@ class UsersController extends Controller
         $user_number_employee = $request->input('user_number_employee');
         $user_firstname = $request->input('user_firstname');
         $user_lastname = $request->input('user_lastname');
-        $user_type_description = $request->input('user_type_description');
-        $user_division_description = $request->input('user_division_description');
-        $user_position_description = $request->input('user_position_description');
+        $user_type_description = $request->input('users_user_type_description');
+        $user_division_description = $request->input('users_user_division_description');
+        $user_position_description = $request->input('users_user_position_description');
         $email = $request->input('email');
-        $user_rol_name = $request->input('user_rol_name');
+        $user_rol_name = $request->input('users_user_rol_name');
         # Unique 
         $count_user_number_id = DB::table('users')->where('user_number_id', $user_number_id)->where('user_id', '<>', $user_id)->count();
         $count_user_number_employee = DB::table('users')->where('user_number_employee', $user_number_employee)->where('user_id', '<>', $user_id)->count();

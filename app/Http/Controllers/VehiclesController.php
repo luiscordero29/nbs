@@ -83,7 +83,7 @@ class VehiclesController extends Controller
     {
         # Rules
         $this->validate($request, [
-            'user_number_id' => 'required',
+            'vehicles_user_number_id' => 'required',
             'vehicle_type_name' => 'required',
             'vehicle_brand_name' => 'required',
             'vehicle_model_name' => 'required',
@@ -95,7 +95,7 @@ class VehiclesController extends Controller
             'vehicle_image' => 'image|mimes:jpeg,png',
         ]);
         # Request
-        $user_number_id = $request->input('user_number_id');
+        $user_number_id = $request->input('vehicles_user_number_id');
         $vehicle_type_name = $request->input('vehicle_type_name');
         $vehicle_type_name = $request->input('vehicle_type_name');
         $vehicle_brand_name = $request->input('vehicle_brand_name');
@@ -209,7 +209,7 @@ class VehiclesController extends Controller
     {
         # Rules
         $this->validate($request, [
-            'user_number_id' => 'required',
+            'vehicles_user_number_id' => 'required',
             'vehicle_type_name' => 'required',
             'vehicle_brand_name' => 'required',
             'vehicle_model_name' => 'required',
@@ -222,7 +222,7 @@ class VehiclesController extends Controller
         ]);
         # Request
         $vehicle_id = $request->input('vehicle_id');
-        $user_number_id = $request->input('user_number_id');
+        $user_number_id = $request->input('vehicles_user_number_id');
         $vehicle_type_name = $request->input('vehicle_type_name');
         $vehicle_type_name = $request->input('vehicle_type_name');
         $vehicle_brand_name = $request->input('vehicle_brand_name');
