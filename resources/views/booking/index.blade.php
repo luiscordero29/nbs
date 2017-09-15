@@ -63,6 +63,23 @@
     <div class="col-12">
         <div class="card">
             <div class="card-block">
+                @if ($errors->any())
+                    @foreach ($errors->all() as $error)
+                    <div class="alert alert-danger">
+                        {{ $error }}
+                    </div>
+                    @endforeach
+                @endif
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                @if (session('danger'))
+                    <div class="alert alert-danger">
+                        {{ session('danger') }}
+                    </div>
+                @endif
                 @php
                     
                     $week = new DateTime($data['today']);
@@ -116,14 +133,33 @@
                                     <b>Descripción: </b>{{ $r->parking_description }}   
                                 </td>
                                 <td>
-                                    
+                                    @isset($r->booking_id)
+                                        <b>Número ID: </b>{{ $r->user_number_id }} <br />
+                                        <b>Número de Empleado: </b>{{ $r->user_number_employee }} <br />
+                                        <b>Apellidos: </b>{{ $r->user_firstname }} <br />
+                                        <b>Nombres: </b>{{ $r->user_lastname }}
+                                    @endisset
                                 </td>
                                 <td>
-                                      
+                                    @isset($r->booking_id)
+                                        
+                                        <b>Apodo: </b>{{ $r->vehicle_name }}<br />
+                                        <b>Pico y Placa: </b>
+                                        @if($r->vehicle_status == 'does not apply')
+                                            NO APLICA
+                                        @elseif ($r->vehicle_status == 'even')
+                                            PAR
+                                        @else
+                                            IMPAR
+                                        @endif<br />
+                                        <b>Placa: </b>{{ $r->vehicle_code }}<br />
+                                        <b>Año: </b>{{ $r->vehicle_year }}<br />
+                                        <b>Color: </b>{{ $r->vehicle_color_name }}
+                                    @endisset
                                 </td>                                   
                                 <td class="text-nowrap">
                                     <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
-                                        <button type="button" class="btn btn-sm btn-success btn-booking-create" data-parking_id="{{ $r->parking_id }}"><i class="fa fa-car"></i> Asignar</button>
+                                        <button type="button" class="btn btn-sm btn-success btn-booking-create" data-parking_name="{{ $r->parking_name }}"><i class="fa fa-car"></i> Asignar</button>
                                     </div>
                                 </td>
                             </tr>             
@@ -142,12 +178,12 @@
                 <h4 class="modal-title">Asignar Reservar</h4>
             </div>
             <div class="modal-body">
-                <form method="POST" action="/parkings/store">
+                <form id="booking_create" method="POST" action="/booking/store">
                     {{ csrf_field() }}
                     <div class="form-body">
                         <div class="form-group">
                             <label class="control-label">Empleado</label>
-                            <select class="custom-select select2" name="user_number_id" id="booking_user_number_id" style="width: 100%">
+                            <select class="custom-select select2" name="booking_user_number_id" id="booking_user_number_id" style="width: 100%">
                                 <option value="">Seleccione</option>
                                 @foreach ($data['users'] as $r)
                                 <option @if (old('user_number_id') == $r->user_number_id ) selected=""  @endif value="{{$r->user_number_id}}">{{$r->user_number_id}} {{$r->user_firstname}} {{$r->user_lastname}} </option>
@@ -157,17 +193,19 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label">Vehiculo</label>
-                            <select class="custom-select select2" name="vehicle_brand_name" id="booking_vehicle_brand_name" style="width: 100%">
+                            <select class="custom-select select2" name="booking_vehicle_code" id="booking_vehicle_code" style="width: 100%">
                                 <option value="">Seleccione</option>
                             </select>
                             <small class="form-control-feedback"> Seleccione Vehiculo</small> 
                         </div>
                     </div>
+                    <input type="hidden" name="booking_date" value="{{ $data['today'] }}">
+                    <input id="parking_name" type="hidden" name="parking_name" value="">
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger waves-effect waves-light">Save changes</button>
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Cerrar</button>
+                <button id="booking_submit" type="button" class="btn btn-danger waves-effect waves-light">Guardar</button>
             </div>
         </div>
     </div>
@@ -176,18 +214,23 @@
 @section('script')
 <script type="text/javascript">
     $(".select2").select2();
-        $('#vehicles_vehicle_type_name').change(function(even) {
-            var vehicle_type_name = $(this).val();
-            $.getJSON( "/vehicles/getbrands/" + vehicle_type_name, function( data ) {
-                $.each( data, function( key, val ) {
-                    $("#vehicles_vehicle_brand_name").append('<option value="' + val['vehicle_brand_name'] + '">' + val['vehicle_brand_name'] + '</option>')
-                    console.log( key + " - " + val['vehicle_brand_name'] );
-                });
+    $("#booking_user_number_id").change(function(even) {
+        var user_number_id = $(this).val();
+        $.getJSON( "/booking/getvehicles/" + user_number_id, function( data ) {
+            $.each( data, function( key, val ) {
+                $("#booking_vehicle_code").append('<option value="' + val['vehicle_code'] + '">' + val['vehicle_code'] + ' ' + val['vehicle_name'] + '</option>')
+                console.log( key + " - " + val['vehicle_code'] + ' ' + val['vehicle_name'] );
             });
         });
+    });
+    $("#booking_submit").on( "click", function ( e ) {
+        $("#booking_create").submit();
+    });
     $( ".btn-booking-create" ).on( "click", function( e ) {
-        var parking_id  = $(this).data('parking_id');
-        $('#modal-booking-create').modal('show')
+        var parking_name  = $(this).data('parking_name');
+        $( "#parking_name" ).val( parking_name );
+        console.log( parking_name );
+        $('#modal-booking-create').modal('show');
     });
     $('#datepicker-autoclose').datepicker({
         format: 'dd/mm/yyyy',

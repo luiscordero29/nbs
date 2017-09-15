@@ -41,6 +41,9 @@ class BookingController extends Controller
             $request->session()->forget('search');
         }
         $data['rows'] = DB::table('parkings')
+            ->leftJoin('booking', 'booking.parking_name', '=', 'parkings.parking_name')
+            ->leftJoin('vehicles', 'vehicles.vehicle_code', '=', 'booking.vehicle_code')
+            ->leftJoin('users', 'users.user_number_id', '=', 'vehicles.user_number_id')
             ->join('parkings_sections', 'parkings_sections.parking_section_name', '=', 'parkings.parking_section_name')
             ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'parkings.vehicle_type_name')
             ->join('parkings_dimensions', 'parkings_dimensions.parking_dimension_name', '=', 'parkings.parking_dimension_name')
@@ -65,23 +68,6 @@ class BookingController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request)
-    {
-        # User
-        $data['user'] = Auth::user();
-        $data['users_types'] = DB::table('users_types')->get();
-        $data['users_positions'] = DB::table('users_positions')->get();
-        $data['users_divisions'] = DB::table('users_divisions')->get();
-        $data['roles'] = DB::table('roles')->get();
-        # View
-        return view('users.create', ['data' => $data]);
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -91,68 +77,24 @@ class BookingController extends Controller
     {
         # Rules
         $this->validate($request, [
-            'user_number_id' => 'required|max:60|unique:users,user_number_id',
-            'user_number_employee' => 'required|max:60|unique:users,user_number_employee',
-            'user_firstname' => 'required|max:60',
-            'user_lastname' => 'required|max:60',
-            'user_type_description' => 'required',
-            'user_division_description' => 'required',
-            'user_position_description' => 'required',
-            'email' => 'required|max:160|unique:users,email|email',
-            'user_rol_name' => 'required',
-            'user_image' => 'image|mimes:jpeg,png',
+            'booking_user_number_id' => 'required',
+            'booking_vehicle_code' => 'required',
+            'parking_name' => 'required',
+            'booking_date' => 'required',
         ]);
-        # Request
-        $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $length = 16;
-        $password = substr(str_shuffle(str_repeat($pool, $length)), 0, $length);
-        $user_number_id = $request->input('user_number_id');
-        $user_number_employee = $request->input('user_number_employee');
-        $user_firstname = $request->input('user_firstname');
-        $user_lastname = $request->input('user_lastname');
-        $user_type_description = $request->input('user_type_description');
-        $user_division_description = $request->input('user_division_description');
-        $user_position_description = $request->input('user_position_description');
-        $email = $request->input('email');
-        $user_rol_name = $request->input('user_rol_name');
-        if ($request->hasFile('user_image')) {
-            $extension = $request->file('user_image')->extension();
-            $user_image = $user_number_id.'.'.$extension;
-            $request->user_image->storeAs('public', $user_image);
-            # Insert
-            DB::table('users')->insert(
-                [
-                    'user_number_id' => $user_number_id,
-                    'user_number_employee' => $user_number_employee,
-                    'user_firstname' => $user_firstname,
-                    'user_lastname' => $user_lastname,
-                    'user_type_description' => $user_type_description,
-                    'user_division_description' => $user_division_description,
-                    'user_position_description' => $user_position_description,
-                    'user_rol_name' => $user_rol_name,
-                    'email' => $email,
-                    'password' => $password,
-                    'user_image' => $user_image,
-                ]
-            );
-        }else{
-            # Insert
-            DB::table('users')->insert(
-                [
-                    'user_number_id' => $user_number_id,
-                    'user_number_employee' => $user_number_employee,
-                    'user_firstname' => $user_firstname,
-                    'user_lastname' => $user_lastname,
-                    'user_type_description' => $user_type_description,
-                    'user_division_description' => $user_division_description,
-                    'user_position_description' => $user_position_description,
-                    'user_rol_name' => $user_rol_name,
-                    'email' => $email,
-                    'password' => $password,
-                ]
-            );
-        }
-        return redirect('users/create')->with('success', 'Registro Guardado');
+        $user_number_id = $request->input('booking_parking_name');
+        $vehicle_code = $request->input('booking_vehicle_code');
+        $parking_name = $request->input('parking_name');
+        $booking_date = $request->input('booking_date');
+        # Insert
+        DB::table('booking')->insert(
+            [
+                'vehicle_code' => $vehicle_code,
+                'parking_name' => $parking_name,
+                'booking_date' => $booking_date,
+            ]
+        );
+        return redirect('booking/index')->with('success', 'Parqueadero Asignado');
     }
 
     /**
@@ -312,5 +254,13 @@ class BookingController extends Controller
             # Error
             return redirect('users/index')->with('info', 'No se puede Eliminar el registro');
         }
+    }
+
+    public function getvehicles(Request $request, $user_number_id)
+    {
+        $data['rows'] = DB::table('vehicles')
+            ->where('vehicles.user_number_id', $user_number_id)
+            ->get();
+        return response()->json($data['rows']);
     }
 }
