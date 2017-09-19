@@ -20,13 +20,14 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="search" class="control-label">Buscar: </label>
-                                <input id="search" name="search" class="form-control" placeholder="Buscar" type="text" value="{{ old('parking_dimension_name') }}">
+                                <input id="search" name="search" class="form-control" placeholder="Buscar" type="text" value="{{ session('search') }}">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group row">
                                 <label for="parking_section_name-text-input" class="control-label">Sección: </label>
                                 <select id="parking_section_name" class="custom-select col-md-12" name="parking_section_name">
+                                    <option value="">Seleccione</option>
                                     @foreach ($data['parkings_sections'] as $r)
                                     <option @if ($data['parking_section']->parking_section_name == $r->parking_section_name ) selected=""  @endif value="{{$r->parking_section_name}}">{{$r->parking_section_name}}</option>
                                     @endforeach
@@ -37,7 +38,7 @@
                             <div class="form-group">
                                 <label for="datepicker-autoclose" class="control-label">Fecha: </label>
                                 <div class="input-group">
-                                    <input class="form-control" id="datepicker-autoclose" placeholder="dd/mm/yyyy" type="text" readonly="" 
+                                    <input name="today" class="form-control" id="datepicker-autoclose" placeholder="dd/mm/yyyy" type="text" readonly="" 
                                     value="@php 
                                         $date_array = explode('-',$data['today']);
                                         $date_array = array_reverse($date_array);   
@@ -133,29 +134,32 @@
                                     <b>Descripción: </b>{{ $r->parking_description }}   
                                 </td>
                                 <td>
-                                    @isset($r->booking_id)
-                                        <b>Número ID: </b>{{ $r->user_number_id }} <br />
-                                        <b>Número de Empleado: </b>{{ $r->user_number_employee }} <br />
-                                        <b>Apellidos: </b>{{ $r->user_firstname }} <br />
-                                        <b>Nombres: </b>{{ $r->user_lastname }}
-                                    @endisset
+                                    @foreach ($data['booking'] as $b)
+                                        @if($r->parking_name == $b->parking_name)
+                                            <b>Número ID: </b>{{ $b->user_number_id }} <br />
+                                            <b>Número de Empleado: </b>{{ $b->user_number_employee }} <br />
+                                            <b>Apellidos: </b>{{ $b->user_firstname }} <br />
+                                            <b>Nombres: </b>{{ $b->user_lastname }}
+                                        @endif
+                                    @endforeach
                                 </td>
                                 <td>
-                                    @isset($r->booking_id)
-                                        
-                                        <b>Apodo: </b>{{ $r->vehicle_name }}<br />
-                                        <b>Pico y Placa: </b>
-                                        @if($r->vehicle_status == 'does not apply')
-                                            NO APLICA
-                                        @elseif ($r->vehicle_status == 'even')
-                                            PAR
-                                        @else
-                                            IMPAR
-                                        @endif<br />
-                                        <b>Placa: </b>{{ $r->vehicle_code }}<br />
-                                        <b>Año: </b>{{ $r->vehicle_year }}<br />
-                                        <b>Color: </b>{{ $r->vehicle_color_name }}
-                                    @endisset
+                                    @foreach ($data['booking'] as $b)
+                                        @if($r->parking_name == $b->parking_name)
+                                            <b>Apodo: </b>{{ $b->vehicle_name }}<br />
+                                            <b>Pico y Placa: </b>
+                                            @if($b->vehicle_status == 'does not apply')
+                                                NO APLICA
+                                            @elseif ($b->vehicle_status == 'even')
+                                                PAR
+                                            @else
+                                                IMPAR
+                                            @endif<br />
+                                            <b>Placa: </b>{{ $b->vehicle_code }}<br />
+                                            <b>Año: </b>{{ $b->vehicle_year }}<br />
+                                            <b>Color: </b>{{ $b->vehicle_color_name }}
+                                        @endif
+                                    @endforeach
                                 </td>                                   
                                 <td class="text-nowrap">
                                     <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
@@ -199,7 +203,7 @@
                             <small class="form-control-feedback"> Seleccione Vehiculo</small> 
                         </div>
                     </div>
-                    <input type="hidden" name="booking_date" value="{{ $data['today'] }}">
+                    <input type="hidden" id="booking_date" name="booking_date" value="{{ $data['today'] }}">
                     <input id="parking_name" type="hidden" name="parking_name" value="">
                 </form>
             </div>
@@ -216,7 +220,9 @@
     $(".select2").select2();
     $("#booking_user_number_id").change(function(even) {
         var user_number_id = $(this).val();
-        $.getJSON( "/booking/getvehicles/" + user_number_id, function( data ) {
+        var booking_date = $("#booking_date").val();
+        $.getJSON( "/booking/getvehicles/" + user_number_id + '/' + booking_date , function( data ) {
+            $("#booking_vehicle_code").html('<option value="">Seleccione</option>')
             $.each( data, function( key, val ) {
                 $("#booking_vehicle_code").append('<option value="' + val['vehicle_code'] + '">' + val['vehicle_code'] + ' ' + val['vehicle_name'] + '</option>')
                 console.log( key + " - " + val['vehicle_code'] + ' ' + val['vehicle_name'] );

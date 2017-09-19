@@ -32,37 +32,38 @@ class BookingController extends Controller
         $data['user'] = Auth::user();
         # Request
         $method = $request->method();
-        $search = $request->input('search');
         if ($request->isMethod('post')) {
-            $request->session()->flash('search', $search);
-            $request->session()->flash('info', 'Resultado de la busqueda: '.$search );
+            $search = $request->input('search');
+            $today = $request->input('today');
+            $date_array = explode('/',$today);
+            $date_array = array_reverse($date_array);   
+            $data['today'] = date(implode('-', $date_array));
+            $parking_section_name = $request->input('parking_section_name');
+            $data['parking_section'] = DB::table('parkings_sections')->where('parking_section_name',$parking_section_name)->first();
         }else{
-            $request->session()->forget('info');
-            $request->session()->forget('search');
+            $search = '';
+            $parking_section_name  = '';
+            $data['today'] = date("Y-m-d");
+            $data['parking_section'] = DB::table('parkings_sections')->first();
         }
+        $data['parkings_sections'] = DB::table('parkings_sections')->get();
+        $data['users'] = DB::table('users')->get();
+        $data['parkings'] = DB::table('parkings')->where('parking_section_name',$data['parking_section']->parking_section_name)->get();
+        $data['booking'] = DB::table('booking')
+            ->whereDate('booking.booking_date', $data['today'])
+            ->join('vehicles', 'vehicles.vehicle_code', '=', 'booking.vehicle_code')
+            ->join('users', 'users.user_number_id', '=', 'vehicles.user_number_id')
+            ->get();
         $data['rows'] = DB::table('parkings')
-            ->leftJoin('booking', 'booking.parking_name', '=', 'parkings.parking_name')
-            ->leftJoin('vehicles', 'vehicles.vehicle_code', '=', 'booking.vehicle_code')
-            ->leftJoin('users', 'users.user_number_id', '=', 'vehicles.user_number_id')
             ->join('parkings_sections', 'parkings_sections.parking_section_name', '=', 'parkings.parking_section_name')
             ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'parkings.vehicle_type_name')
-            ->join('parkings_dimensions', 'parkings_dimensions.parking_dimension_name', '=', 'parkings.parking_dimension_name')
-            ->where('parkings.parking_name', 'like', '%'.$search.'%')
-            ->orWhere('parkings.parking_description', 'like', '%'.$search.'%')
-            ->orWhere('vehicles_types.vehicle_type_name', 'like', '%'.$search.'%')
-            ->orWhere('parkings_sections.parking_section_name', 'like', '%'.$search.'%')
-            ->orWhere('parkings_dimensions.parking_dimension_name', 'like', '%'.$search.'%')
-            ->orWhere('parkings_dimensions.parking_dimension_size', 'like', '%'.$search.'%')
-            ->orWhere('parkings_dimensions.parking_dimension_long', 'like', '%'.$search.'%')
-            ->orWhere('parkings_dimensions.parking_dimension_height', 'like', '%'.$search.'%')
-            ->orWhere('parkings_dimensions.parking_dimension_width', 'like', '%'.$search.'%')
-            ->paginate(30);
-        $data['parkings_sections'] = DB::table('parkings_sections')->get();
-        $data['parking_section'] = DB::table('parkings_sections')->first();
-        $data['parkings'] = DB::table('parkings')->where('parking_section_name',$data['parking_section']->parking_section_name)->get();
-        $data['today'] = date("Y-m-d");
-        $data['booking'] = array('today' => $data['today'], 'parkings' => $data['parkings']);
-        $data['users'] = DB::table('users')->get();
+            ->where('parkings_sections.parking_section_name', 'like', '%'.$parking_section_name.'%')
+            ->where(function ($query) use ($search)  {
+                $query->where('vehicles_types.vehicle_type_name', 'like', '%'.$search.'%')
+                    ->orWhere('parkings.parking_name', 'like', '%'.$search.'%')
+                    ->orWhere('parkings.parking_description', 'like', '%'.$search.'%');
+            })
+            ->get();
         # View
         return view('booking.index', ['data' => $data]);
     }
@@ -256,10 +257,17 @@ class BookingController extends Controller
         }
     }
 
-    public function getvehicles(Request $request, $user_number_id)
+    public function getvehicles(Request $request, $user_number_id, $booking_date)
     {
         $data['rows'] = DB::table('vehicles')
             ->where('vehicles.user_number_id', $user_number_id)
+            ->whereNotIn('vehicles.vehicle_code', 
+                function($query) use ($booking_date) {
+                    $query->select('vehicle_code')
+                    ->from('booking')
+                    ->whereDate('booking_date',$booking_date);
+                }   
+            )
             ->get();
         return response()->json($data['rows']);
     }

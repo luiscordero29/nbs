@@ -165,5 +165,5 @@ Route::post('parkings_lot/store', 'ParkingsLotController@store');
 /* booking */
 Route::match(['get', 'post'],'booking/index', 'BookingController@index');
 Route::post('booking/store', 'BookingController@store');
-Route::get('booking/getvehicles/{user_number_id}', 'BookingController@getvehicles');
+Route::get('booking/getvehicles/{user_number_id}/{booking_date}', 'BookingController@getvehicles');
 
