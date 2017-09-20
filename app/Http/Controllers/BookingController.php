@@ -33,22 +33,27 @@ class BookingController extends Controller
         # Request
         $method = $request->method();
         if ($request->isMethod('post')) {
-            $search = $request->input('search');
             $today = $request->input('today');
             $date_array = explode('/',$today);
             $date_array = array_reverse($date_array);   
             $data['today'] = date(implode('-', $date_array));
-            $parking_section_name = $request->input('parking_section_name');
-            $data['parking_section'] = DB::table('parkings_sections')->where('parking_section_name',$parking_section_name)->first();
+            $data['search'] = $request->input('search');
+            $data['parking_section_name'] = $request->input('parking_section_name');
+            $data['parking_section'] = DB::table('parkings_sections')->where('parking_section_name',$data['parking_section_name'])->first();
         }else{
-            $search = '';
-            $parking_section_name  = '';
             $data['today'] = date("Y-m-d");
+            $data['search'] = '';
+            $data['parking_section_name']  = '';
             $data['parking_section'] = DB::table('parkings_sections')->first();
+        }
+        if ($request->session()->has('success')) {
+            $data['today'] =  $request->session()->get('today');
+            $data['search'] =  $request->session()->get('search');
+            $data['parking_section_name']  =  $request->session()->get('parking_section_name');
         }
         $data['parkings_sections'] = DB::table('parkings_sections')->get();
         $data['users'] = DB::table('users')->get();
-        $data['parkings'] = DB::table('parkings')->where('parking_section_name',$data['parking_section']->parking_section_name)->get();
+        $data['parkings'] = DB::table('parkings')->where('parking_section_name', 'like', '%'.$data['parking_section_name'].'%')->get();
         $data['booking'] = DB::table('booking')
             ->whereDate('booking.booking_date', $data['today'])
             ->join('vehicles', 'vehicles.vehicle_code', '=', 'booking.vehicle_code')
@@ -57,11 +62,11 @@ class BookingController extends Controller
         $data['rows'] = DB::table('parkings')
             ->join('parkings_sections', 'parkings_sections.parking_section_name', '=', 'parkings.parking_section_name')
             ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'parkings.vehicle_type_name')
-            ->where('parkings_sections.parking_section_name', 'like', '%'.$parking_section_name.'%')
-            ->where(function ($query) use ($search)  {
-                $query->where('vehicles_types.vehicle_type_name', 'like', '%'.$search.'%')
-                    ->orWhere('parkings.parking_name', 'like', '%'.$search.'%')
-                    ->orWhere('parkings.parking_description', 'like', '%'.$search.'%');
+            ->where('parkings_sections.parking_section_name', 'like', '%'.$data['parking_section_name'].'%')
+            ->where(function ($query) use ($data)  {
+                $query->where('vehicles_types.vehicle_type_name', 'like', '%'.$data['search'].'%')
+                    ->orWhere('parkings.parking_name', 'like', '%'.$data['search'].'%')
+                    ->orWhere('parkings.parking_description', 'like', '%'.$data['search'].'%');
             })
             ->get();
         # View
@@ -95,7 +100,15 @@ class BookingController extends Controller
                 'booking_date' => $booking_date,
             ]
         );
-        return redirect('booking/index')->with('success', 'Parqueadero Asignado');
+        $search = $request->input('search');
+        $parking_section_name = $request->input('parking_section_name');
+        $today = $request->input('today');
+
+        return redirect('booking/index')
+            ->with('search', $search)
+            ->with('parking_section_name', $parking_section_name )
+            ->with('today', $today)
+            ->with('success', 'Parqueadero Asignado');
     }
 
     /**
@@ -242,19 +255,19 @@ class BookingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($user_id)
+    public function destroy(Request $request)
     {
-        $count = DB::table('users')->where('user_id', '=', $user_id)->count();
-        if ($count>0) {
-            # Delete
-            $data = DB::table('users')->where('user_id', '=', $user_id)->first();
-            Storage::delete($data->user_number_id);
-            DB::table('users')->where('user_id', '=', $user_id)->delete();
-            return redirect('users/index')->with('success', 'Registro Elimino');
-        }else{
-            # Error
-            return redirect('users/index')->with('info', 'No se puede Eliminar el registro');
-        }
+        $booking_id = $request->input('booking_id');
+        $search = $request->input('search');
+        $parking_section_name = $request->input('parking_section_name');
+        $today = $request->input('today');
+        DB::table('booking')->where('booking_id', '=', $booking_id)->delete();
+
+        return redirect('booking/index')
+            ->with('search', $search)
+            ->with('parking_section_name', $parking_section_name )
+            ->with('today', $today)
+            ->with('success', 'Asignacion Removida');
     }
 
     public function getvehicles(Request $request, $user_number_id, $booking_date)

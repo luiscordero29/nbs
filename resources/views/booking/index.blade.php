@@ -14,13 +14,13 @@
     <div class="col-12">
         <div class="card">
             <div class="card-block">
-                <form method="POST" action="/booking/index">
+                <form id="form-booking-search" method="POST" action="/booking/index">
                     {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="search" class="control-label">Buscar: </label>
-                                <input id="search" name="search" class="form-control" placeholder="Buscar" type="text" value="{{ session('search') }}">
+                                <input id="search" name="search" class="form-control" placeholder="Buscar" type="text" value="{{ $data['search'] }}">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -29,7 +29,7 @@
                                 <select id="parking_section_name" class="custom-select col-md-12" name="parking_section_name">
                                     <option value="">Seleccione</option>
                                     @foreach ($data['parkings_sections'] as $r)
-                                    <option @if ($data['parking_section']->parking_section_name == $r->parking_section_name ) selected=""  @endif value="{{$r->parking_section_name}}">{{$r->parking_section_name}}</option>
+                                    <option @if ($data['parking_section_name'] == $r->parking_section_name ) selected=""  @endif value="{{$r->parking_section_name}}">{{$r->parking_section_name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -163,7 +163,18 @@
                                 </td>                                   
                                 <td class="text-nowrap">
                                     <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
-                                        <button type="button" class="btn btn-sm btn-success btn-booking-create" data-parking_name="{{ $r->parking_name }}"><i class="fa fa-car"></i> Asignar</button>
+                                        @if(count($data['booking'])>0)
+                                            @foreach ($data['booking'] as $b)
+                                                @if($r->parking_name == $b->parking_name)
+                                                    <button type="button" class="btn btn-sm btn-info btn-booking-update" data-parking_name="{{ $r->parking_name }}"><i class="fa fa-car"></i> Cambiar Asignación</button>
+                                                    <button type="button" class="btn btn-sm btn-danger btn-booking-delete" data-parking_name="{{ $r->parking_name }}" data-booking_id="{{ $b->booking_id }}"><i class="fa fa-car"></i> Remover Asignación</button>
+                                                @else
+                                                    <button class="btn btn-sm btn-success btn-booking-create" data-parking_name="{{ $r->parking_name }}"><i class="fa fa-car"></i> Asignar Parqueadero</button>
+                                                @endif
+                                            @endforeach
+                                        @else
+                                            <button class="btn btn-sm btn-success btn-booking-create" data-parking_name="{{ $r->parking_name }}"><i class="fa fa-car"></i> Asignar Parqueadero</button>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>             
@@ -174,6 +185,7 @@
         </div>
     </div>
 </div>
+<!-- booking-create -->
 <div id="modal-booking-create" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-booking-create" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -187,7 +199,7 @@
                     <div class="form-body">
                         <div class="form-group">
                             <label class="control-label">Empleado</label>
-                            <select class="custom-select select2" name="booking_user_number_id" id="booking_user_number_id" style="width: 100%">
+                            <select class="custom-select select2" name="booking_user_number_id" id="booking_user_number_id" style="width: 100%" required="">
                                 <option value="">Seleccione</option>
                                 @foreach ($data['users'] as $r)
                                 <option @if (old('user_number_id') == $r->user_number_id ) selected=""  @endif value="{{$r->user_number_id}}">{{$r->user_number_id}} {{$r->user_firstname}} {{$r->user_lastname}} </option>
@@ -197,7 +209,7 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label">Vehiculo</label>
-                            <select class="custom-select select2" name="booking_vehicle_code" id="booking_vehicle_code" style="width: 100%">
+                            <select class="custom-select select2" name="booking_vehicle_code" id="booking_vehicle_code" style="width: 100%" required="">
                                 <option value="">Seleccione</option>
                             </select>
                             <small class="form-control-feedback"> Seleccione Vehiculo</small> 
@@ -205,6 +217,9 @@
                     </div>
                     <input type="hidden" id="booking_date" name="booking_date" value="{{ $data['today'] }}">
                     <input id="parking_name" type="hidden" name="parking_name" value="">
+                    <input id="search" type="hidden" name="search" value="{{ $data['search'] }}">
+                    <input id="parking_section_name" type="hidden" name="parking_section_name" value="{{ $data['parking_section_name'] }}">
+                    <input id="today" type="hidden" name="today" value="{{ $data['today'] }}">
                 </form>
             </div>
             <div class="modal-footer">
@@ -214,6 +229,15 @@
         </div>
     </div>
 </div>
+<!-- booking-delete -->
+<form id="booking_delete" method="POST" action="/booking/destroy">
+    {{ csrf_field() }}
+    <input type="hidden" id="delete_booking_id" name="booking_id" value="">
+    <input type="hidden" id="booking_date" name="booking_date" value="{{ $data['today'] }}">
+    <input id="search" type="hidden" name="search" value="{{ $data['search'] }}">
+    <input id="parking_section_name" type="hidden" name="parking_section_name" value="{{ $data['parking_section_name'] }}">
+    <input id="today" type="hidden" name="today" value="{{ $data['today'] }}">
+</form>
 @endsection
 @section('script')
 <script type="text/javascript">
@@ -221,6 +245,7 @@
     $("#booking_user_number_id").change(function(even) {
         var user_number_id = $(this).val();
         var booking_date = $("#booking_date").val();
+        $('#booking_user_number_id_hidden').val(user_number_id);
         $.getJSON( "/booking/getvehicles/" + user_number_id + '/' + booking_date , function( data ) {
             $("#booking_vehicle_code").html('<option value="">Seleccione</option>')
             $.each( data, function( key, val ) {
@@ -228,6 +253,10 @@
                 console.log( key + " - " + val['vehicle_code'] + ' ' + val['vehicle_name'] );
             });
         });
+    });
+    $("#booking_vehicle_code").change(function(even) {
+        var vehicle_code = $(this).val();
+        $('#booking_vehicle_code_hidden').val(vehicle_code);
     });
     $("#booking_submit").on( "click", function ( e ) {
         $("#booking_create").submit();
@@ -237,6 +266,11 @@
         $( "#parking_name" ).val( parking_name );
         console.log( parking_name );
         $('#modal-booking-create').modal('show');
+    });
+    $( ".btn-booking-delete" ).on( "click", function( e ) {
+        var booking_id  = $(this).data('booking_id');
+        $( "#delete_booking_id" ).val( booking_id );
+        $("#booking_delete").submit();
     });
     $('#datepicker-autoclose').datepicker({
         format: 'dd/mm/yyyy',
