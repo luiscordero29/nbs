@@ -37,6 +37,7 @@
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
+                        @if($data['user']->user_rol_name == 'users')
                         <li class="nav-devider"></li>
                         <li class="nav-small-cap">Nidoo Business Solution</li>
                         <li>
@@ -45,6 +46,7 @@
                         <li>
                             <a href="/user_booking/index"><i class="fa fa-calendar"></i> <span class="hide-menu">Mis Reservaciones</span></a>
                         </li>
+                        @endif
                         <?php /* ?>
                         <li>
                             <a href="#"><i class="fa fa-star-o"></i> <span class="hide-menu">Recompensas</span></a>
@@ -59,12 +61,14 @@
                             <a href="#"><i class="fa fa-money"></i> <span class="hide-menu">Creditos</span></a>
                         </li>
                         */ ?>
-                        <li class="nav-devider"></li>
+                        @if($data['user']->user_rol_name == 'admins')
                         <li class="nav-small-cap">Administración</li>
                         <li>
                             <a class="has-arrow" href="#" aria-expanded="false"><i class="fa fa-users"></i><span class="hide-menu">Usuarios </span></a>
                             <ul aria-expanded="false" class="collapse">
+                                {{--
                                 <li><a href="/roles/index"><i class="fa fa-caret-right fa-fw"></i> Roles de Usuarios</a></li>
+                                --}}
                                 <li><a href="/users/index"><i class="fa fa-caret-right fa-fw"></i> Gestor de Usuarios</a></li>
                                 <li><a href="/users_types/index"><i class="fa fa-caret-right fa-fw"></i> Tipos de Usuario</a></li>
                                 <li><a href="/users_positions/index"><i class="fa fa-caret-right fa-fw"></i> Cargos</a></li>
@@ -96,6 +100,7 @@
                                 <li><a href="/booking/index"><i class="fa fa-caret-right fa-fw"></i>  Reservas</a></li>
                             </ul>
                         </li>
+                        @endif
                         <?php /* ?>
                         <li>
                             <a class="has-arrow" href="#" aria-expanded="false"><i class="fa fa-car"></i><span class="hide-menu">Car Pool </span></a>
