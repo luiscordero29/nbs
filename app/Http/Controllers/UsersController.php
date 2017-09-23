@@ -40,16 +40,10 @@ class UsersController extends Controller
             $request->session()->forget('search');
         }
         $data['rows'] = DB::table('users')
-            ->join('roles', 'roles.rol_name', '=', 'users.user_rol_name')
             ->where('user_firstname', 'like', '%'.$search.'%')
             ->orWhere('user_lastname', 'like', '%'.$search.'%')
-            ->orWhere('email', 'like', '%'.$search.'%')
-            ->orWhere('user_type_description', 'like', '%'.$search.'%')
-            ->orWhere('user_division_description', 'like', '%'.$search.'%')
-            ->orWhere('user_position_description', 'like', '%'.$search.'%')
             ->orWhere('user_number_id', 'like', '%'.$search.'%')
             ->orWhere('user_number_employee', 'like', '%'.$search.'%')
-            ->orWhere('rol_name', 'like', '%'.$search.'%')
             ->paginate(30);
         # View
         return view('users.index', ['data' => $data]);
@@ -86,9 +80,6 @@ class UsersController extends Controller
             'user_number_employee' => 'required|max:60|unique:users,user_number_employee',
             'user_firstname' => 'required|max:60',
             'user_lastname' => 'required|max:60',
-            'users_user_type_description' => 'required',
-            'users_user_division_description' => 'required',
-            'users_user_position_description' => 'required',
             'email' => 'required|max:160|unique:users,email|email',
             'users_user_rol_name' => 'required',
             'user_image' => 'image|mimes:jpeg,png',

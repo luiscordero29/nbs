@@ -2,10 +2,10 @@
 @section('title', 'Gestor de Usuarios')
 @section('breadcrumb')
     <div class="col-md-9 col-9 align-self-center">
-        <h3 class="text-themecolor m-b-0 m-t-0">Gestor de Usuarios</h3>
+        <h3 class="text-themecolor m-b-0 m-t-0">Usuarios</h3>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
-            <li class="breadcrumb-item active">Gestor de Usuarios </li>
+            <li class="breadcrumb-item active">Usuarios </li>
         </ol>
     </div>
     <div class="col-md-3 col-3 align-self-center">
@@ -15,8 +15,7 @@
 @section('content')
 	<div class="row">
         <div class="col-9">
-            <h6>Gestor de Usuarios</h6>
-        	<p>Lista de Usuarios</p>
+            <h3 class="card-title">Lista de Usuarios</h3>
         </div>
         <div class="col-3">
             <form method="POST" action="/users/index">
@@ -31,24 +30,14 @@
             </form>
         </div>
     </div>
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-    @if (session('info'))
-        <div class="alert alert-info">
-            {{ session('info') }}
-        </div>
-    @endif
-	<div class="table-responsive">
+    @include('dashboard.alerts')
+	<div>
        	<table class="table table-bordered">
             <thead>
                 <tr>
                     <th>Id</th>
                     <th>Datos</th>
-                    <th>Foto</th>
-                    <th class="text-nowrap">Acción</th>
+                    <th class="text-nowrap"></th>
                 </tr>
             </thead>
             <tbody>
@@ -63,39 +52,20 @@
                                 <div class="col-6">
                                     <b>Número de Empleado: </b>{{ $r->user_number_employee }}
                                 </div>
-                                <div class="col-6">
-                                    <b>Apellidos: </b>{{ $r->user_firstname }}
-                                </div>
-                                <div class="col-6">
-                                    <b>Nombres: </b>{{ $r->user_lastname }}
-                                </div>
-                                <div class="col-4">
-                                    <b>Tipo: </b>{{ $r->user_type_description }}
-                                </div> 
-                                <div class="col-4">
-                                    <b>División: </b>{{ $r->user_division_description }}
-                                </div> 
-                                <div class="col-4">
-                                    <b>Cargo: </b>{{ $r->user_position_description }}
-                                </div>   
-                                <div class="col-8">
-                                    <b>E-mail: </b>{{ $r->email }}<br />
-                                </div>
-                                <div class="col-4">
-                                    <b>Rol: </b>{{ $r->rol_description }}<br />
+                                <div class="col-12">
+                                    <b>Apellidos y Nombres: </b>
+                                    {{ $r->user_firstname }} {{ $r->user_lastname }}
                                 </div>
                             </div>
                         </td>
-                        <td>
-                            @if ($r->user_image)
-                                <img src="{{ asset( 'storage/' . $r->user_image) }}" width="100px" height="auto">                                
-                            @endif
-                        </td>
                         <td class="text-nowrap">
-                            <a href="/users_vehicles/index/{{ $r->user_id }}" data-toggle="tooltip" data-original-title="Vehiculos"> <i class="fa fa-car text-inverse m-r-10"></i> </a>
-                            <a href="/users/show/{{ $r->user_id }}" data-toggle="tooltip" data-original-title="Ver"> <i class="fa fa-eye text-inverse m-r-10"></i> </a>
-                            <a href="/users/edit/{{ $r->user_id }}" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                            <a href="/users/destroy/{{ $r->user_id }}" data-toggle="tooltip" data-original-title="Eliminar"> <i class="fa fa-close text-danger"></i> </a>
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                <a class="btn btn-secondary" href="#{{ $r->user_id }}" data-toggle="tooltip" data-original-title="Reservas"><i class="fa fa-calendar"></i></a>
+                                <a class="btn btn-secondary" href="/users_vehicles/index/{{ $r->user_id }}" data-toggle="tooltip" data-original-title="Vehiculos"><i class="fa fa-car"></i></a>
+                                <a class="btn btn-secondary" href="/users/show/{{ $r->user_id }}" data-toggle="tooltip" data-original-title="Ver"><i class="fa fa-eye"></i></a>
+                                <a class="btn btn-secondary" href="/users/edit/{{ $r->user_id }}" data-toggle="tooltip" data-original-title="Editar"><i class="fa fa-pencil"></i></a>
+                                <a class="btn btn-secondary" href="/users/destroy/{{ $r->user_id }}" data-toggle="tooltip" data-original-title="Eliminar"><i class="fa fa-close"></i></a>
+                            </div>
                         </td>
                     </tr>             
 				@endforeach

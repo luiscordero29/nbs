@@ -24,9 +24,9 @@ class CreateUsersTable extends Migration
             $table->timestamps();
             # Fields
             $table->bigIncrements('user_id');
-            $table->char('user_type_description', 60);
-            $table->char('user_division_description', 60);
-            $table->char('user_position_description', 60);
+            $table->char('user_type_description', 60)->nullable();
+            $table->char('user_division_description', 60)->nullable();
+            $table->char('user_position_description', 60)->nullable();
             $table->char('user_rol_name', 60);
             $table->char('user_firstname', 60);
             $table->char('user_lastname', 60);

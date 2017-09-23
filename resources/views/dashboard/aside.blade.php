@@ -64,13 +64,20 @@
                         @if($data['user']->user_rol_name == 'admins')
                         <li class="nav-small-cap">Administración</li>
                         <li>
+                            <a class="has-arrow" href="#" aria-expanded="false"><i class="fa fa-calendar"></i><span class="hide-menu">Reservas </span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="/booking/index"><i class="fa fa-caret-right fa-fw"></i>  Reservas</a></li>
+                            </ul>
+                        </li>
+                        <li>
                             <a class="has-arrow" href="#" aria-expanded="false"><i class="fa fa-users"></i><span class="hide-menu">Usuarios </span></a>
                             <ul aria-expanded="false" class="collapse">
+                                <li><a href="/users/index"><i class="fa fa-caret-right fa-fw"></i> Usuarios</a></li>
                                 {{--
-                                <li><a href="/roles/index"><i class="fa fa-caret-right fa-fw"></i> Roles de Usuarios</a></li>
+                                Esto debe ir un modulo de control de acceso
+                                <li><a href="/roles/index"><i class="fa fa-caret-right fa-fw"></i> Roles</a></li>
                                 --}}
-                                <li><a href="/users/index"><i class="fa fa-caret-right fa-fw"></i> Gestor de Usuarios</a></li>
-                                <li><a href="/users_types/index"><i class="fa fa-caret-right fa-fw"></i> Tipos de Usuario</a></li>
+                                <li><a href="/users_types/index"><i class="fa fa-caret-right fa-fw"></i> Tipos</a></li>
                                 <li><a href="/users_positions/index"><i class="fa fa-caret-right fa-fw"></i> Cargos</a></li>
                                 <li><a href="/users_divisions/index"><i class="fa fa-caret-right fa-fw"></i> Divisiones</a></li>
                             </ul>
@@ -79,27 +86,22 @@
                             <a class="has-arrow" href="#" aria-expanded="false"><i class="fa fa-car"></i><span class="hide-menu">Vehiculos </span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="/vehicles/index"><i class="fa fa-caret-right fa-fw"></i> Vehiculos</a></li>
-                                <li><a href="/vehicles_colors/index"><i class="fa fa-caret-right fa-fw"></i> Vehiculos Colores</a></li>
                                 <li><a href="/vehicles_types/index"><i class="fa fa-caret-right fa-fw"></i> Vehiculos Tipos</a></li>
                                 <li><a href="/vehicles_brands/index"><i class="fa fa-caret-right fa-fw"></i> Vehiculos Marcas</a></li>
                                 <li><a href="/vehicles_models/index"><i class="fa fa-caret-right fa-fw"></i> Vehiculos Modelos</a></li>
+                                <li><a href="/vehicles_colors/index"><i class="fa fa-caret-right fa-fw"></i> Vehiculos Colores</a></li>
                             </ul>
                         </li>
                         <li>
                             <a class="has-arrow" href="#" aria-expanded="false"><i class="fa fa-road"></i><span class="hide-menu">Parqueaderos </span></a>
                             <ul aria-expanded="false" class="collapse">
+                                <li><a href="/parkings/index"><i class="fa fa-caret-right fa-fw"></i> Parqueaderos</a></li>
+                                <li><a href="/parkings_lot/create"><i class="fa fa-caret-right fa-fw"></i> Crear Lote</a></li>
                                 <li><a href="/parkings_sections/index"><i class="fa fa-caret-right fa-fw"></i> Secciones</a></li>
                                 <li><a href="/parkings_dimensions/index"><i class="fa fa-caret-right fa-fw"></i> Dimensiones</a></li>
-                                <li><a href="/parkings_lot/create"><i class="fa fa-caret-right fa-fw"></i> Crear Lote</a></li>
-                                <li><a href="/parkings/index"><i class="fa fa-caret-right fa-fw"></i> Parqueaderos</a></li>
                             </ul>
                         </li>
-                        <li>
-                            <a class="has-arrow" href="#" aria-expanded="false"><i class="fa fa-calendar"></i><span class="hide-menu">Reservas </span></a>
-                            <ul aria-expanded="false" class="collapse">
-                                <li><a href="/booking/index"><i class="fa fa-caret-right fa-fw"></i>  Reservas</a></li>
-                            </ul>
-                        </li>
+                        
                         @endif
                         <?php /* ?>
                         <li>

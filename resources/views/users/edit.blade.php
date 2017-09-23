@@ -5,7 +5,7 @@
         <h3 class="text-themecolor m-b-0 m-t-0">Editar Usuario</h3>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
-            <li class="breadcrumb-item"><a href="/users/index">Gestor de Usuarios</a></li>
+            <li class="breadcrumb-item"><a href="/users/index">Usuarios</a></li>
             <li class="breadcrumb-item active">Editar Usuario </li>
         </ol>
     </div>
@@ -17,130 +17,174 @@
 	<form method="POST" action="/users/update/{{ $data['row']->user_id }}" enctype="multipart/form-data">
 		{{ csrf_field() }}
         <div class="form-body">
-            <h3 class="card-title">Editar Usuario</h3>
+            <h3 class="card-title">Datos del Usuario</h3>
             <hr>
-            @if ($errors->any())
-			    @foreach ($errors->all() as $error)
-			    <div class="alert alert-danger">
-			        {{ $error }}
-			    </div>
-			    @endforeach
-			@endif
-			@if (session('success'))
-			    <div class="alert alert-success">
-			        {{ session('success') }}
-			    </div>
-			@endif
-            @if (session('danger'))
-                <div class="alert alert-danger">
-                    {{ session('danger') }}
-                </div>
-            @endif
-            <div class="row p-t-20">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="control-label">Número ID</label>
-                        <input id="user_number_id" name="user_number_id" class="form-control" placeholder="Número ID" type="text" value="{{ $data['row']->user_number_id }}">
-                        <small class="form-control-feedback"> Ingrese el Número ID</small> 
+            @include('dashboard.alerts')
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#required_fields" role="tab" aria-expanded="true"><span><i class="fa fa-asterisk"></i> Requerido</span></a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#extra_fields" role="tab" aria-expanded="false"><span><i class="fa fa-plus"></i> Otros</span></a></li>
+            </ul>
+            <div class="tab-content tabcontent-border">
+                <div class="tab-pane active" id="required_fields" role="tabpanel" aria-expanded="true">
+                    <div class="p-20">                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group @if($errors->has('user_number_id')) has-danger @endif">
+                                    <label for="user_number_id" class="form-control-label">Número ID</label>
+                                    <input id="user_number_id" name="user_number_id" class="form-control" placeholder="Número ID" type="text" value="{{ $data['row']->user_number_id }}">
+                                    @if ($errors->has('user_number_id'))
+                                        @foreach ($errors->get('user_number_id') as $error)
+                                            <div class="form-control-feedback">{{ $error }}</div>
+                                        @endforeach
+                                    @endif
+                                    <small class="form-control-feedback"> Ingrese el Número ID</small> 
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group @if($errors->has('user_number_employee')) has-danger @endif">
+                                    <label for="user_number_employee" class="form-control-label">Número de Empleado</label>
+                                    <input id="user_number_employee" name="user_number_employee" class="form-control" placeholder="Número de Empleado" type="text" value="{{ $data['row']->user_number_employee }}">
+                                    @if ($errors->has('user_number_employee'))
+                                        @foreach ($errors->get('user_number_employee') as $error)
+                                            <div class="form-control-feedback">{{ $error }}</div>
+                                        @endforeach
+                                    @endif
+                                    <small class="form-control-feedback"> Ingrese el Número de Empleado</small> 
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group @if($errors->has('user_firstname')) has-danger @endif">
+                                    <label for="user_firstname" class="form-control-label">Apellidos</label>
+                                    <input id="user_firstname" name="user_firstname" class="form-control" placeholder="Apellidos" type="text" value="{{ $data['row']->user_firstname }}">
+                                    @if ($errors->has('user_firstname'))
+                                        @foreach ($errors->get('user_firstname') as $error)
+                                            <div class="form-control-feedback">{{ $error }}</div>
+                                        @endforeach
+                                    @endif
+                                    <small class="form-control-feedback"> Ingrese los Apellidos</small> 
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group @if($errors->has('user_lastname')) has-danger @endif">
+                                    <label for="user_lastname" class="form-control-label" @if($errors->has('user_lastname')) has-danger @endif>Nombres</label>
+                                    <input id="user_lastname" name="user_lastname" class="form-control" placeholder="Nombres" type="text" value="{{ $data['row']->user_lastname }}">
+                                    @if ($errors->has('user_lastname'))
+                                        @foreach ($errors->get('user_lastname') as $error)
+                                            <div class="form-control-feedback">{{ $error }}</div>
+                                        @endforeach
+                                    @endif
+                                    <small class="form-control-feedback"> Ingrese los Nombres</small> 
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group @if($errors->has('email')) has-danger @endif">
+                                    <label class="form-control-label">E-mail</label>
+                                    <input id="email" name="email" class="form-control" placeholder="Nombres" type="text" value="{{ $data['row']->email }}">
+                                    @if ($errors->has('user_lastname'))
+                                        @foreach ($errors->get('user_lastname') as $error)
+                                            <div class="form-control-feedback">{{ $error }}</div>
+                                        @endforeach
+                                    @endif
+                                    <small class="form-control-feedback"> Ingrese el E-mail</small> 
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group @if($errors->has('users_user_rol_name')) has-danger @endif">
+                                    <label for="users_user_rol_name" class="form-control-label">Rol</label>
+                                    <select class="custom-select select2" name="users_user_rol_name" id="users_user_rol_name" style="width: 100%">
+                                        <option value="">Seleccione</option>
+                                        @foreach ($data['roles'] as $r)
+                                        <option @if ($data['row']->rol_name == $r->rol_name ) selected=""  @endif value="{{$r->rol_name}}">{{$r->rol_description}}</option>
+                                        @endforeach
+                                    </select>
+                                    @if ($errors->has('users_user_rol_name'))
+                                        @foreach ($errors->get('users_user_rol_name') as $error)
+                                            <div class="form-control-feedback">{{ $error }}</div>
+                                        @endforeach
+                                    @endif
+                                    <small class="form-control-feedback"> Seleccione Rol</small> 
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="control-label">Número de Empleado</label>
-                        <input id="user_number_employee" name="user_number_employee" class="form-control" placeholder="Número de Empleado" type="text" value="{{ $data['row']->user_number_employee }}">
-                        <small class="form-control-feedback"> Ingrese el Número de Empleado</small> 
+                <div class="tab-pane" id="extra_fields" role="tabpanel" aria-expanded="false">
+                    <div class="p-20">
+                        <div class="row ">
+                            <div class="col-md-12">
+                                <div class="form-group @if($errors->has('users_user_type_description')) has-danger @endif">
+                                    <label class="form-control-label">Tipo</label>
+                                    <select id="users_user_type_description" class="custom-select select2" name="users_user_type_description" style="width: 100%">
+                                        <option value="">Seleccione</option>
+                                        @foreach ($data['users_types'] as $r)
+                                        <option @if ($data['row']->user_type_description == $r->user_type_description ) selected=""  @endif value="{{$r->user_type_description}}">{{$r->user_type_description}}</option>
+                                        @endforeach
+                                    </select>
+                                    @if ($errors->has('users_user_type_description'))
+                                        @foreach ($errors->get('users_user_type_description') as $error)
+                                            <div class="form-control-feedback">{{ $error }}</div>
+                                        @endforeach
+                                    @endif
+                                    <small class="form-control-feedback"> Seleccione Tipo</small> 
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group" @if($errors->has('users_user_division_description')) has-danger @endif">
+                                    <label class="form-control-label">División</label>
+                                    <select class="custom-select select2" name="users_user_division_description" style="width: 100%">
+                                        <option value="">Seleccione</option>
+                                        @foreach ($data['users_divisions'] as $r)
+                                        <option @if ($data['row']->user_division_description == $r->user_division_description ) selected=""  @endif value="{{$r->user_division_description}}">{{$r->user_division_description}}</option>
+                                        @endforeach
+                                    </select>
+                                    @if ($errors->has('users_user_division_description'))
+                                        @foreach ($errors->get('users_user_division_description') as $error)
+                                            <div class="form-control-feedback">{{ $error }}</div>
+                                        @endforeach
+                                    @endif
+                                    <small class="form-control-feedback"> Seleccione División</small> 
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-control-label @if($errors->has('users_user_position_description')) has-danger @endif">Cargo</label>
+                                    <select class="custom-select select2" name="users_user_position_description" style="width: 100%">
+                                        <option value="">Seleccione</option>
+                                        @foreach ($data['users_positions'] as $r)
+                                        <option @if ($data['row']->user_position_description == $r->user_position_description ) selected=""  @endif value="{{$r->user_position_description}}">{{$r->user_position_description}}</option>
+                                        @endforeach
+                                    </select>
+                                    @if ($errors->has('users_user_position_description'))
+                                        @foreach ($errors->get('users_user_position_description') as $error)
+                                            <div class="form-control-feedback">{{ $error }}</div>
+                                        @endforeach
+                                    @endif
+                                    <small class="form-control-feedback"> Seleccione Cargo</small> 
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-control-label">Foto</label>
+                                    <input type="file" name="user_image" />
+                                    @if ($errors->has('user_image'))
+                                        @foreach ($errors->get('user_image.*') as $error)
+                                            <div class="form-control-feedback">{{ $error }}</div>
+                                        @endforeach
+                                    @endif
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="control-label">Apellidos</label>
-                        <input id="user_firstname" name="user_firstname" class="form-control" placeholder="Apellidos" type="text" value="{{ $data['row']->user_firstname }}">
-                        <small class="form-control-feedback"> Ingrese los Apellidos</small> 
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="control-label">Nombres</label>
-                        <input id="user_lastname" name="user_lastname" class="form-control" placeholder="Nombres" type="text" value="{{ $data['row']->user_lastname }}">
-                        <small class="form-control-feedback"> Ingrese los Nombres</small> 
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label class="control-label">Tipo</label>
-                        <select class="custom-select select2 col-4" name="users_user_type_description">
-                            <option value="">Seleccione</option>
-                            @foreach ($data['users_types'] as $r)
-                            <option @if ($data['row']->user_type_description == $r->user_type_description ) selected=""  @endif value="{{$r->user_type_description}}">{{$r->user_type_description}}</option>
-                            @endforeach
-                        </select>
-                        <small class="form-control-feedback"> Seleccione Tipo</small> 
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label class="control-label">División</label>
-                        <select class="custom-select select2 col-4" name="users_user_division_description">
-                            <option value="">Seleccione</option>
-                            @foreach ($data['users_divisions'] as $r)
-                            <option @if ($data['row']->user_division_description == $r->user_division_description ) selected=""  @endif value="{{$r->user_division_description}}">{{$r->user_division_description}}</option>
-                            @endforeach
-                        </select>
-                        <small class="form-control-feedback"> Seleccione División</small> 
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label class="control-label">Cargo</label>
-                        <select class="custom-select select2 col-4" name="users_user_position_description">
-                            <option value="">Seleccione</option>
-                            @foreach ($data['users_positions'] as $r)
-                            <option @if ($data['row']->user_position_description == $r->user_position_description ) selected=""  @endif value="{{$r->user_position_description}}">{{$r->user_position_description}}</option>
-                            @endforeach
-                        </select>
-                        <small class="form-control-feedback"> Seleccione Cargo</small> 
-                    </div>
-                </div>
-                <div class="col-md-8">
-                    <div class="form-group">
-                        <label class="control-label">E-mail</label>
-                        <input id="email" name="email" class="form-control" placeholder="Nombres" type="text" value="{{ $data['row']->email }}">
-                        <small class="form-control-feedback"> Ingrese el E-mail</small> 
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label class="control-label">Rol</label>
-                        <select class="custom-select select2 col-4" name="users_user_rol_name">
-                            <option value="">Seleccione</option>
-                            @foreach ($data['roles'] as $r)
-                            <option @if ($data['row']->user_rol_name == $r->rol_name ) selected=""  @endif value="{{$r->rol_name}}">{{$r->rol_description}}</option>
-                            @endforeach
-                        </select>
-                        <small class="form-control-feedback"> Seleccione Rol</small> 
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label class="control-label">Foto</label>
-                        <input type="file" name="user_image" />
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        @if ($data['row']->user_image)
-                            <img src="{{ asset( 'storage/' . $data['row']->user_image) }}" class="img-responsive">                                
-                        @endif
-                    </div>
-                </div>
-                <!--/span-->
-            </div>
+            </div>            
             <!--/row-->                                        
         </div>
-        <div class="form-actions">
+        <div class="form-actions p-t-20">
+            <input type="hidden" name="user_id" value="{{ $data['row']->user_id }}">
             <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Guardar</button>
             <a href="/users/index" class="btn btn-inverse">Regresar</a>
-            <input type="hidden" name="user_id" value="{{ $data['row']->user_id }}">
         </div>
     </form>
 @endsection
