@@ -221,10 +221,10 @@ class UsersController extends Controller
         $count_user_number_employee = DB::table('users')->where('user_number_employee', $user_number_employee)->where('user_id', '<>', $user_id)->count();
         $count_email = DB::table('users')->where('email', $email)->where('user_id', '<>', $user_id)->count();
         if ($count_user_number_id<1 or $count_user_number_employee<1 or $count_email<1) {
-            if ($request->hasFile('vehicle_type_icon')) {
-                $extension = $request->file('vehicle_type_icon')->extension();
-                $vehicle_type_icon = $vehicle_type_name.'.'.$extension;
-                $request->vehicle_type_icon->storeAs('public', $vehicle_type_icon);
+            if ($request->hasFile('user_image')) {
+                $extension = $request->file('user_image')->extension();
+                $user_image = $user_number_id.'.'.$extension;
+                $request->user_image->storeAs('public', $user_image);
                 # Update
                 DB::table('users')
                     ->where('user_id', $user_id)

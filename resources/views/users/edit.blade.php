@@ -174,6 +174,11 @@
                                     @endif
                                 </div>
                             </div>
+                            <div class="col-md-3">
+                                @if ($data['row']->user_image)
+                                    <img src="{{ asset( 'storage/' . $data['row']->user_image) }}" class="img-responsive" >                                
+                                @endif
+                            </div>
                             <!--/span-->
                         </div>
                     </div>
