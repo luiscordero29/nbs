@@ -17,14 +17,16 @@ class CreateVehiclesTable extends Migration
             $table->engine = 'InnoDB';
             # Fields
             $table->bigIncrements('vehicle_id');
-            $table->char('vehicle_name', 60);
             $table->char('vehicle_code', 8);
-            $table->char('vehicle_year', 4);
+            $table->char('vehicle_type_name', 60);
+            $table->char('vehicle_brand_name', 60)->nullable();
+            $table->char('vehicle_model_name', 60)->nullable();
+            $table->char('vehicle_name', 60)->nullable();
+            $table->char('vehicle_year', 4)->nullable();
+            $table->char('vehicle_color_name', 60)->nullable();
+            $table->char('user_number_id',60);
             $table->binary('vehicle_image')->nullable();
             $table->enum('vehicle_status', ['even', 'odd', 'does not apply']);
-            $table->char('vehicle_model_name', 60);
-            $table->char('vehicle_color_name', 60);
-            $table->char('user_number_id',60);
             #Keys 
             $table->unique('vehicle_code');  
         });
@@ -40,6 +42,16 @@ class CreateVehiclesTable extends Migration
                 ->foreign('vehicle_model_name')
                 ->references('vehicle_model_name')
                 ->on('vehicles_models')
+                ->onDelete('no action')->onUpdate('cascade');
+            $table
+                ->foreign('vehicle_type_name')
+                ->references('vehicle_type_name')
+                ->on('vehicles_types')
+                ->onDelete('no action')->onUpdate('cascade');
+            $table
+                ->foreign('vehicle_brand_name')
+                ->references('vehicle_brand_name')
+                ->on('vehicles_brands')
                 ->onDelete('no action')->onUpdate('cascade');
             $table
                 ->foreign('user_number_id')

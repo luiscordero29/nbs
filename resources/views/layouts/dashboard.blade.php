@@ -405,6 +405,8 @@
     <script src="{{ asset('assets/main/js/waves.js') }}"></script>
     <!--Menu sidebar -->
     <script src="{{ asset('assets/main/js/sidebarmenu.js') }}"></script>
+    <!--Mask -->
+    <script src="{{ asset('assets/main/js/mask.js') }}"></script>
     <!--stickey kit -->
     <script src="{{ asset('assets/plugins/sticky-kit-master/dist/sticky-kit.min.js') }}"></script>
     <!--Custom JavaScript -->

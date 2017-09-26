@@ -5,7 +5,7 @@
         <h3 class="text-themecolor m-b-0 m-t-0">Ver Vehiculo</h3>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
-            <li class="breadcrumb-item"><a href="/users/index">Gestor de Usuarios</a></li>
+            <li class="breadcrumb-item"><a href="/users/index">Usuarios</a></li>
             <li class="breadcrumb-item"><a href="/users_vehicles/index/{{ $data['row']->user_id }}">Vehiculos</a></li>
             <li class="breadcrumb-item active">Ver Vehiculo </li>
         </ol>
@@ -15,7 +15,7 @@
     </div>
 @endsection
 @section('content')
-    <h4 class="card-title">Datos del Empleado</h4>
+    <h4 class="card-title">Datos del Usuario</h4>
     @if ($data['row']->user_image)
         <div class="row">
             <div class="col-10">
@@ -104,7 +104,7 @@
                         <b>Pico y Placa: </b>
                         @if($data['row']->vehicle_status == 'does not apply')
                             NO APLICA
-                        @elseif ($r->vehicle_status == 'even')
+                        @elseif ($data['row']->vehicle_status == 'even')
                             PAR
                         @else
                             IMPAR

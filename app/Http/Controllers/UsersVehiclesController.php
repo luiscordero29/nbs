@@ -34,10 +34,10 @@ class UsersVehiclesController extends Controller
             $data['row'] = DB::table('users')->join('roles', 'roles.rol_name', '=', 'users.user_rol_name')->where('user_id', '=', $user_id)->first();
             $data['rows'] = DB::table('vehicles')
                 ->join('users', 'users.user_number_id', '=', 'vehicles.user_number_id')
-                ->join('vehicles_colors', 'vehicles_colors.vehicle_color_name', '=', 'vehicles.vehicle_color_name')
-                ->join('vehicles_models', 'vehicles_models.vehicle_model_name', '=', 'vehicles.vehicle_model_name')
-                ->join('vehicles_brands', 'vehicles_brands.vehicle_brand_name', '=', 'vehicles_models.vehicle_brand_name')
-                ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles_brands.vehicle_type_name')
+                ->leftJoin('vehicles_colors', 'vehicles_colors.vehicle_color_name', '=', 'vehicles.vehicle_color_name')
+                ->leftJoin('vehicles_models', 'vehicles_models.vehicle_model_name', '=', 'vehicles.vehicle_model_name')
+                ->leftJoin('vehicles_brands', 'vehicles_brands.vehicle_brand_name', '=', 'vehicles_models.vehicle_brand_name')
+                ->leftJoin('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles_brands.vehicle_type_name')
                 ->where('users.user_id', $user_id)
                 ->paginate(30);
             # View
@@ -85,19 +85,14 @@ class UsersVehiclesController extends Controller
             # Rules
             $this->validate($request, [
                 'user_number_id' => 'required',
-                'vehicle_type_name' => 'required',
-                'vehicle_brand_name' => 'required',
-                'vehicle_model_name' => 'required',
-                'vehicle_name' => 'required|max:60',
-                'vehicle_color_name' => 'required',
                 'vehicle_status' => 'required',
                 'vehicle_code' => 'required|max:8|unique:vehicles,vehicle_code',
-                'vehicle_year' => 'required|digits:4|date_format:Y',
+                'vehicle_type_name' => 'required',
+                'vehicle_name' => 'max:60',
                 'vehicle_image' => 'image|mimes:jpeg,png',
             ]);
             # Request
             $user_number_id = $request->input('user_number_id');
-            $vehicle_type_name = $request->input('vehicle_type_name');
             $vehicle_type_name = $request->input('vehicle_type_name');
             $vehicle_brand_name = $request->input('vehicle_brand_name');
             $vehicle_model_name = $request->input('vehicle_model_name');
@@ -114,7 +109,9 @@ class UsersVehiclesController extends Controller
                 DB::table('vehicles')->insert(
                     [
                         'user_number_id' => $user_number_id,
+                        'vehicle_type_name' => $vehicle_type_name,
                         'vehicle_model_name' => $vehicle_model_name,
+                        'vehicle_brand_name' => $vehicle_brand_name,
                         'vehicle_name' => $vehicle_name,
                         'vehicle_code' => $vehicle_code,
                         'vehicle_color_name' => $vehicle_color_name,
@@ -128,7 +125,9 @@ class UsersVehiclesController extends Controller
                 DB::table('vehicles')->insert(
                     [
                         'user_number_id' => $user_number_id,
+                        'vehicle_type_name' => $vehicle_type_name,
                         'vehicle_model_name' => $vehicle_model_name,
+                        'vehicle_brand_name' => $vehicle_brand_name,
                         'vehicle_name' => $vehicle_name,
                         'vehicle_code' => $vehicle_code,
                         'vehicle_color_name' => $vehicle_color_name,
@@ -161,10 +160,10 @@ class UsersVehiclesController extends Controller
                 # Show
                 $data['row'] = DB::table('vehicles')
                     ->join('users', 'users.user_number_id', '=', 'vehicles.user_number_id')
-                    ->join('vehicles_colors', 'vehicles_colors.vehicle_color_name', '=', 'vehicles.vehicle_color_name')
-                    ->join('vehicles_models', 'vehicles_models.vehicle_model_name', '=', 'vehicles.vehicle_model_name')
-                    ->join('vehicles_brands', 'vehicles_brands.vehicle_brand_name', '=', 'vehicles_models.vehicle_brand_name')
-                    ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles_brands.vehicle_type_name')
+                    ->leftJoin('vehicles_colors', 'vehicles_colors.vehicle_color_name', '=', 'vehicles.vehicle_color_name')
+                    ->leftJoin('vehicles_models', 'vehicles_models.vehicle_model_name', '=', 'vehicles.vehicle_model_name')
+                    ->leftJoin('vehicles_brands', 'vehicles_brands.vehicle_brand_name', '=', 'vehicles.vehicle_brand_name')
+                    ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles.vehicle_type_name')
                     ->where('vehicle_id', '=', $vehicle_id)
                     ->first();
                 return view('users_vehicles.show', ['data' => $data]);
@@ -198,12 +197,14 @@ class UsersVehiclesController extends Controller
                 $data['users'] = DB::table('users')->get();
                 $data['row'] = DB::table('vehicles')
                     ->join('users', 'users.user_number_id', '=', 'vehicles.user_number_id')
-                    ->join('vehicles_colors', 'vehicles_colors.vehicle_color_name', '=', 'vehicles.vehicle_color_name')
-                    ->join('vehicles_models', 'vehicles_models.vehicle_model_name', '=', 'vehicles.vehicle_model_name')
-                    ->join('vehicles_brands', 'vehicles_brands.vehicle_brand_name', '=', 'vehicles_models.vehicle_brand_name')
-                    ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles_brands.vehicle_type_name')
+                    ->leftJoin('vehicles_colors', 'vehicles_colors.vehicle_color_name', '=', 'vehicles.vehicle_color_name')
+                    ->leftJoin('vehicles_models', 'vehicles_models.vehicle_model_name', '=', 'vehicles.vehicle_model_name')
+                    ->leftJoin('vehicles_brands', 'vehicles_brands.vehicle_brand_name', '=', 'vehicles.vehicle_brand_name')
+                    ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles.vehicle_type_name')
                     ->where('vehicle_id', '=', $vehicle_id)
                     ->first();
+                $data['vehicles_brands'] = DB::table('vehicles_brands')->get();
+                $data['vehicles_models'] = DB::table('vehicles_models')->get();
                 return view('users_vehicles.edit', ['data' => $data]);
             }else{
                 # Error
@@ -229,14 +230,10 @@ class UsersVehiclesController extends Controller
             # Rules
             $this->validate($request, [
                 'user_number_id' => 'required',
-                'vehicle_type_name' => 'required',
-                'vehicle_brand_name' => 'required',
-                'vehicle_model_name' => 'required',
-                'vehicle_name' => 'required|max:60',
-                'vehicle_color_name' => 'required',
                 'vehicle_status' => 'required',
                 'vehicle_code' => 'required|max:8',
-                'vehicle_year' => 'required|digits:4|date_format:Y',
+                'vehicle_type_name' => 'required',
+                'vehicle_name' => 'max:60',
                 'vehicle_image' => 'image|mimes:jpeg,png',
             ]);
             # Request
