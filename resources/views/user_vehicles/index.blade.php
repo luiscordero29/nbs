@@ -96,8 +96,8 @@
                             @endif
                         </td>
                         <td class="text-nowrap">
-                            <a href="/user_vehicles/show/{{ $r->vehicle_id }}" data-toggle="tooltip" data-original-title="Ver"> <i class="fa fa-eye text-inverse m-r-10"></i> </a>
-                            <a href="/user_vehicles/edit/{{ $r->vehicle_id }}" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                            <a href="/user_vehicles/show/{{ $r->vehicle_id }}" data-toggle="tooltip" data-original-title="Ver"> <i class="fa fa-eye text-inverse"></i> </a>
+                            <a href="/user_vehicles/edit/{{ $r->vehicle_id }}" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse"></i> </a>
                             <a href="/user_vehicles/destroy/{{ $r->vehicle_id }}" data-toggle="tooltip" data-original-title="Eliminar"> <i class="fa fa-close text-danger"></i> </a>
                         </td>
                     </tr>             

@@ -147,8 +147,8 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <div class="form-group">
-                                    <label class="form-control-label @if($errors->has('users_user_position_description')) has-danger @endif">Cargo</label>
+                                <div class="form-group @if($errors->has('users_user_position_description')) has-danger @endif">
+                                    <label class="form-control-label">Cargo</label>
                                     <select class="custom-select select2" name="users_user_position_description" style="width: 100%">
                                         <option value="">Seleccione</option>
                                         @foreach ($data['users_positions'] as $r)
@@ -164,7 +164,7 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <div class="form-group">
+                                <div class="form-group  @if($errors->has('user_image')) has-danger @endif">
                                     <label class="form-control-label">Foto</label>
                                     <input type="file" name="user_image" />
                                     @if ($errors->has('user_image'))

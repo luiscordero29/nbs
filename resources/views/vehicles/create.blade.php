@@ -19,120 +19,215 @@
         <div class="form-body">
             <h3 class="card-title">Registrar Vehiculo</h3>
             <hr>
-            @if ($errors->any())
-			    @foreach ($errors->all() as $error)
-			    <div class="alert alert-danger">
-			        {{ $error }}
-			    </div>
-			    @endforeach
-			@endif
-			@if (session('success'))
-			    <div class="alert alert-success">
-			        {{ session('success') }}
-			    </div>
-			@endif
-            @if (session('danger'))
-                <div class="alert alert-danger">
-                    {{ session('danger') }}
-                </div>
-            @endif
-            <div class="row p-t-20">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label class="control-label">Empleado</label>
-                        <select class="custom-select select2 col-12" name="vehicles_user_number_id" id="user_number_id">
-                            <option value="" selected>Seleccione</option>
-                            @foreach ($data['users'] as $r)
-                            <option @if (old('user_number_id') == $r->user_number_id ) selected=""  @endif value="{{$r->user_number_id}}">{{$r->user_number_id}} {{$r->user_firstname}} {{$r->user_lastname}} </option>
-                            @endforeach
-                        </select>
-                        <small class="form-control-feedback"> Seleccione Tipo</small> 
+            @include('dashboard.alerts')
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#required_fields" role="tab" aria-expanded="true"><span><i class="fa fa-asterisk"></i> Requerido</span></a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#extra_fields" role="tab" aria-expanded="false"><span><i class="fa fa-plus"></i> Otros</span></a></li>
+            </ul>
+            <div class="tab-content tabcontent-border">
+                <div class="tab-pane active" id="required_fields" role="tabpanel" aria-expanded="true">
+                    <div class="p-20">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label">Empleado</label>
+                                    <select class="custom-select select2 col-12" name="vehicles_user_number_id" id="user_number_id">
+                                        <option value="" selected>Seleccione</option>
+                                        @foreach ($data['users'] as $r)
+                                        <option @if (old('user_number_id') == $r->user_number_id ) selected=""  @endif value="{{$r->user_number_id}}">{{$r->user_number_id}} {{$r->user_firstname}} {{$r->user_lastname}} </option>
+                                        @endforeach
+                                    </select>
+                                    <small class="form-control-feedback"> Seleccione Tipo</small> 
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">Tipo</label>
+                                    <select class="custom-select select2 col-12" name="vehicle_type_name" id="vehicles_vehicle_type_name">
+                                        <option value="" selected>Seleccione</option>
+                                        @foreach ($data['vehicles_types'] as $r)
+                                        <option @if (old('vehicle_type_name') == $r->vehicle_type_name ) selected=""  @endif value="{{$r->vehicle_type_name}}">{{$r->vehicle_type_name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <small class="form-control-feedback"> Seleccione Tipo</small> 
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">Marca</label>
+                                    <select class="custom-select select2 col-12" name="vehicle_brand_name" id="vehicles_vehicle_brand_name">
+                                        <option value="" selected>Seleccione</option>
+                                    </select>
+                                    <small class="form-control-feedback"> Seleccione Marca</small> 
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">Modelo</label>
+                                    <select class="custom-select select2 col-12" name="vehicle_model_name" id="vehicles_create_vehicle_model_name">
+                                        <option value="" selected>Seleccione</option>
+                                    </select>
+                                    <small class="form-control-feedback"> Seleccione Modelo</small> 
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label">Apodo</label>
+                                    <input id="vehicle_name" name="vehicle_name" class="form-control" placeholder="Apodo" type="text" value="{{ old('vehicle_name') }}">
+                                    <small class="form-control-feedback"> Ingrese el Apodo</small> 
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Color</label>
+                                    <select class="custom-select select2 col-12" name="vehicle_color_name" id="vehicle_color_name">
+                                        <option value="" selected>Seleccione</option>
+                                        @foreach ($data['vehicles_colors'] as $r)
+                                        <option @if (old('vehicle_color_name') == $r->vehicle_color_name ) selected=""  @endif value="{{$r->vehicle_color_name}}">{{$r->vehicle_color_name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <small class="form-control-feedback"> Seleccione Tipo</small> 
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Pico y Placa</label>
+                                    <select class="custom-select select2 col-12" name="vehicle_status" id="vehicle_status">
+                                        <option value="" selected>Seleccione</option>
+                                        <option @if (old('vehicle_status') == 'does not apply' ) selected=""  @endif value="does not apply">NO APLICA</option>
+                                        <option @if (old('vehicle_status') == 'even' ) selected=""  @endif value="even">PAR</option>
+                                        <option @if (old('vehicle_status') == 'odd' ) selected=""  @endif value="odd">IMPAR</option>
+                                    </select>
+                                    <small class="form-control-feedback"> Seleccione Tipo</small> 
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Placa</label>
+                                    <input id="vehicle_code" name="vehicle_code" class="form-control" placeholder="Placa" type="text" value="{{ old('vehicle_code') }}">
+                                    <small class="form-control-feedback"> Ingrese la placa</small> 
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Año</label>
+                                    <input id="vehicle_year" name="vehicle_year" class="form-control" placeholder="Año" type="text" value="{{ old('vehicle_year') }}">
+                                    <small class="form-control-feedback"> Ingrese la Año</small> 
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label">Foto</label>
+                                    <input type="file" name="vehicle_image" />
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <!--/row-->
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label class="control-label">Tipo</label>
-                        <select class="custom-select select2 col-12" name="vehicle_type_name" id="vehicles_vehicle_type_name">
-                            <option value="" selected>Seleccione</option>
-                            @foreach ($data['vehicles_types'] as $r)
-                            <option @if (old('vehicle_type_name') == $r->vehicle_type_name ) selected=""  @endif value="{{$r->vehicle_type_name}}">{{$r->vehicle_type_name}}</option>
-                            @endforeach
-                        </select>
-                        <small class="form-control-feedback"> Seleccione Tipo</small> 
+                <div class="tab-pane" id="extra_fields" role="tabpanel" aria-expanded="false">
+                    <div class="p-20">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label">Empleado</label>
+                                    <select class="custom-select select2 col-12" name="vehicles_user_number_id" id="user_number_id">
+                                        <option value="" selected>Seleccione</option>
+                                        @foreach ($data['users'] as $r)
+                                        <option @if (old('user_number_id') == $r->user_number_id ) selected=""  @endif value="{{$r->user_number_id}}">{{$r->user_number_id}} {{$r->user_firstname}} {{$r->user_lastname}} </option>
+                                        @endforeach
+                                    </select>
+                                    <small class="form-control-feedback"> Seleccione Tipo</small> 
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">Tipo</label>
+                                    <select class="custom-select select2 col-12" name="vehicle_type_name" id="vehicles_vehicle_type_name">
+                                        <option value="" selected>Seleccione</option>
+                                        @foreach ($data['vehicles_types'] as $r)
+                                        <option @if (old('vehicle_type_name') == $r->vehicle_type_name ) selected=""  @endif value="{{$r->vehicle_type_name}}">{{$r->vehicle_type_name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <small class="form-control-feedback"> Seleccione Tipo</small> 
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">Marca</label>
+                                    <select class="custom-select select2 col-12" name="vehicle_brand_name" id="vehicles_vehicle_brand_name">
+                                        <option value="" selected>Seleccione</option>
+                                    </select>
+                                    <small class="form-control-feedback"> Seleccione Marca</small> 
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">Modelo</label>
+                                    <select class="custom-select select2 col-12" name="vehicle_model_name" id="vehicles_create_vehicle_model_name">
+                                        <option value="" selected>Seleccione</option>
+                                    </select>
+                                    <small class="form-control-feedback"> Seleccione Modelo</small> 
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label">Apodo</label>
+                                    <input id="vehicle_name" name="vehicle_name" class="form-control" placeholder="Apodo" type="text" value="{{ old('vehicle_name') }}">
+                                    <small class="form-control-feedback"> Ingrese el Apodo</small> 
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Color</label>
+                                    <select class="custom-select select2 col-12" name="vehicle_color_name" id="vehicle_color_name">
+                                        <option value="" selected>Seleccione</option>
+                                        @foreach ($data['vehicles_colors'] as $r)
+                                        <option @if (old('vehicle_color_name') == $r->vehicle_color_name ) selected=""  @endif value="{{$r->vehicle_color_name}}">{{$r->vehicle_color_name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <small class="form-control-feedback"> Seleccione Tipo</small> 
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Pico y Placa</label>
+                                    <select class="custom-select select2 col-12" name="vehicle_status" id="vehicle_status">
+                                        <option value="" selected>Seleccione</option>
+                                        <option @if (old('vehicle_status') == 'does not apply' ) selected=""  @endif value="does not apply">NO APLICA</option>
+                                        <option @if (old('vehicle_status') == 'even' ) selected=""  @endif value="even">PAR</option>
+                                        <option @if (old('vehicle_status') == 'odd' ) selected=""  @endif value="odd">IMPAR</option>
+                                    </select>
+                                    <small class="form-control-feedback"> Seleccione Tipo</small> 
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Placa</label>
+                                    <input id="vehicle_code" name="vehicle_code" class="form-control" placeholder="Placa" type="text" value="{{ old('vehicle_code') }}">
+                                    <small class="form-control-feedback"> Ingrese la placa</small> 
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Año</label>
+                                    <input id="vehicle_year" name="vehicle_year" class="form-control" placeholder="Año" type="text" value="{{ old('vehicle_year') }}">
+                                    <small class="form-control-feedback"> Ingrese la Año</small> 
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label">Foto</label>
+                                    <input type="file" name="vehicle_image" />
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <!--/row-->
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label class="control-label">Marca</label>
-                        <select class="custom-select select2 col-12" name="vehicle_brand_name" id="vehicles_vehicle_brand_name">
-                            <option value="" selected>Seleccione</option>
-                        </select>
-                        <small class="form-control-feedback"> Seleccione Marca</small> 
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label class="control-label">Modelo</label>
-                        <select class="custom-select select2 col-12" name="vehicle_model_name" id="vehicles_create_vehicle_model_name">
-                            <option value="" selected>Seleccione</option>
-                        </select>
-                        <small class="form-control-feedback"> Seleccione Modelo</small> 
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label class="control-label">Apodo</label>
-                        <input id="vehicle_name" name="vehicle_name" class="form-control" placeholder="Apodo" type="text" value="{{ old('vehicle_name') }}">
-                        <small class="form-control-feedback"> Ingrese el Apodo</small> 
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="control-label">Color</label>
-                        <select class="custom-select select2 col-12" name="vehicle_color_name" id="vehicle_color_name">
-                            <option value="" selected>Seleccione</option>
-                            @foreach ($data['vehicles_colors'] as $r)
-                            <option @if (old('vehicle_color_name') == $r->vehicle_color_name ) selected=""  @endif value="{{$r->vehicle_color_name}}">{{$r->vehicle_color_name}}</option>
-                            @endforeach
-                        </select>
-                        <small class="form-control-feedback"> Seleccione Tipo</small> 
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="control-label">Pico y Placa</label>
-                        <select class="custom-select select2 col-12" name="vehicle_status" id="vehicle_status">
-                            <option value="" selected>Seleccione</option>
-                            <option @if (old('vehicle_status') == 'does not apply' ) selected=""  @endif value="does not apply">NO APLICA</option>
-                            <option @if (old('vehicle_status') == 'even' ) selected=""  @endif value="even">PAR</option>
-                            <option @if (old('vehicle_status') == 'odd' ) selected=""  @endif value="odd">IMPAR</option>
-                        </select>
-                        <small class="form-control-feedback"> Seleccione Tipo</small> 
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="control-label">Placa</label>
-                        <input id="vehicle_code" name="vehicle_code" class="form-control" placeholder="Placa" type="text" value="{{ old('vehicle_code') }}">
-                        <small class="form-control-feedback"> Ingrese la placa</small> 
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="control-label">Año</label>
-                        <input id="vehicle_year" name="vehicle_year" class="form-control" placeholder="Año" type="text" value="{{ old('vehicle_year') }}">
-                        <small class="form-control-feedback"> Ingrese la Año</small> 
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label class="control-label">Foto</label>
-                        <input type="file" name="vehicle_image" />
-                    </div>
-                </div>
-                <!--/span-->
-            </div>
-            <!--/row-->                                        
+            </div>                                        
         </div>
         <div class="form-actions">
             <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Guardar</button>

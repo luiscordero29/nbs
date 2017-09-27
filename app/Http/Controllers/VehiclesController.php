@@ -41,17 +41,13 @@ class VehiclesController extends Controller
         }
         $data['rows'] = DB::table('vehicles')
             ->join('users', 'users.user_number_id', '=', 'vehicles.user_number_id')
-            ->join('vehicles_colors', 'vehicles_colors.vehicle_color_name', '=', 'vehicles.vehicle_color_name')
-            ->join('vehicles_models', 'vehicles_models.vehicle_model_name', '=', 'vehicles.vehicle_model_name')
-            ->join('vehicles_brands', 'vehicles_brands.vehicle_brand_name', '=', 'vehicles_models.vehicle_brand_name')
-            ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles_brands.vehicle_type_name')
-            ->where('vehicles.vehicle_name', 'like', '%'.$search.'%')
-            ->orWhere('vehicles.vehicle_code', 'like', '%'.$search.'%')
-            ->orWhere('vehicles.vehicle_year', 'like', '%'.$search.'%')
+            ->leftJoin('vehicles_colors', 'vehicles_colors.vehicle_color_name', '=', 'vehicles.vehicle_color_name')
+            ->leftJoin('vehicles_models', 'vehicles_models.vehicle_model_name', '=', 'vehicles.vehicle_model_name')
+            ->leftJoin('vehicles_brands', 'vehicles_brands.vehicle_brand_name', '=', 'vehicles.vehicle_brand_name')
+            ->leftJoin('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles.vehicle_type_name')
+            ->where('vehicles.vehicle_code', 'like', '%'.$search.'%')
+            ->orWhere('vehicles.vehicle_status', 'like', '%'.$search.'%')
             ->orWhere('vehicles_types.vehicle_type_name', 'like', '%'.$search.'%')
-            ->orWhere('vehicles_brands.vehicle_brand_name', 'like', '%'.$search.'%')
-            ->orWhere('vehicles_models.vehicle_model_name', 'like', '%'.$search.'%')
-            ->orWhere('vehicles_colors.vehicle_color_name', 'like', '%'.$search.'%')
             ->paginate(30);
         # View
         return view('vehicles.index', ['data' => $data]);

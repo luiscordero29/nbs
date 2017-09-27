@@ -19,23 +19,17 @@
         <div class="form-body">
             <h3 class="card-title">Registrar División</h3>
             <hr>
-            @if ($errors->any())
-			    @foreach ($errors->all() as $error)
-			    <div class="alert alert-danger">
-			        {{ $error }}
-			    </div>
-			    @endforeach
-			@endif
-			@if (session('success'))
-			    <div class="alert alert-success">
-			        {{ session('success') }}
-			    </div>
-			@endif
+            @include('dashboard.alerts')
             <div class="row p-t-20">
                 <div class="col-md-12">
-                    <div class="form-group">
+                    <div class="form-group @if($errors->has('user_division_description')) has-danger @endif">
                         <label class="control-label">Descripción</label>
                         <input id="user_division_description" name="user_division_description" class="form-control" placeholder="Descripción" type="text" value="{{ old('user_division_description') }}">
+                        @if ($errors->has('user_division_description'))
+                            @foreach ($errors->get('user_division_description') as $error)
+                                <div class="form-control-feedback">{{ $error }}</div>
+                            @endforeach
+                        @endif
                         <small class="form-control-feedback"> Ingrese la descripción</small> 
                     </div>
                 </div>

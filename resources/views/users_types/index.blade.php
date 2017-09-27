@@ -15,8 +15,7 @@
 @section('content')
 	<div class="row">
         <div class="col-9">
-            <h6>Tipos de Usuarios</h6>
-        	<p>Lista de tipos de usuarios</p>
+            <h3 class="card-title">Lista de Tipos de Usuarios</h3>
         </div>
         <div class="col-3">
             <form method="POST" action="/users_types/index">
@@ -31,23 +30,14 @@
             </form>
         </div>
     </div>
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-    @if (session('info'))
-        <div class="alert alert-info">
-            {{ session('info') }}
-        </div>
-    @endif
+    @include('dashboard.alerts')
 	<div class="table-responsive">
        	<table class="table table-bordered">
             <thead>
                 <tr>
                     <th>Id</th>
                     <th>Tipo</th>
-                    <th class="text-nowrap">Acción</th>
+                    <th class="text-nowrap"></th>
                 </tr>
             </thead>
             <tbody>
@@ -56,9 +46,11 @@
                        	<td>{{ $r->user_type_id }}</td>
                         <td>{{ $r->user_type_description }}</td>
                         <td class="text-nowrap">
-                            <a href="/users_types/show/{{ $r->user_type_id }}" data-toggle="tooltip" data-original-title="Ver"> <i class="fa fa-eye text-inverse m-r-10"></i> </a>
-                            <a href="/users_types/edit/{{ $r->user_type_id }}" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                            <a href="/users_types/destroy/{{ $r->user_type_id }}" data-toggle="tooltip" data-original-title="Eliminar"> <i class="fa fa-close text-danger"></i> </a>
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                <a class="btn btn-secondary" href="/users_types/show/{{ $r->user_type_id }}" data-toggle="tooltip" data-original-title="Ver"> <i class="fa fa-eye"></i> </a>
+                                <a class="btn btn-secondary" href="/users_types/edit/{{ $r->user_type_id }}" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil"></i> </a>
+                                <a class="btn btn-secondary" href="/users_types/destroy/{{ $r->user_type_id }}" data-toggle="tooltip" data-original-title="Eliminar"> <i class="fa fa-close text-danger"></i> </a>
+                            </div>
                         </td>
                     </tr>             
 				@endforeach

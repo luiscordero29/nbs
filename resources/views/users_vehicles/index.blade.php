@@ -71,7 +71,7 @@
                             <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                                 <a class="btn btn-secondary" href="/users_vehicles/show/{{ $data['row']->user_id }}/{{ $r->vehicle_id }}" data-toggle="tooltip" data-original-title="Ver"><i class="fa fa-eye"></i></a>
                                 <a class="btn btn-secondary" href="/users_vehicles/edit/{{ $data['row']->user_id }}/{{ $r->vehicle_id }}" data-toggle="tooltip" data-original-title="Editar"><i class="fa fa-pencil"></i></a>
-                                <a class="btn btn-secondary" href="/users_vehicles/destroy/{{ $data['row']->user_id }}/{{ $r->vehicle_id }}" data-toggle="tooltip" data-original-title="Eliminar"><i class="fa fa-close"></i></a>
+                                <a class="btn btn-secondary" href="/users_vehicles/destroy/{{ $data['row']->user_id }}/{{ $r->vehicle_id }}" data-toggle="tooltip" data-original-title="Eliminar"><i class="fa fa-close text-danger"></i></a>
                             </div>
                         </td>
                     </tr>             

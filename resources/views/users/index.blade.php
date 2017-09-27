@@ -64,7 +64,7 @@
                                 <a class="btn btn-secondary" href="/users_vehicles/index/{{ $r->user_id }}" data-toggle="tooltip" data-original-title="Vehiculos"><i class="fa fa-car"></i></a>
                                 <a class="btn btn-secondary" href="/users/show/{{ $r->user_id }}" data-toggle="tooltip" data-original-title="Ver"><i class="fa fa-eye"></i></a>
                                 <a class="btn btn-secondary" href="/users/edit/{{ $r->user_id }}" data-toggle="tooltip" data-original-title="Editar"><i class="fa fa-pencil"></i></a>
-                                <a class="btn btn-secondary" href="/users/destroy/{{ $r->user_id }}" data-toggle="tooltip" data-original-title="Eliminar"><i class="fa fa-close"></i></a>
+                                <a class="btn btn-secondary" href="/users/destroy/{{ $r->user_id }}" data-toggle="tooltip" data-original-title="Eliminar"><i class="fa fa-close  text-danger"></i></a>
                             </div>
                         </td>
                     </tr>             

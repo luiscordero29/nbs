@@ -5,7 +5,7 @@
         <h3 class="text-themecolor m-b-0 m-t-0">Cargos</h3>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
-            <li class="breadcrumb-item active">Cargos </li>
+            <li class="breadcrumb-item active">Cargos de Usuarios</li>
         </ol>
     </div>
     <div class="col-md-3 col-3 align-self-center">
@@ -15,8 +15,7 @@
 @section('content')
 	<div class="row">
         <div class="col-9">
-            <h6>Cargos</h6>
-        	<p>Lista de Cargos</p>
+            <h3 class="card-title">Lista de Cargos de Usuarios</h3>
         </div>
         <div class="col-3">
             <form method="POST" action="/users_positions/index">
@@ -31,23 +30,14 @@
             </form>
         </div>
     </div>
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-    @if (session('info'))
-        <div class="alert alert-info">
-            {{ session('info') }}
-        </div>
-    @endif
+    @include('dashboard.alerts')
 	<div class="table-responsive">
        	<table class="table table-bordered">
             <thead>
                 <tr>
                     <th>Id</th>
                     <th>Cargo</th>
-                    <th class="text-nowrap">Acción</th>
+                    <th class="text-nowrap"></th>
                 </tr>
             </thead>
             <tbody>
@@ -56,9 +46,11 @@
                        	<td>{{ $r->user_position_id }}</td>
                         <td>{{ $r->user_position_description }}</td>
                         <td class="text-nowrap">
-                            <a href="/users_positions/show/{{ $r->user_position_id }}" data-toggle="tooltip" data-original-title="Ver"> <i class="fa fa-eye text-inverse m-r-10"></i> </a>
-                            <a href="/users_positions/edit/{{ $r->user_position_id }}" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                            <a href="/users_positions/destroy/{{ $r->user_position_id }}" data-toggle="tooltip" data-original-title="Eliminar"> <i class="fa fa-close text-danger"></i> </a>
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                <a class="btn btn-secondary" href="/users_positions/show/{{ $r->user_position_id }}" data-toggle="tooltip" data-original-title="Ver"> <i class="fa fa-eye"></i> </a>
+                                <a class="btn btn-secondary" href="/users_positions/edit/{{ $r->user_position_id }}" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil"></i> </a>
+                                <a class="btn btn-secondary" href="/users_positions/destroy/{{ $r->user_position_id }}" data-toggle="tooltip" data-original-title="Eliminar"> <i class="fa fa-close text-danger"></i> </a>
+                            </div>
                         </td>
                     </tr>             
 				@endforeach

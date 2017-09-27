@@ -19,28 +19,17 @@
         <div class="form-body">
             <h3 class="card-title">Editar Tipo de Usuario</h3>
             <hr>
-            @if ($errors->any())
-			    @foreach ($errors->all() as $error)
-			    <div class="alert alert-danger">
-			        {{ $error }}
-			    </div>
-			    @endforeach
-			@endif
-			@if (session('success'))
-			    <div class="alert alert-success">
-			        {{ session('success') }}
-			    </div>
-			@endif
-            @if (session('danger'))
-                <div class="alert alert-danger">
-                    {{ session('danger') }}
-                </div>
-            @endif
+            @include('dashboard.alerts')
             <div class="row p-t-20">
                 <div class="col-md-12">
-                    <div class="form-group">
-                        <label class="control-label">Descripción</label>
+                    <div class="form-group @if($errors->has('user_type_description')) has-danger @endif">
+                        <label class="form-control-label">Descripción</label>
                         <input id="user_type_description" name="user_type_description" class="form-control" placeholder="Descripción" type="text" value="{{ $data['row']->user_type_description }}">
+                        @if ($errors->has('user_type_description'))
+                            @foreach ($errors->get('user_type_description') as $error)
+                                <div class="form-control-feedback">{{ $error }}</div>
+                            @endforeach
+                        @endif
                         <small class="form-control-feedback"> Editar descripción</small> 
                     </div>
                 </div>
