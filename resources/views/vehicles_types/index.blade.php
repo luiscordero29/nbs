@@ -15,8 +15,7 @@
 @section('content')
 	<div class="row">
         <div class="col-9">
-            <h6>Vehiculos Tipos</h6>
-        	<p>Lista de Tipos</p>
+            <h3 class="card-title">Lista de Tipos de Vehiculos</h3>
         </div>
         <div class="col-3">
             <form method="POST" action="/vehicles_types/index">
@@ -31,25 +30,14 @@
             </form>
         </div>
     </div>
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-    @if (session('info'))
-        <div class="alert alert-info">
-            {{ session('info') }}
-        </div>
-    @endif
+    @include('dashboard.alerts')
 	<div class="table-responsive">
        	<table class="table table-bordered">
             <thead>
                 <tr>
                     <th>Id</th>
                     <th>Tipo</th>
-                    <th>Descripción</th>
-                    <th>Icono</th>
-                    <th class="text-nowrap">Acción</th>
+                    <th class="text-nowrap"></th>
                 </tr>
             </thead>
             <tbody>
@@ -57,16 +45,12 @@
                     <tr>
                        	<td>{{ $r->vehicle_type_id }}</td>
                         <td>{{ $r->vehicle_type_name }}</td>
-                        <td>{{ $r->vehicle_type_description }}</td>
-                        <td>
-                            @if ($r->vehicle_type_icon)
-                                <img src="{{ asset( 'storage/' . $r->vehicle_type_icon) }}" width="50px" height="auto">                                
-                            @endif
-                        </td>
                         <td class="text-nowrap">
-                            <a href="/vehicles_types/show/{{ $r->vehicle_type_id }}" data-toggle="tooltip" data-original-title="Ver"> <i class="fa fa-eye text-inverse m-r-10"></i> </a>
-                            <a href="/vehicles_types/edit/{{ $r->vehicle_type_id }}" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                            <a href="/vehicles_types/destroy/{{ $r->vehicle_type_id }}" data-toggle="tooltip" data-original-title="Eliminar"> <i class="fa fa-close text-danger"></i> </a>
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                <a class="btn btn-secondary" href="/vehicles_types/show/{{ $r->vehicle_type_id }}" data-toggle="tooltip" data-original-title="Ver"> <i class="fa fa-eye text-inverse"></i> </a>
+                                <a class="btn btn-secondary" href="/vehicles_types/edit/{{ $r->vehicle_type_id }}" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse"></i> </a>
+                                <a class="btn btn-secondary" href="/vehicles_types/destroy/{{ $r->vehicle_type_id }}" data-toggle="tooltip" data-original-title="Eliminar"> <i class="fa fa-close text-danger"></i> </a>
+                            </div>
                         </td>
                     </tr>             
 				@endforeach

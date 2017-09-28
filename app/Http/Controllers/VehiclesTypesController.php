@@ -41,7 +41,6 @@ class VehiclesTypesController extends Controller
         }
         $data['rows'] = DB::table('vehicles_types')
             ->where('vehicle_type_name', 'like', '%'.$search.'%')
-            ->orWhere('vehicle_type_description', 'like', '%'.$search.'%')
             ->paginate(30);
         # View
         return view('vehicles_types.index', ['data' => $data]);
