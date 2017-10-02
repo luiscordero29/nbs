@@ -15,8 +15,7 @@
 @section('content')
 	<div class="row">
         <div class="col-9">
-            <h6>Secciones</h6>
-        	<p>Lista de Secciones</p>
+            <h3 class="card-title">Lista de Secciones de Parqueaderos</h3>
         </div>
         <div class="col-3">
             <form method="POST" action="/parkings_sections/index">
@@ -31,23 +30,14 @@
             </form>
         </div>
     </div>
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-    @if (session('info'))
-        <div class="alert alert-info">
-            {{ session('info') }}
-        </div>
-    @endif
+    @include('dashboard.alerts')
 	<div class="table-responsive">
        	<table class="table table-bordered">
             <thead>
                 <tr>
                     <th>Id</th>
                     <th>Sección</th>
-                    <th class="text-nowrap">Acción</th>
+                    <th class="text-nowrap"></th>
                 </tr>
             </thead>
             <tbody>
@@ -56,9 +46,11 @@
                        	<td>{{ $r->parking_section_id }}</td>
                         <td>{{ $r->parking_section_name }}</td>
                         <td class="text-nowrap">
-                            <a href="/parkings_sections/show/{{ $r->parking_section_id }}" data-toggle="tooltip" data-original-title="Ver"> <i class="fa fa-eye text-inverse m-r-10"></i> </a>
-                            <a href="/parkings_sections/edit/{{ $r->parking_section_id }}" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                            <a href="/parkings_sections/destroy/{{ $r->parking_section_id }}" data-toggle="tooltip" data-original-title="Eliminar"> <i class="fa fa-close text-danger"></i> </a>
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                <a class="btn btn-secondary" href="/parkings_sections/show/{{ $r->parking_section_id }}" data-toggle="tooltip" data-original-title="Ver"> <i class="fa fa-eye"></i> </a>
+                                <a class="btn btn-secondary" href="/parkings_sections/edit/{{ $r->parking_section_id }}" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil"></i> </a>
+                                <a class="btn btn-secondary" href="/parkings_sections/destroy/{{ $r->parking_section_id }}" data-toggle="tooltip" data-original-title="Eliminar"> <i class="fa fa-close text-danger"></i> </a>
+                            </div>
                         </td>
                     </tr>             
 				@endforeach

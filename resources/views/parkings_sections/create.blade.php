@@ -19,23 +19,17 @@
         <div class="form-body">
             <h3 class="card-title">Registrar Sección</h3>
             <hr>
-            @if ($errors->any())
-			    @foreach ($errors->all() as $error)
-			    <div class="alert alert-danger">
-			        {{ $error }}
-			    </div>
-			    @endforeach
-			@endif
-			@if (session('success'))
-			    <div class="alert alert-success">
-			        {{ session('success') }}
-			    </div>
-			@endif
+            @include('dashboard.alerts')
             <div class="row p-t-20">
                 <div class="col-md-12">
-                    <div class="form-group">
-                        <label class="control-label">Nombre de la sección</label>
+                    <div class="form-group @if($errors->has('parking_section_name')) has-danger @endif">
+                        <label class="form-control-label">Nombre de la sección</label>
                         <input id="parking_section_name" name="parking_section_name" class="form-control" placeholder="Sección" type="text" value="{{ old('parking_section_name') }}">
+                        @if ($errors->has('parking_section_name'))
+                            @foreach ($errors->get('parking_section_name') as $error)
+                                <div class="form-control-feedback">{{ $error }}</div>
+                            @endforeach
+                        @endif
                         <small class="form-control-feedback"> Ingrese la sección</small> 
                     </div>
                 </div>
