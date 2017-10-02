@@ -1,12 +1,12 @@
 @extends('layouts.dashboard')
-@section('title', 'Ver Dimension del Parqueadero')
+@section('title', 'Ver Dimensión del Parqueadero')
 @section('breadcrumb')
     <div class="col-md-9 col-9 align-self-center">
-        <h3 class="text-themecolor m-b-0 m-t-0">Ver Dimension del Parqueadero</h3>
+        <h3 class="text-themecolor m-b-0 m-t-0">Ver Dimensión del Parqueadero</h3>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
-            <li class="breadcrumb-item"><a href="/parkings_dimensions/index">Parqueaderos</a></li>
-            <li class="breadcrumb-item active">Ver Dimension del Parqueadero </li>
+            <li class="breadcrumb-item"><a href="/parkings_dimensions/index">Dimensiones</a></li>
+            <li class="breadcrumb-item active">Ver Dimensión del Parqueadero </li>
         </ol>
     </div>
     <div class="col-md-3 col-3 align-self-center">
@@ -14,7 +14,7 @@
     </div>
 @endsection
 @section('content')
-    <h4 class="card-title">Ver Dimension del Parqueadero</h4>
+    <h4 class="card-title">Ver Dimensión del Parqueadero</h4>
     <p class="card-text">
         <b>ID:</b> {{ $data['row']->parking_dimension_id }} <br />
         <b>Nombre:</b> {{ $data['row']->parking_dimension_name }} <br /> 

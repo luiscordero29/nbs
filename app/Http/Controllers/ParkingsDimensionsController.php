@@ -41,10 +41,6 @@ class ParkingsDimensionsController extends Controller
         }
         $data['rows'] = DB::table('parkings_dimensions')
             ->where('parkings_dimensions.parking_dimension_name', 'like', '%'.$search.'%')
-            ->orWhere('parkings_dimensions.parking_dimension_size', 'like', '%'.$search.'%')
-            ->orWhere('parkings_dimensions.parking_dimension_long', 'like', '%'.$search.'%')
-            ->orWhere('parkings_dimensions.parking_dimension_height', 'like', '%'.$search.'%')
-            ->orWhere('parkings_dimensions.parking_dimension_width', 'like', '%'.$search.'%')
             ->paginate(30);
         # View
         return view('parkings_dimensions.index', ['data' => $data]);

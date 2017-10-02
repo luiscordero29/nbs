@@ -1,12 +1,12 @@
 @extends('layouts.dashboard')
-@section('title', 'Editar Dimension del Parqueadero')
+@section('title', 'Editar Dimensión del Parqueadero')
 @section('breadcrumb')
     <div class="col-md-9 col-9 align-self-center">
-        <h3 class="text-themecolor m-b-0 m-t-0">Editar Dimension del Parqueadero</h3>
+        <h3 class="text-themecolor m-b-0 m-t-0">Editar Dimensión del Parqueadero</h3>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
-            <li class="breadcrumb-item"><a href="/parkings_dimensions/index">Parqueaderos</a></li>
-            <li class="breadcrumb-item active">Editar Dimension del Parqueadero </li>
+            <li class="breadcrumb-item"><a href="/parkings_dimensions/index">Dimensiones</a></li>
+            <li class="breadcrumb-item active">Editar Dimensión del Parqueadero </li>
         </ol>
     </div>
     <div class="col-md-3 col-3 align-self-center">
@@ -17,70 +17,85 @@
 	<form method="POST" action="/parkings_dimensions/update/{{ $data['row']->parking_dimension_id }}" enctype="multipart/form-data">
 		{{ csrf_field() }}
         <div class="form-body">
-            <h3 class="card-title">Editar Dimension del Parqueadero</h3>
+            <h3 class="card-title">Editar Dimensión del Parqueadero</h3>
             <hr>
-            @if ($errors->any())
-			    @foreach ($errors->all() as $error)
-			    <div class="alert alert-danger">
-			        {{ $error }}
-			    </div>
-			    @endforeach
-			@endif
-			@if (session('success'))
-			    <div class="alert alert-success">
-			        {{ session('success') }}
-			    </div>
-			@endif
-            @if (session('danger'))
-                <div class="alert alert-danger">
-                    {{ session('danger') }}
-                </div>
-            @endif
+            @include('dashboard.alerts')
             <div class="row p-t-20">
                 <div class="col-md-12">
-                    <div class="form-group">
-                        <label class="control-label">Nombre</label>
+                    <div class="form-group @if($errors->has('parking_dimension_name')) has-danger @endif">
+                        <label class="form-control-label">Nombre</label>
                         <input id="parking_dimension_name" name="parking_dimension_name" class="form-control" placeholder="Nombre" type="text" value="{{ $data['row']->parking_dimension_name }}">
+                        @if ($errors->has('parking_dimension_name'))
+                            @foreach ($errors->get('parking_dimension_name') as $error)
+                                <div class="form-control-feedback">{{ $error }}</div>
+                            @endforeach
+                        @endif
                         <small class="form-control-feedback"> Ingrese el Nombre</small> 
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="form-group">
-                        <label class="control-label">Tamaño</label>
+                    <div class="form-group @if($errors->has('parking_dimension_size')) has-danger @endif">
+                        <label class="form-control-label">Tamaño</label>
                         <input id="parking_dimension_size" name="parking_dimension_size" class="form-control" placeholder="Tamaño" type="text" value="{{ $data['row']->parking_dimension_size }}">
+                        @if ($errors->has('parking_dimension_size'))
+                            @foreach ($errors->get('parking_dimension_size') as $error)
+                                <div class="form-control-feedback">{{ $error }}</div>
+                            @endforeach
+                        @endif
                         <small class="form-control-feedback"> Ingrese el tamaño</small> 
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="form-group">
-                        <label class="control-label">Largo</label>
+                    <div class="form-group @if($errors->has('parking_dimension_long')) has-danger @endif">
+                        <label class="form-control-label">Largo</label>
                         <input id="parking_dimension_long" name="parking_dimension_long" class="form-control" placeholder="Largo" type="text" value="{{ $data['row']->parking_dimension_long }}">
+                        @if ($errors->has('parking_dimension_long'))
+                            @foreach ($errors->get('parking_dimension_long') as $error)
+                                <div class="form-control-feedback">{{ $error }}</div>
+                            @endforeach
+                        @endif
                         <small class="form-control-feedback"> Ingrese largo</small> 
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="form-group">
-                        <label class="control-label">Alto</label>
+                    <div class="form-group @if($errors->has('parking_dimension_height')) has-danger @endif">
+                        <label class="form-control-label">Alto</label>
                         <input id="parking_dimension_height" name="parking_dimension_height" class="form-control" placeholder="Descripción" type="text" value="{{ $data['row']->parking_dimension_height }}">
+                        @if ($errors->has('parking_dimension_height'))
+                            @foreach ($errors->get('parking_dimension_height') as $error)
+                                <div class="form-control-feedback">{{ $error }}</div>
+                            @endforeach
+                        @endif
                         <small class="form-control-feedback"> Ingrese alto</small> 
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="form-group">
-                        <label class="control-label">Ancho</label>
+                    <div class="form-group @if($errors->has('parking_dimension_width')) has-danger @endif">
+                        <label class="form-control-label">Ancho</label>
                         <input id="parking_dimension_width" name="parking_dimension_width" class="form-control" placeholder="Descripción" type="text" value="{{ $data['row']->parking_dimension_width }}">
+                        @if ($errors->has('parking_dimension_width'))
+                            @foreach ($errors->get('parking_dimension_width') as $error)
+                                <div class="form-control-feedback">{{ $error }}</div>
+                            @endforeach
+                        @endif
                         <small class="form-control-feedback"> Ingrese ancho</small> 
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <div class="form-group">
-                        <label class="control-label">Icono</label>
+                    <div class="form-group @if($errors->has('parking_dimension_icon')) has-danger @endif">
+                        <label class="form-control-label">Icono</label>
                         <input type="file" name="parking_dimension_icon" />
-                        <br >
-                        @if ($data['row']->parking_dimension_icon)
-                            <img src="{{ asset( 'storage/' . $data['row']->parking_dimension_icon) }}" width="150px" height="auto">                                
+                        @if ($errors->has('parking_dimension_icon'))
+                            @foreach ($errors->get('parking_dimension_icon') as $error)
+                                <div class="form-control-feedback">{{ $error }}</div>
+                            @endforeach
                         @endif
                     </div>
+                </div>
+                <div class="col-md-3">
+                    @if ($data['row']->parking_dimension_icon)
+                        <img src="{{ asset( 'storage/' . $data['row']->parking_dimension_icon) }}" class="img-responsive">                                
+                    @endif
                 </div>
                 <!--/span-->
             </div>
