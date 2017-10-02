@@ -19,57 +19,61 @@
         <div class="form-body">
             <h3 class="card-title">Editar Modelo de Vehiculo</h3>
             <hr>
-            @if ($errors->any())
-			    @foreach ($errors->all() as $error)
-			    <div class="alert alert-danger">
-			        {{ $error }}
-			    </div>
-			    @endforeach
-			@endif
-			@if (session('success'))
-			    <div class="alert alert-success">
-			        {{ session('success') }}
-			    </div>
-			@endif
-            @if (session('danger'))
-                <div class="alert alert-danger">
-                    {{ session('danger') }}
-                </div>
-            @endif
+            @include('dashboard.alerts')
             <div class="row p-t-20">
                 <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="control-label">Tipo</label>
+                    <div class="form-group @if($errors->has('vehicle_type_name')) has-danger @endif">
+                        <label class="form-control-label">Tipo</label>
                         <select class="custom-select select2 col-12" name="vehicle_type_name" id="vehicles_models_vehicle_type_name">
                             <option value="" selected>Seleccione</option>
                             @foreach ($data['vehicles_types'] as $r)
                             <option @if ($data['row']->vehicle_type_name == $r->vehicle_type_name ) selected=""  @endif value="{{$r->vehicle_type_name}}">{{$r->vehicle_type_name}}</option>
                             @endforeach
                         </select>
+                        @if ($errors->has('vehicle_type_name'))
+                            @foreach ($errors->get('vehicle_type_name') as $error)
+                                <div class="form-control-feedback">{{ $error }}</div>
+                            @endforeach
+                        @endif
                         <small class="form-control-feedback"> Seleccione Tipo</small> 
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="control-label">Marca</label>
+                    <div class="form-group @if($errors->has('vehicle_brand_name')) has-danger @endif">
+                        <label class="form-control-label">Marca</label>
                         <select class="custom-select select2 col-12" name="vehicle_brand_name" id="vehicles_models_vehicle_brand_name">
                             <option value="" selected>Seleccione</option>
                             <option selected="" value="{{$data['row']->vehicle_brand_name}}">{{$data['row']->vehicle_brand_name}}</option>                          
                         </select>
+                        @if ($errors->has('vehicle_brand_name'))
+                            @foreach ($errors->get('vehicle_brand_name') as $error)
+                                <div class="form-control-feedback">{{ $error }}</div>
+                            @endforeach
+                        @endif
                         <small class="form-control-feedback"> Seleccione Marca</small> 
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <div class="form-group">
-                        <label class="control-label">Nombre del Modelo</label>
+                    <div class="form-group @if($errors->has('vehicle_model_name')) has-danger @endif">
+                        <label class="form-control-label">Nombre del Modelo</label>
                         <input id="vehicle_model_name" name="vehicle_model_name" class="form-control" placeholder="Nombre del Modelo" type="text" value="{{ $data['row']->vehicle_model_name }}">
+                        @if ($errors->has('vehicle_model_name'))
+                            @foreach ($errors->get('vehicle_model_name') as $error)
+                                <div class="form-control-feedback">{{ $error }}</div>
+                            @endforeach
+                        @endif
                         <small class="form-control-feedback"> Ingrese el nombre del nombre</small> 
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <div class="form-group">
-                        <label class="control-label">Descripción del Modelo</label>
+                    <div class="form-group @if($errors->has('vehicle_model_description')) has-danger @endif">
+                        <label class="form-control-label">Descripción del Modelo</label>
                         <input id="vehicle_model_description" name="vehicle_model_description" class="form-control" placeholder="Descripción del Modelo" type="text" value="{{ $data['row']->vehicle_model_description }}">
+                        @if ($errors->has('vehicle_model_description'))
+                            @foreach ($errors->get('vehicle_model_description') as $error)
+                                <div class="form-control-feedback">{{ $error }}</div>
+                            @endforeach
+                        @endif
                         <small class="form-control-feedback"> Ingrese la descripción del modelo</small> 
                     </div>
                 </div>

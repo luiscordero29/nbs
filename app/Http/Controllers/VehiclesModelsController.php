@@ -44,7 +44,6 @@ class VehiclesModelsController extends Controller
             ->where('vehicles_brands.vehicle_type_name', 'like', '%'.$search.'%')
             ->orWhere('vehicles_models.vehicle_brand_name', 'like', '%'.$search.'%')
             ->orWhere('vehicles_models.vehicle_model_name', 'like', '%'.$search.'%')
-            ->orWhere('vehicles_models.vehicle_model_description', 'like', '%'.$search.'%')
             ->paginate(30);
         # View
         return view('vehicles_models.index', ['data' => $data]);

@@ -47,8 +47,8 @@
                         <td>{{ $r->vehicle_type_name }}</td>
                         <td class="text-nowrap">
                             <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                <a class="btn btn-secondary" href="/vehicles_types/show/{{ $r->vehicle_type_id }}" data-toggle="tooltip" data-original-title="Ver"> <i class="fa fa-eye text-inverse"></i> </a>
-                                <a class="btn btn-secondary" href="/vehicles_types/edit/{{ $r->vehicle_type_id }}" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse"></i> </a>
+                                <a class="btn btn-secondary" href="/vehicles_types/show/{{ $r->vehicle_type_id }}" data-toggle="tooltip" data-original-title="Ver"> <i class="fa fa-eye"></i> </a>
+                                <a class="btn btn-secondary" href="/vehicles_types/edit/{{ $r->vehicle_type_id }}" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil"></i> </a>
                                 <a class="btn btn-secondary" href="/vehicles_types/destroy/{{ $r->vehicle_type_id }}" data-toggle="tooltip" data-original-title="Eliminar"> <i class="fa fa-close text-danger"></i> </a>
                             </div>
                         </td>
