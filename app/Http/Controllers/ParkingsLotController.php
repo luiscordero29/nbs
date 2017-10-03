@@ -47,11 +47,9 @@ class ParkingsLotController extends Controller
         # Rules
         $this->validate($request, [
             'vehicle_type_name' => 'required',
-            'parking_dimension_name' => 'required',
             'parking_section_name' => 'required',
             'parking_number' => 'required|integer',
             'parking_name' => 'required|max:60|unique:parkings,parking_name',
-            'parking_description' => 'required',
         ]);
         # Request
         $parking_number = $request->input('parking_number');
