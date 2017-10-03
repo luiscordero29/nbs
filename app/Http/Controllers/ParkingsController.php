@@ -42,16 +42,10 @@ class ParkingsController extends Controller
         $data['rows'] = DB::table('parkings')
             ->join('parkings_sections', 'parkings_sections.parking_section_name', '=', 'parkings.parking_section_name')
             ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'parkings.vehicle_type_name')
-            ->join('parkings_dimensions', 'parkings_dimensions.parking_dimension_name', '=', 'parkings.parking_dimension_name')
+            ->leftJoin('parkings_dimensions', 'parkings_dimensions.parking_dimension_name', '=', 'parkings.parking_dimension_name')
             ->where('parkings.parking_name', 'like', '%'.$search.'%')
-            ->orWhere('parkings.parking_description', 'like', '%'.$search.'%')
             ->orWhere('vehicles_types.vehicle_type_name', 'like', '%'.$search.'%')
             ->orWhere('parkings_sections.parking_section_name', 'like', '%'.$search.'%')
-            ->orWhere('parkings_dimensions.parking_dimension_name', 'like', '%'.$search.'%')
-            ->orWhere('parkings_dimensions.parking_dimension_size', 'like', '%'.$search.'%')
-            ->orWhere('parkings_dimensions.parking_dimension_long', 'like', '%'.$search.'%')
-            ->orWhere('parkings_dimensions.parking_dimension_height', 'like', '%'.$search.'%')
-            ->orWhere('parkings_dimensions.parking_dimension_width', 'like', '%'.$search.'%')
             ->paginate(30);
         # View
         return view('parkings.index', ['data' => $data]);
@@ -84,10 +78,8 @@ class ParkingsController extends Controller
         # Rules
         $this->validate($request, [
             'vehicle_type_name' => 'required',
-            'parking_dimension_name' => 'required',
             'parking_section_name' => 'required',
             'parking_name' => 'required|max:60|unique:parkings,parking_name',
-            'parking_description' => 'required',
         ]);
         # Request
         $vehicle_type_name = $request->input('vehicle_type_name');
@@ -142,7 +134,7 @@ class ParkingsController extends Controller
                 DB::table('parkings')
                     ->join('parkings_sections', 'parkings_sections.parking_section_name', '=', 'parkings.parking_section_name')
                     ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'parkings.vehicle_type_name')
-                    ->join('parkings_dimensions', 'parkings_dimensions.parking_dimension_name', '=', 'parkings.parking_dimension_name')
+                    ->leftJoin('parkings_dimensions', 'parkings_dimensions.parking_dimension_name', '=', 'parkings.parking_dimension_name')
                     ->where('parking_id', '=', $parking_id)->first();
             return view('parkings.show', ['data' => $data]);
         }else{
@@ -171,7 +163,7 @@ class ParkingsController extends Controller
                 DB::table('parkings')
                     ->join('parkings_sections', 'parkings_sections.parking_section_name', '=', 'parkings.parking_section_name')
                     ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'parkings.vehicle_type_name')
-                    ->join('parkings_dimensions', 'parkings_dimensions.parking_dimension_name', '=', 'parkings.parking_dimension_name')
+                    ->leftJoin('parkings_dimensions', 'parkings_dimensions.parking_dimension_name', '=', 'parkings.parking_dimension_name')
                     ->where('parking_id', '=', $parking_id)->first();
             return view('parkings.edit', ['data' => $data]);
         }else{
@@ -192,10 +184,8 @@ class ParkingsController extends Controller
         # Rules
         $this->validate($request, [
             'vehicle_type_name' => 'required',
-            'parking_dimension_name' => 'required',
             'parking_section_name' => 'required',
             'parking_name' => 'required|max:60',
-            'parking_description' => 'required',
         ]);
         # Request
         $parking_id = $request->input('parking_id');

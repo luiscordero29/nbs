@@ -96,7 +96,6 @@
                             <a class="has-arrow" href="#" aria-expanded="false"><i class="fa fa-road"></i><span class="hide-menu">Parqueaderos </span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="/parkings/index"><i class="fa fa-caret-right fa-fw"></i> Parqueaderos</a></li>
-                                <li><a href="/parkings_lot/create"><i class="fa fa-caret-right fa-fw"></i> Crear Lote</a></li>
                                 <li><a href="/parkings_sections/index"><i class="fa fa-caret-right fa-fw"></i> Secciones</a></li>
                                 <li><a href="/parkings_dimensions/index"><i class="fa fa-caret-right fa-fw"></i> Dimensiones</a></li>
                             </ul>

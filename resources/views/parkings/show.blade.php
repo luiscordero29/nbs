@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 @section('title', 'Ver Parqueadero')
 @section('breadcrumb')
-    <div class="col-md-9 col-9 align-self-center">
+    <div class="col-md-8 col-8 align-self-center">
         <h3 class="text-themecolor m-b-0 m-t-0">Ver Parqueadero</h3>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
@@ -9,8 +9,11 @@
             <li class="breadcrumb-item active">Ver Parqueadero </li>
         </ol>
     </div>
-    <div class="col-md-3 col-3 align-self-center">
-        <a href="/parkings/create" class="btn pull-right hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> Registrar</a>
+    <div class="col-md-4 col-4 align-self-center">
+        <div class="button-group">
+            <a href="/parkings_lot/create" class="btn pull-right hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> Registrar Varios</a>
+            <a href="/parkings/create" class="btn pull-right hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> Registrar Uno</a>
+        </div>
     </div>
 @endsection
 @section('content')

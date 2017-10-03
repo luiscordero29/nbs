@@ -1,22 +1,24 @@
 @extends('layouts.dashboard')
 @section('title', 'Parqueaderos')
 @section('breadcrumb')
-    <div class="col-md-9 col-9 align-self-center">
+    <div class="col-md-8 col-8 align-self-center">
         <h3 class="text-themecolor m-b-0 m-t-0">Parqueaderos</h3>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
             <li class="breadcrumb-item active">Parqueaderos </li>
         </ol>
     </div>
-    <div class="col-md-3 col-3 align-self-center">
-        <a href="/parkings/create" class="btn pull-right hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> Registrar</a>
+    <div class="col-md-4 col-4 align-self-center">
+        <div class="button-group">
+            <a href="/parkings_lot/create" class="btn pull-right hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> Registrar Varios</a>
+            <a href="/parkings/create" class="btn pull-right hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> Registrar Uno</a>
+        </div>
     </div>
 @endsection
 @section('content')
 	<div class="row">
         <div class="col-9">
-            <h6>Parqueaderos</h6>
-        	<p>Lista de Parqueaderos</p>
+            <h3 class="card-title">Lista de Parkeaderos</h3>
         </div>
         <div class="col-3">
             <form method="POST" action="/parkings/index">
@@ -31,16 +33,7 @@
             </form>
         </div>
     </div>
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-    @if (session('info'))
-        <div class="alert alert-info">
-            {{ session('info') }}
-        </div>
-    @endif
+    @include('dashboard.alerts')
 	<div class="table-responsive">
        	<table class="table table-bordered">
             <thead>
@@ -49,9 +42,7 @@
                     <th>Sección</th>
                     <th>Tipo</th>
                     <th>Parqueadero</th>
-                    <th>Dimensión</th>
-                    <th>Foto</th>
-                    <th class="text-nowrap">Acción</th>
+                    <th class="text-nowrap"></th>
                 </tr>
             </thead>
             <tbody>
@@ -60,26 +51,13 @@
                        	<td>{{ $r->parking_id }}</td>
                         <td>{{ $r->parking_section_name }}</td>
                         <td>{{ $r->vehicle_type_name }}</td>
-                        <td>
-                            <b>Nombre: </b>{{ $r->parking_name }} <br />
-                            <b>Descripción: </b>{{ $r->parking_description }} <br />
-                        </td>
-                        <td>
-                            <b>Nombre: </b>{{ $r->parking_dimension_name }} <br />
-                            <b>Tamaño: </b>{{ $r->parking_dimension_size }} <br />
-                            <b>Largo: </b>{{ $r->parking_dimension_long }} <br />
-                            <b>Alto: </b>{{ $r->parking_dimension_height }} <br />
-                            <b>Ancho: </b>{{ $r->parking_dimension_width }} <br />
-                        </td>
-                        <td>
-                            @if ($r->parking_photo)
-                                <img src="{{ asset( 'storage/' . $r->parking_photo) }}" width="150px" height="auto">                                
-                            @endif
-                        </td>
+                        <td>{{ $r->parking_name }}</td>
                         <td class="text-nowrap">
-                            <a href="/parkings/show/{{ $r->parking_id }}" data-toggle="tooltip" data-original-title="Ver"> <i class="fa fa-eye text-inverse m-r-10"></i> </a>
-                            <a href="/parkings/edit/{{ $r->parking_id }}" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                            <a href="/parkings/destroy/{{ $r->parking_id }}" data-toggle="tooltip" data-original-title="Eliminar"> <i class="fa fa-close text-danger"></i> </a>
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                <a class="btn btn-secondary" href="/parkings/show/{{ $r->parking_id }}" data-toggle="tooltip" data-original-title="Ver"> <i class="fa fa-eye"></i> </a>
+                                <a class="btn btn-secondary" href="/parkings/edit/{{ $r->parking_id }}" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil"></i> </a>
+                                <a class="btn btn-secondary" href="/parkings/destroy/{{ $r->parking_id }}" data-toggle="tooltip" data-original-title="Eliminar"> <i class="fa fa-close text-danger"></i> </a>
+                            </div>
                         </td>
                     </tr>             
 				@endforeach
