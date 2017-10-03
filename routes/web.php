@@ -69,7 +69,11 @@ Route::get('users_vehicles/destroy/{user_id}/{vehicle_id}', 'UsersVehiclesContro
 Route::get('users_vehicles/getbrands/{vehicle_type_name}', 'UsersVehiclesController@getbrands');
 Route::get('users_vehicles/getmodels/{vehicle_brand_name}', 'UsersVehiclesController@getmodels');
 /* users_booking */
-Route::get('users_booking/index/{user_id}', 'UsersBookingController@index')->where('user_id', '[0-9]+');
+Route::match(['get', 'post'],'users_booking/index/{user_id}', 'UsersBookingController@index')->where('user_id', '[0-9]+');
+Route::post('users_booking/store/{user_id}', 'UsersBookingController@store')->where('user_id', '[0-9]+');
+Route::post('users_booking/update/{user_id}', 'UsersBookingController@update')->where('user_id', '[0-9]+');
+Route::post('users_booking/destroy/{user_id}', 'UsersBookingController@destroy')->where('user_id', '[0-9]+');
+Route::get('users_booking/getvehicles/{user_number_id}/{booking_date}', 'UsersBookingController@getvehicles');
 /* users_types */
 Route::match(['get', 'post'],'users_types/index', 'UsersTypesController@index');
 Route::get('users_types/create', 'UsersTypesController@create');

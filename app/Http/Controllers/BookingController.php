@@ -66,7 +66,6 @@ class BookingController extends Controller
             ->where(function ($query) use ($data)  {
                 $query->where('vehicles_types.vehicle_type_name', 'like', '%'.$data['search'].'%')
                     ->orWhere('parkings.parking_name', 'like', '%'.$data['search'].'%')
-                    ->orWhere('parkings.parking_description', 'like', '%'.$data['search'].'%');
             })
             ->get();
         # View
