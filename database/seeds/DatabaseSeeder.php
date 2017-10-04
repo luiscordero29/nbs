@@ -11,6 +11,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(RolesTableSeeder::class); 
+        /*
         $faker = Faker\Factory::create();
         # Table users_types
         DB::table('users_types')->delete();
@@ -138,6 +140,6 @@ class DatabaseSeeder extends Seeder
                 'user_number_id' => 'ID-002',
                 'user_number_employee' => 'EID-002',
             ]
-        );
+        );*/
     }
 }
