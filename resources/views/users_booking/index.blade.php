@@ -165,16 +165,17 @@
                                 </td>                                   
                                 <td class="text-nowrap">
                                     <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
+                                        @php $create = false; @endphp
                                         @if(count($data['booking'])>0)
                                             @foreach ($data['booking'] as $b)
                                                 @if($r->parking_name == $b->parking_name)
+                                                    @php $create = true; @endphp
                                                     <button type="button" class="btn btn-sm btn-info btn-booking-update" data-parking_name="{{ $r->parking_name }}" data-booking_id="{{ $b->booking_id }}"><i class="fa fa-car"></i> Cambiar Asignación</button>
                                                     <button type="button" class="btn btn-sm btn-danger btn-booking-delete" data-parking_name="{{ $r->parking_name }}" data-booking_id="{{ $b->booking_id }}"><i class="fa fa-car"></i> Remover Asignación</button>
-                                                @else
-                                                    <button class="btn btn-sm btn-success btn-booking-create" data-parking_name="{{ $r->parking_name }}"><i class="fa fa-car"></i> Asignar Parqueadero</button>
                                                 @endif
                                             @endforeach
-                                        @else
+                                        @endif
+                                        @if(!$create)
                                             <button class="btn btn-sm btn-success btn-booking-create" data-parking_name="{{ $r->parking_name }}"><i class="fa fa-car"></i> Asignar Parqueadero</button>
                                         @endif
                                     </div>
