@@ -33,17 +33,17 @@ class CreateParkingsTable extends Migration
                 ->foreign('vehicle_type_name')
                 ->references('vehicle_type_name')
                 ->on('vehicles_types')
-                ->onDelete('no action')->onUpdate('cascade');
+                ->onDelete('cascade')->onUpdate('cascade');
             $table
                 ->foreign('parking_dimension_name')
                 ->references('parking_dimension_name')
                 ->on('parkings_dimensions')
-                ->onDelete('no action')->onUpdate('cascade');
+                ->onDelete('cascade')->onUpdate('cascade');
             $table
                 ->foreign('parking_section_name')
                 ->references('parking_section_name')
                 ->on('parkings_sections')
-                ->onDelete('no action')->onUpdate('cascade');
+                ->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

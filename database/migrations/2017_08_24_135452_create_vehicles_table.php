@@ -37,22 +37,22 @@ class CreateVehiclesTable extends Migration
                 ->foreign('vehicle_color_name')
                 ->references('vehicle_color_name')
                 ->on('vehicles_colors')
-                ->onDelete('no action')->onUpdate('cascade');
+                ->onDelete('cascade')->onUpdate('cascade');
             $table
                 ->foreign('vehicle_model_name')
                 ->references('vehicle_model_name')
                 ->on('vehicles_models')
-                ->onDelete('no action')->onUpdate('cascade');
+                ->onDelete('cascade')->onUpdate('cascade');
             $table
                 ->foreign('vehicle_type_name')
                 ->references('vehicle_type_name')
                 ->on('vehicles_types')
-                ->onDelete('no action')->onUpdate('cascade');
+                ->onDelete('cascade')->onUpdate('cascade');
             $table
                 ->foreign('vehicle_brand_name')
                 ->references('vehicle_brand_name')
                 ->on('vehicles_brands')
-                ->onDelete('no action')->onUpdate('cascade');
+                ->onDelete('cascade')->onUpdate('cascade');
             $table
                 ->foreign('user_number_id')
                 ->references('user_number_id')
