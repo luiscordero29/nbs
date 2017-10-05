@@ -22,11 +22,6 @@ class CreateVehiclesModelsTable extends Migration
             # Keys 
             $table->unique('vehicle_model_name');
         });
-
-        Schema::table('vehicles_models', function (Blueprint $table) {
-            # Foreign Key Constraints
-            $table->foreign('vehicle_brand_name')->references('vehicle_brand_name')->on('vehicles_brands')->onDelete('cascade')->onUpdate('cascade');
-        });
     }
 
     /**

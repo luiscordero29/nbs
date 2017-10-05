@@ -23,15 +23,6 @@ class CreateRolesTable extends Migration
             #Keys 
             $table->unique('rol_name');  
         });
-
-        Schema::table('users', function (Blueprint $table) {
-            # Foreign Key Constraints
-            $table
-                ->foreign('user_rol_name')
-                ->references('rol_name')
-                ->on('roles')
-                ->onDelete('cascade')->onUpdate('cascade');
-        });
     }
 
     /**

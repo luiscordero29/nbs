@@ -21,15 +21,6 @@ class CreateUsersPositionsTable extends Migration
             #Keys 
             $table->unique('user_position_description');  
         });
-
-        Schema::table('users', function (Blueprint $table) {
-            # Foreign Key Constraints
-            $table
-                ->foreign('user_position_description')
-                ->references('user_position_description')
-                ->on('users_positions')
-                ->onDelete('cascade')->onUpdate('cascade');
-        });
     }
 
     /**

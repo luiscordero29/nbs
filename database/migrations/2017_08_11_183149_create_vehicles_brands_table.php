@@ -23,11 +23,6 @@ class CreateVehiclesBrandsTable extends Migration
             # Keys 
             $table->unique('vehicle_brand_name');
         });
-
-        Schema::table('vehicles_brands', function (Blueprint $table) {
-            # Foreign Key Constraints
-            $table->foreign('vehicle_type_name')->references('vehicle_type_name')->on('vehicles_types')->onDelete('cascade')->onUpdate('cascade');
-        });
     }
 
     /**
