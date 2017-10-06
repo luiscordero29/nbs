@@ -10,4 +10,5 @@
 @endsection
 @section('content')
     <h1>Bienvenido a Nidoo Business Solutions</h1>
+    @include('dashboard.alerts')
 @endsection

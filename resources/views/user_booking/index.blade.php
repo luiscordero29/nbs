@@ -35,7 +35,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-block">
-                <form id="form-booking-search" method="POST" action="/users_booking/index/{{ $data['users_booking']->user_id }}">
+                <form id="form-booking-search" method="POST" action="/user_booking/index">
                     {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-3">
@@ -170,8 +170,12 @@
                                             @foreach ($data['booking'] as $b)
                                                 @if($r->parking_name == $b->parking_name)
                                                     @php $create = true; @endphp
-                                                    <button type="button" class="btn btn-sm btn-info btn-booking-update" data-parking_name="{{ $r->parking_name }}" data-booking_id="{{ $b->booking_id }}"><i class="fa fa-car"></i> Cambiar Asignación</button>
-                                                    <button type="button" class="btn btn-sm btn-danger btn-booking-delete" data-parking_name="{{ $r->parking_name }}" data-booking_id="{{ $b->booking_id }}"><i class="fa fa-car"></i> Remover Asignación</button>
+                                                    @if($b->user_id == $data['user']->user_id )
+                                                        <button type="button" class="btn btn-sm btn-info btn-booking-update" data-parking_name="{{ $r->parking_name }}" data-booking_id="{{ $b->booking_id }}"><i class="fa fa-car"></i> Cambiar Asignación</button>
+                                                        <button type="button" class="btn btn-sm btn-danger btn-booking-delete" data-parking_name="{{ $r->parking_name }}" data-booking_id="{{ $b->booking_id }}"><i class="fa fa-car"></i> Remover Asignación</button>
+                                                    @else
+                                                        <button type="button" class="btn btn-sm btn-outline-secundary"><i class="fa fa-car"></i> Parqueadero Asignado</button>
+                                                    @endif
                                                 @endif
                                             @endforeach
                                         @endif
@@ -197,7 +201,7 @@
                 <h4 class="modal-title">Asignar Reservar</h4>
             </div>
             <div class="modal-body">
-                <form id="booking_create" method="POST" action="/users_booking/store/{{ $data['users_booking']->user_id }}">
+                <form id="booking_create" method="POST" action="/user_booking/store">
                     {{ csrf_field() }}
                     <div class="form-body">
                         <div class="form-group">
@@ -232,7 +236,7 @@
                 <h4 class="modal-title">Cambiar Asignación</h4>
             </div>
             <div class="modal-body">
-                <form id="booking_update" method="POST" action="/users_booking/update/{{ $data['users_booking']->user_id }}">
+                <form id="booking_update" method="POST" action="/user_booking/update">
                     {{ csrf_field() }}
                     <div class="form-body">
                         <div class="form-group">
@@ -259,7 +263,7 @@
     </div>
 </div>
 <!-- booking-delete -->
-<form id="booking_delete" method="POST" action="/users_booking/destroy/{{ $data['users_booking']->user_id }}">
+<form id="booking_delete" method="POST" action="/user_booking/destroy">
     {{ csrf_field() }}
     <input type="hidden" id="delete_booking_id" name="booking_id" value="">
     <input type="hidden" id="booking_date" name="booking_date" value="{{ $data['today'] }}">

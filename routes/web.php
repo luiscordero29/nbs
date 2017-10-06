@@ -39,6 +39,12 @@ Route::post('user_vehicles/update/{vehicle_id}', 'UserVehiclesController@update'
 Route::get('user_vehicles/destroy/{vehicle_id}', 'UserVehiclesController@destroy')->where('vehicle_id', '[0-9]+');
 Route::get('user_vehicles/getbrands/{vehicle_type_name}', 'UserVehiclesController@getbrands');
 Route::get('user_vehicles/getmodels/{vehicle_brand_name}', 'UserVehiclesController@getmodels');
+/* user_booking */
+Route::match(['get', 'post'],'user_booking/index', 'UserBookingController@index');
+Route::post('user_booking/store', 'UserBookingController@store');
+Route::post('user_booking/update', 'UserBookingController@update');
+Route::post('user_booking/destroy', 'UserBookingController@destroy');
+Route::get('user_booking/getvehicles/{user_number_id}/{booking_date}', 'UserBookingController@getvehicles');
 ########################
 # Administration
 ########################
@@ -174,4 +180,3 @@ Route::post('booking/store', 'BookingController@store');
 Route::post('booking/update', 'BookingController@update');
 Route::post('booking/destroy', 'BookingController@destroy');
 Route::get('booking/getvehicles/{user_number_id}/{booking_date}', 'BookingController@getvehicles');
-

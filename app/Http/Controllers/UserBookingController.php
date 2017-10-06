@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use DB; 
 use DateTime;
 
-class UsersBookingController extends Controller
+class UserBookingController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -26,11 +26,11 @@ class UsersBookingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $user_id)
+    public function index(Request $request)
     {
         # User
         $data['user'] = Auth::user();
-        $count = DB::table('users')->where('user_id', '=', $user_id)->count();
+        $count = DB::table('users')->where('user_id', $data['user']->user_id)->count();
         if ($count>0) {
             # Request
             $method = $request->method();
@@ -54,7 +54,7 @@ class UsersBookingController extends Controller
                 $data['parking_section_name']  =  $request->session()->get('parking_section_name');
             }
             $data['parkings_sections'] = DB::table('parkings_sections')->get();
-            $data['users_booking'] = DB::table('users')->where('user_id', '=', $user_id)->first();
+            $data['users_booking'] = DB::table('users')->where('user_id', '=', $data['user']->user_id)->first();
             $data['parkings'] = DB::table('parkings')->where('parking_section_name', 'like', '%'.$data['parking_section_name'].'%')->get();
             $data['booking'] = DB::table('booking')
                 ->whereDate('booking.booking_date', $data['today'])
@@ -71,10 +71,10 @@ class UsersBookingController extends Controller
                 })
                 ->get();
             # View
-            return view('users_booking.index', ['data' => $data]);
+            return view('user_booking.index', ['data' => $data]);
         }else{
             # Error
-            return redirect('users/index')->with('info', 'No se puede Ver el registro');
+            return redirect('dashboard')->with('info', 'No se puede Ver el registro');
         }
     }
 
@@ -84,9 +84,11 @@ class UsersBookingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $user_id)
+    public function store(Request $request)
     {
-        $count = DB::table('users')->where('user_id', '=', $user_id)->count();
+        # User
+        $data['user'] = Auth::user();
+        $count = DB::table('users')->where('user_id', $data['user']->user_id)->count();
         if ($count>0) {
             # Rules
             $this->validate($request, [
@@ -111,14 +113,14 @@ class UsersBookingController extends Controller
             $parking_section_name = $request->input('parking_section_name');
             $today = $request->input('today');
 
-            return redirect('users_booking/index/'. $user_id)
+            return redirect('user_booking/index')
                 ->with('search', $search)
                 ->with('parking_section_name', $parking_section_name )
                 ->with('today', $today)
                 ->with('success', 'Parqueadero Asignado');
         }else{
             # Error
-            return redirect('users/index')->with('info', 'No se puede Ver el registro');
+            return redirect('dashboard')->with('info', 'No se puede Ver el registro');
         }
     }
 
@@ -129,9 +131,10 @@ class UsersBookingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $user_id)
+    public function update(Request $request)
     {
-        $count = DB::table('users')->where('user_id', '=', $user_id)->count();
+        $data['user'] = Auth::user();
+        $count = DB::table('users')->where('user_id', '=', $data['user']->user_id)->count();
         if ($count>0) {
             # Rules
             $this->validate($request, [
@@ -156,14 +159,14 @@ class UsersBookingController extends Controller
             $parking_section_name = $request->input('parking_section_name');
             $today = $request->input('today');
 
-            return redirect('users_booking/index/'.$user_id)
+            return redirect('user_booking/index')
                 ->with('search', $search)
                 ->with('parking_section_name', $parking_section_name )
                 ->with('today', $today)
                 ->with('success', 'Asignación Cambiada');
         }else{
             # Error
-            return redirect('users/index')->with('info', 'No se puede Ver el registro');
+            return redirect('dashboard')->with('info', 'No se puede Ver el registro');
         }
     }
 
@@ -173,9 +176,10 @@ class UsersBookingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $user_id)
+    public function destroy(Request $request)
     {
-        $count = DB::table('users')->where('user_id', '=', $user_id)->count();
+        $data['user'] = Auth::user();
+        $count = DB::table('users')->where('user_id', '=', $data['user']->user_id)->count();
         if ($count>0) {
             $booking_id = $request->input('booking_id');
             $search = $request->input('search');
@@ -183,7 +187,7 @@ class UsersBookingController extends Controller
             $today = $request->input('today');
             DB::table('booking')->where('booking_id', '=', $booking_id)->delete();
 
-            return redirect('users_booking/index/'.$user_id)
+            return redirect('user_booking/index')
                 ->with('search', $search)
                 ->with('parking_section_name', $parking_section_name )
                 ->with('today', $today)
