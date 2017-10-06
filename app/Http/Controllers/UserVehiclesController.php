@@ -31,10 +31,10 @@ class UserVehiclesController extends Controller
         $data['user'] = Auth::user();
         $data['rows'] = DB::table('vehicles')
             ->join('users', 'users.user_number_id', '=', 'vehicles.user_number_id')
-            ->join('vehicles_colors', 'vehicles_colors.vehicle_color_name', '=', 'vehicles.vehicle_color_name')
-            ->join('vehicles_models', 'vehicles_models.vehicle_model_name', '=', 'vehicles.vehicle_model_name')
-            ->join('vehicles_brands', 'vehicles_brands.vehicle_brand_name', '=', 'vehicles_models.vehicle_brand_name')
-            ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles_brands.vehicle_type_name')
+            ->leftJoin('vehicles_colors', 'vehicles_colors.vehicle_color_name', '=', 'vehicles.vehicle_color_name')
+            ->leftJoin('vehicles_models', 'vehicles_models.vehicle_model_name', '=', 'vehicles.vehicle_model_name')
+            ->leftJoin('vehicles_brands', 'vehicles_brands.vehicle_brand_name', '=', 'vehicles.vehicle_brand_name')
+            ->leftJoin('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles.vehicle_type_name')
             ->where('users.user_id', '=', $data['user']->user_id)
             ->paginate(30);
         # View
@@ -67,19 +67,14 @@ class UserVehiclesController extends Controller
         # Rules
         $this->validate($request, [
             'user_number_id' => 'required',
-            'vehicle_type_name' => 'required',
-            'vehicle_brand_name' => 'required',
-            'vehicle_model_name' => 'required',
-            'vehicle_name' => 'required|max:60',
-            'vehicle_color_name' => 'required',
             'vehicle_status' => 'required',
             'vehicle_code' => 'required|max:8|unique:vehicles,vehicle_code',
-            'vehicle_year' => 'required|digits:4|date_format:Y',
+            'vehicle_type_name' => 'required',
+            'vehicle_name' => 'max:60',
             'vehicle_image' => 'image|mimes:jpeg,png',
         ]);
         # Request
         $user_number_id = $request->input('user_number_id');
-        $vehicle_type_name = $request->input('vehicle_type_name');
         $vehicle_type_name = $request->input('vehicle_type_name');
         $vehicle_brand_name = $request->input('vehicle_brand_name');
         $vehicle_model_name = $request->input('vehicle_model_name');
@@ -96,7 +91,9 @@ class UserVehiclesController extends Controller
             DB::table('vehicles')->insert(
                 [
                     'user_number_id' => $user_number_id,
+                    'vehicle_type_name' => $vehicle_type_name,
                     'vehicle_model_name' => $vehicle_model_name,
+                    'vehicle_brand_name' => $vehicle_brand_name,
                     'vehicle_name' => $vehicle_name,
                     'vehicle_code' => $vehicle_code,
                     'vehicle_color_name' => $vehicle_color_name,
@@ -110,7 +107,9 @@ class UserVehiclesController extends Controller
             DB::table('vehicles')->insert(
                 [
                     'user_number_id' => $user_number_id,
+                    'vehicle_type_name' => $vehicle_type_name,
                     'vehicle_model_name' => $vehicle_model_name,
+                    'vehicle_brand_name' => $vehicle_brand_name,
                     'vehicle_name' => $vehicle_name,
                     'vehicle_code' => $vehicle_code,
                     'vehicle_color_name' => $vehicle_color_name,
@@ -140,10 +139,10 @@ class UserVehiclesController extends Controller
             # Show
             $data['row'] = DB::table('vehicles')
                 ->join('users', 'users.user_number_id', '=', 'vehicles.user_number_id')
-                ->join('vehicles_colors', 'vehicles_colors.vehicle_color_name', '=', 'vehicles.vehicle_color_name')
-                ->join('vehicles_models', 'vehicles_models.vehicle_model_name', '=', 'vehicles.vehicle_model_name')
-                ->join('vehicles_brands', 'vehicles_brands.vehicle_brand_name', '=', 'vehicles_models.vehicle_brand_name')
-                ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles_brands.vehicle_type_name')
+                ->leftJoin('vehicles_colors', 'vehicles_colors.vehicle_color_name', '=', 'vehicles.vehicle_color_name')
+                ->leftJoin('vehicles_models', 'vehicles_models.vehicle_model_name', '=', 'vehicles.vehicle_model_name')
+                ->leftJoin('vehicles_brands', 'vehicles_brands.vehicle_brand_name', '=', 'vehicles.vehicle_brand_name')
+                ->leftJoin('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles.vehicle_type_name')
                 ->where('vehicles.vehicle_id', '=', $vehicle_id)
                 ->where('users.user_number_id', '=', $data['user']->user_number_id)
                 ->first();
@@ -172,14 +171,17 @@ class UserVehiclesController extends Controller
             # Edit 
             $data['vehicles_colors'] = DB::table('vehicles_colors')->get();
             $data['vehicles_types'] = DB::table('vehicles_types')->get();
+            $data['users'] = DB::table('users')->get();
             $data['row'] = DB::table('vehicles')
                 ->join('users', 'users.user_number_id', '=', 'vehicles.user_number_id')
-                ->join('vehicles_colors', 'vehicles_colors.vehicle_color_name', '=', 'vehicles.vehicle_color_name')
-                ->join('vehicles_models', 'vehicles_models.vehicle_model_name', '=', 'vehicles.vehicle_model_name')
-                ->join('vehicles_brands', 'vehicles_brands.vehicle_brand_name', '=', 'vehicles_models.vehicle_brand_name')
-                ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles_brands.vehicle_type_name')
+                ->leftJoin('vehicles_colors', 'vehicles_colors.vehicle_color_name', '=', 'vehicles.vehicle_color_name')
+                ->leftJoin('vehicles_models', 'vehicles_models.vehicle_model_name', '=', 'vehicles.vehicle_model_name')
+                ->leftJoin('vehicles_brands', 'vehicles_brands.vehicle_brand_name', '=', 'vehicles.vehicle_brand_name')
+                ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles.vehicle_type_name')
                 ->where('vehicle_id', '=', $vehicle_id)
                 ->first();
+            $data['vehicles_brands'] = DB::table('vehicles_brands')->where('vehicle_type_name', $data['row']->vehicle_type_name)->get();
+            $data['vehicles_models'] = DB::table('vehicles_models')->where('vehicle_brand_name', $data['row']->vehicle_brand_name)->get();
             return view('user_vehicles.edit', ['data' => $data]);
         }else{
             # Error
@@ -199,20 +201,15 @@ class UserVehiclesController extends Controller
         # Rules
         $this->validate($request, [
             'user_number_id' => 'required',
-            'vehicle_type_name' => 'required',
-            'vehicle_brand_name' => 'required',
-            'vehicle_model_name' => 'required',
-            'vehicle_name' => 'required|max:60',
-            'vehicle_color_name' => 'required',
             'vehicle_status' => 'required',
             'vehicle_code' => 'required|max:8',
-            'vehicle_year' => 'required|digits:4|date_format:Y',
+            'vehicle_type_name' => 'required',
+            'vehicle_name' => 'max:60',
             'vehicle_image' => 'image|mimes:jpeg,png',
         ]);
         # Request
         $vehicle_id = $request->input('vehicle_id');
         $user_number_id = $request->input('user_number_id');
-        $vehicle_type_name = $request->input('vehicle_type_name');
         $vehicle_type_name = $request->input('vehicle_type_name');
         $vehicle_brand_name = $request->input('vehicle_brand_name');
         $vehicle_model_name = $request->input('vehicle_model_name');
@@ -234,7 +231,9 @@ class UserVehiclesController extends Controller
                     ->update(
                         [
                             'user_number_id' => $user_number_id,
+                            'vehicle_type_name' => $vehicle_type_name,
                             'vehicle_model_name' => $vehicle_model_name,
+                            'vehicle_brand_name' => $vehicle_brand_name,
                             'vehicle_name' => $vehicle_name,
                             'vehicle_code' => $vehicle_code,
                             'vehicle_color_name' => $vehicle_color_name,
@@ -250,7 +249,9 @@ class UserVehiclesController extends Controller
                     ->update(
                         [
                             'user_number_id' => $user_number_id,
+                            'vehicle_type_name' => $vehicle_type_name,
                             'vehicle_model_name' => $vehicle_model_name,
+                            'vehicle_brand_name' => $vehicle_brand_name,
                             'vehicle_name' => $vehicle_name,
                             'vehicle_code' => $vehicle_code,
                             'vehicle_color_name' => $vehicle_color_name,

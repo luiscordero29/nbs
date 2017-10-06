@@ -35,7 +35,7 @@
                         <b>Pico y Placa: </b>
                         @if($data['row']->vehicle_status == 'does not apply')
                             NO APLICA
-                        @elseif ($r->vehicle_status == 'even')
+                        @elseif ($data['row']->vehicle_status == 'even')
                             PAR
                         @else
                             IMPAR
@@ -76,7 +76,7 @@
                         <b>Pico y Placa: </b>
                         @if($data['row']->vehicle_status == 'does not apply')
                             NO APLICA
-                        @elseif ($r->vehicle_status == 'even')
+                        @elseif ($data['row']->vehicle_status == 'even')
                             PAR
                         @else
                             IMPAR

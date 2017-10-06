@@ -203,8 +203,8 @@ class UsersVehiclesController extends Controller
                     ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles.vehicle_type_name')
                     ->where('vehicle_id', '=', $vehicle_id)
                     ->first();
-                $data['vehicles_brands'] = DB::table('vehicles_brands')->get();
-                $data['vehicles_models'] = DB::table('vehicles_models')->get();
+                $data['vehicles_brands'] = DB::table('vehicles_brands')->where('vehicle_type_name', $data['row']->vehicle_type_name)->get();
+                $data['vehicles_models'] = DB::table('vehicles_models')->where('vehicle_brand_name', $data['row']->vehicle_brand_name)->get();
                 return view('users_vehicles.edit', ['data' => $data]);
             }else{
                 # Error
@@ -239,7 +239,6 @@ class UsersVehiclesController extends Controller
             # Request
             $vehicle_id = $request->input('vehicle_id');
             $user_number_id = $request->input('user_number_id');
-            $vehicle_type_name = $request->input('vehicle_type_name');
             $vehicle_type_name = $request->input('vehicle_type_name');
             $vehicle_brand_name = $request->input('vehicle_brand_name');
             $vehicle_model_name = $request->input('vehicle_model_name');

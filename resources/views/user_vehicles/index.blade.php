@@ -15,8 +15,7 @@
 @section('content')
 	<div class="row">
         <div class="col-9">
-            <h6>Vehiculos</h6>
-        	<p>Lista de Vehiculos</p>
+            <h3 class="card-title">Lista de Vehiculos</h3>
         </div>
         <div class="col-3">
             <form method="POST" action="/user_vehicles/index">
@@ -31,24 +30,14 @@
             </form>
         </div>
     </div>
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-    @if (session('info'))
-        <div class="alert alert-info">
-            {{ session('info') }}
-        </div>
-    @endif
+    @include('dashboard.alerts')
 	<div class="table-responsive">
        	<table class="table table-bordered">
             <thead>
                 <tr>
                     <th>Id</th>
                     <th>Vehiculo</th>
-                    <th>Foto</th>
-                    <th class="text-nowrap">Acción</th>
+                    <th class="text-nowrap"></th>
                 </tr>
             </thead>
             <tbody>
@@ -61,15 +50,6 @@
                                     <b>Tipo: </b>{{ $r->vehicle_type_name }}
                                 </div>
                                 <div class="col-4">
-                                    <b>Marca: </b>{{ $r->vehicle_brand_name }}
-                                </div>
-                                <div class="col-4">
-                                    <b>Modelo: </b>{{ $r->vehicle_model_name }}
-                                </div>
-                                <div class="col-12">
-                                    <b>Apodo: </b>{{ $r->vehicle_name }}
-                                </div>
-                                <div class="col-3">
                                     <b>Pico y Placa: </b>
                                     @if($r->vehicle_status == 'does not apply')
                                         NO APLICA
@@ -79,26 +59,17 @@
                                         IMPAR
                                     @endif
                                 </div>
-                                <div class="col-3">
+                                <div class="col-4">
                                     <b>Placa: </b>{{ $r->vehicle_code }}
                                 </div> 
-                                <div class="col-3">
-                                    <b>Año: </b>{{ $r->vehicle_year }}
-                                </div> 
-                                <div class="col-3">
-                                    <b>Color: </b>{{ $r->vehicle_color_name }}
-                                </div>
                             </div>
                         </td>
-                        <td>
-                            @if ($r->vehicle_image)
-                                <img src="{{ asset( 'storage/' . $r->vehicle_image) }}" width="150px" height="auto">                                
-                            @endif
-                        </td>
                         <td class="text-nowrap">
-                            <a href="/user_vehicles/show/{{ $r->vehicle_id }}" data-toggle="tooltip" data-original-title="Ver"> <i class="fa fa-eye text-inverse"></i> </a>
-                            <a href="/user_vehicles/edit/{{ $r->vehicle_id }}" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse"></i> </a>
-                            <a href="/user_vehicles/destroy/{{ $r->vehicle_id }}" data-toggle="tooltip" data-original-title="Eliminar"> <i class="fa fa-close text-danger"></i> </a>
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                <a class="btn btn-secondary" href="/user_vehicles/show/{{ $r->vehicle_id }}" data-toggle="tooltip" data-original-title="Ver"> <i class="fa fa-eye text-inverse"></i> </a>
+                                <a class="btn btn-secondary" href="/user_vehicles/edit/{{ $r->vehicle_id }}" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse"></i> </a>
+                                <a class="btn btn-secondary" href="/user_vehicles/destroy/{{ $r->vehicle_id }}" data-toggle="tooltip" data-original-title="Eliminar"> <i class="fa fa-close text-danger"></i> </a>
+                            </div>
                         </td>
                     </tr>             
 				@endforeach
