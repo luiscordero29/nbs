@@ -15,8 +15,20 @@
 @endsection
 @section('content')
 	<div class="row">
-        <div class="col-12">
+        <div class="col-9">
             <h3 class="card-title">Lista de Vehiculos</h3>
+        </div>
+        <div class="col-3">
+            <form method="POST" action="/users_vehicles/index/{{ $data['row']->user_id }}">
+                {{ csrf_field() }}
+                <div class="form-group">
+                    <input id="search" name="search" class="form-control" placeholder="Buscar" type="text" 
+                        @if (session('search'))
+                            value="{{ session('search') }}" 
+                        @endif
+                    >
+                </div>
+            </form>
         </div>
     </div>
     @include('dashboard.alerts')

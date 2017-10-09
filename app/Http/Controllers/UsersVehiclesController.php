@@ -25,10 +25,22 @@ class UsersVehiclesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($user_id)
+    public function index(Request $request, $user_id)
     {
         # User
         $data['user'] = Auth::user();
+        # Request
+        $method = $request->method();
+        $search = $request->input('search');
+        if ($request->isMethod('post')) {
+            $data['search'] = $request->input('search');
+            $request->session()->flash('search', $search);
+            $request->session()->flash('info', 'Resultado de la busqueda: '.$search );
+        }else{
+            $data['search'] = '';
+            $request->session()->forget('info');
+            $request->session()->forget('search');
+        }
         $count = DB::table('users')->where('user_id', '=', $user_id)->count();
         if ($count>0) {
             $data['row'] = DB::table('users')->join('roles', 'roles.rol_name', '=', 'users.user_rol_name')->where('user_id', '=', $user_id)->first();
@@ -39,6 +51,10 @@ class UsersVehiclesController extends Controller
                 ->leftJoin('vehicles_brands', 'vehicles_brands.vehicle_brand_name', '=', 'vehicles_models.vehicle_brand_name')
                 ->leftJoin('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'vehicles_brands.vehicle_type_name')
                 ->where('users.user_id', $user_id)
+                ->where(function ($query) use ($data)  {
+                    $query->where('vehicles.vehicle_code', 'like', '%'.$data['search'].'%')
+                        ->orWhere('vehicles.vehicle_type_name', 'like', '%'.$data['search'].'%');
+                })
                 ->paginate(30);
             # View
             return view('users_vehicles.index', ['data' => $data]);
