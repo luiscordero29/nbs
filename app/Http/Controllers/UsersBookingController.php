@@ -53,6 +53,13 @@ class UsersBookingController extends Controller
                 $data['search'] =  $request->session()->get('search');
                 $data['parking_section_name']  =  $request->session()->get('parking_section_name');
             }
+            if (date('Y-m-d') <= $data['today']) {
+                $data['to_booking'] = true;
+                $request->session()->forget('danger');
+            }else{
+                $data['to_booking'] = false;
+                $request->session()->flash('danger', 'Las reservaciones inician el dia '.date('d/m/Y') );  
+            }
             $data['parkings_sections'] = DB::table('parkings_sections')->get();
             $data['users_booking'] = DB::table('users')->where('user_id', '=', $user_id)->first();
             $data['parkings'] = DB::table('parkings')->where('parking_section_name', 'like', '%'.$data['parking_section_name'].'%')->get();

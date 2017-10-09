@@ -165,22 +165,24 @@
                                 </td>                                   
                                 <td class="text-nowrap">
                                     <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
-                                        @php $create = false; @endphp
-                                        @if(count($data['booking'])>0)
-                                            @foreach ($data['booking'] as $b)
-                                                @if($r->parking_name == $b->parking_name)
-                                                    @php $create = true; @endphp
-                                                    @if($b->user_id == $data['user']->user_id )
-                                                        <button type="button" class="btn btn-sm btn-info btn-booking-update" data-parking_name="{{ $r->parking_name }}" data-booking_id="{{ $b->booking_id }}"><i class="fa fa-car"></i> Cambiar Asignación</button>
-                                                        <button type="button" class="btn btn-sm btn-danger btn-booking-delete" data-parking_name="{{ $r->parking_name }}" data-booking_id="{{ $b->booking_id }}"><i class="fa fa-car"></i> Remover Asignación</button>
-                                                    @else
-                                                        <button type="button" class="btn btn-sm btn-outline-secundary"><i class="fa fa-car"></i> Parqueadero Asignado</button>
+                                        @if($data['to_booking'])
+                                            @php $create = false; @endphp
+                                            @if(count($data['booking'])>0)
+                                                @foreach ($data['booking'] as $b)
+                                                    @if($r->parking_name == $b->parking_name)
+                                                        @php $create = true; @endphp
+                                                        @if($b->user_id == $data['user']->user_id )
+                                                            <button type="button" class="btn btn-sm btn-info btn-booking-update" data-parking_name="{{ $r->parking_name }}" data-booking_id="{{ $b->booking_id }}"><i class="fa fa-car"></i> Cambiar Asignación</button>
+                                                            <button type="button" class="btn btn-sm btn-danger btn-booking-delete" data-parking_name="{{ $r->parking_name }}" data-booking_id="{{ $b->booking_id }}"><i class="fa fa-car"></i> Remover Asignación</button>
+                                                        @else
+                                                            <button type="button" class="btn btn-sm btn-outline-secundary"><i class="fa fa-car"></i> Parqueadero Asignado</button>
+                                                        @endif
                                                     @endif
-                                                @endif
-                                            @endforeach
-                                        @endif
-                                        @if(!$create)
-                                            <button class="btn btn-sm btn-success btn-booking-create" data-parking_name="{{ $r->parking_name }}"><i class="fa fa-car"></i> Asignar Parqueadero</button>
+                                                @endforeach
+                                            @endif
+                                            @if(!$create)
+                                                <button class="btn btn-sm btn-success btn-booking-create" data-parking_name="{{ $r->parking_name }}"><i class="fa fa-car"></i> Asignar Parqueadero</button>
+                                            @endif
                                         @endif
                                     </div>
                                 </td>
