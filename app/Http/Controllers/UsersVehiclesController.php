@@ -29,6 +29,9 @@ class UsersVehiclesController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'users';
+        $data['subitem'] = 'users/index';
         # Request
         $method = $request->method();
         $search = $request->input('search');
@@ -74,6 +77,9 @@ class UsersVehiclesController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'users';
+        $data['subitem'] = 'users/index';
         $count = DB::table('users')->where('user_id', '=', $user_id)->count();
         if ($count>0) {
             # View 
@@ -169,6 +175,9 @@ class UsersVehiclesController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'users';
+        $data['subitem'] = 'users/index';
         $count = DB::table('users')->where('user_id', '=', $user_id)->count();
         if ($count>0) {
             $count = DB::table('vehicles')->where('vehicle_id', '=', $vehicle_id)->count();
@@ -203,6 +212,9 @@ class UsersVehiclesController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'users';
+        $data['subitem'] = 'users/index';
         $count = DB::table('users')->where('user_id', '=', $user_id)->count();
         if ($count>0) {
             $count = DB::table('vehicles')->where('vehicle_id', '=', $vehicle_id)->count();

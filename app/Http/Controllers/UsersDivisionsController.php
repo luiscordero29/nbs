@@ -28,6 +28,9 @@ class UsersDivisionsController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'users';
+        $data['subitem'] = 'users_divisions/index';
         # Request
         $method = $request->method();
         $search = $request->input('search');
@@ -52,6 +55,9 @@ class UsersDivisionsController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'users';
+        $data['subitem'] = 'users_divisions/index';
         # View
         return view('users_divisions.create', ['data' => $data]);
     }
@@ -87,6 +93,9 @@ class UsersDivisionsController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'users';
+        $data['subitem'] = 'users_divisions/index';
         $count = DB::table('users_divisions')->where('user_division_id', '=', $user_division_id)->count();
         if ($count>0) {
             # Show
@@ -108,6 +117,9 @@ class UsersDivisionsController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'users';
+        $data['subitem'] = 'users_divisions/index';
         $count = DB::table('users_divisions')->where('user_division_id', '=', $user_division_id)->count();
         if ($count>0) {
             # Edit

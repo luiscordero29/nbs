@@ -29,6 +29,9 @@ class UsersController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'users';
+        $data['subitem'] = 'users/index';
         # Request
         $method = $request->method();
         $search = $request->input('search');
@@ -58,6 +61,10 @@ class UsersController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'users';
+        $data['subitem'] = 'users/index';
+        # 
         $data['users_types'] = DB::table('users_types')->get();
         $data['users_positions'] = DB::table('users_positions')->get();
         $data['users_divisions'] = DB::table('users_divisions')->get();
@@ -147,6 +154,9 @@ class UsersController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'users';
+        $data['subitem'] = 'users/index';
         $count = DB::table('users')->where('user_id', '=', $user_id)->count();
         if ($count>0) {
             # Show
@@ -168,6 +178,9 @@ class UsersController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'users';
+        $data['subitem'] = 'users/index';
         $count = DB::table('users')->where('user_id', '=', $user_id)->count();
         if ($count>0) {
             # Edit

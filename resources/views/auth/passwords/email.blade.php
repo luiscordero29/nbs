@@ -8,21 +8,10 @@
         </a>  
         <br />
         <br />
-        @if ($errors->any())
-            @foreach ($errors->all() as $error)
-            <div class="alert alert-danger">
-                {{ $error }}
-            </div>
-            @endforeach
-        @endif
-        @if (session('status'))
-            <div class="alert alert-success">
-                {{ session('status') }}
-            </div>
-        @endif
+        @include('dashboard.alerts') 
         <div class="form-group m-t-40">
             <div class="col-xs-12">
-                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
+                <input id="email" type="email" class="form-control" placeholder="E-mail" name="email" value="{{ old('email') }}" required>
             </div>
         </div>
         <div class="form-group text-center m-t-20">

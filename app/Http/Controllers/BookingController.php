@@ -30,6 +30,9 @@ class BookingController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'booking';
+        $data['subitem'] = 'booking/index';
         # Request
         $method = $request->method();
         if ($request->isMethod('post')) {

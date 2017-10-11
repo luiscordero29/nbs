@@ -29,6 +29,9 @@ class ParkingsDimensionsController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'parkings';
+        $data['subitem'] = 'parkings_dimensions/index';
         # Request
         $method = $request->method();
         $search = $request->input('search');
@@ -55,6 +58,9 @@ class ParkingsDimensionsController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'parkings';
+        $data['subitem'] = 'parkings_dimensions/index';
         # View 
         return view('parkings_dimensions.create', ['data' => $data]);
     }
@@ -122,6 +128,9 @@ class ParkingsDimensionsController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'parkings';
+        $data['subitem'] = 'parkings_dimensions/index';
         $count = DB::table('parkings_dimensions')->where('parking_dimension_id', '=', $parking_dimension_id)->count();
         if ($count>0) {
             # Show
@@ -145,6 +154,9 @@ class ParkingsDimensionsController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'parkings';
+        $data['subitem'] = 'parkings_dimensions/index';
         $count = DB::table('parkings_dimensions')->where('parking_dimension_id', '=', $parking_dimension_id)->count();
         if ($count>0) {
             # Edit 

@@ -29,6 +29,9 @@ class UserVehiclesController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'user_vehicles';
+        $data['subitem'] = '';
         # Request
         $method = $request->method();
         $search = $request->input('search');
@@ -66,6 +69,9 @@ class UserVehiclesController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'user_vehicles';
+        $data['subitem'] = '';
         # View 
         $data['vehicles_colors'] = DB::table('vehicles_colors')->get();
         $data['vehicles_types'] = DB::table('vehicles_types')->get();
@@ -147,6 +153,9 @@ class UserVehiclesController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'user_vehicles';
+        $data['subitem'] = '';
         $count = DB::table('vehicles')
             ->where('vehicle_id', '=', $vehicle_id)
             ->where('user_number_id', '=', $data['user']->user_number_id)
@@ -179,6 +188,9 @@ class UserVehiclesController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'user_vehicles';
+        $data['subitem'] = '';
         $count = DB::table('vehicles')
             ->where('vehicle_id', '=', $vehicle_id)
             ->where('user_number_id', '=', $data['user']->user_number_id)

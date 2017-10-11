@@ -28,6 +28,9 @@ class VehiclesModelsController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'vehicles';
+        $data['subitem'] = 'vehicles_models/index';
         # Request
         $method = $request->method();
         $search = $request->input('search');
@@ -58,6 +61,9 @@ class VehiclesModelsController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'vehicles';
+        $data['subitem'] = 'vehicles_models/index';
         # View
         $data['vehicles_types'] = DB::table('vehicles_types')->get();
         return view('vehicles_models.create', ['data' => $data]);
@@ -103,6 +109,10 @@ class VehiclesModelsController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'vehicles';
+        $data['subitem'] = 'vehicles_models/index';
+        # View
         $count = DB::table('vehicles_models')->where('vehicle_model_id', '=', $vehicle_model_id)->count();
         if ($count>0) {
             # Show
@@ -127,6 +137,10 @@ class VehiclesModelsController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'vehicles';
+        $data['subitem'] = 'vehicles_models/index';
+        # View
         $count = DB::table('vehicles_models')->where('vehicle_model_id', '=', $vehicle_model_id)->count();
         if ($count>0) {
             # Edit

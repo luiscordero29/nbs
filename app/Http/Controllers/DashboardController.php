@@ -27,7 +27,12 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = '';
+        $data['subitem'] = '';
+        # View
         return view('dashboard.index', ['data' => $data]);
     }
     
@@ -39,12 +44,18 @@ class DashboardController extends Controller
     public function profile()
     {
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = '';
+        $data['subitem'] = '';
         return view('dashboard.profile', ['data' => $data]);
     }
 
     public function profile_edit()
     {
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = '';
+        $data['subitem'] = '';
         return view('dashboard.profile_edit', ['data' => $data]);
     }
 
@@ -85,6 +96,9 @@ class DashboardController extends Controller
     public function profile_upload()
     {
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = '';
+        $data['subitem'] = '';
         return view('dashboard.profile_upload', ['data' => $data]);
     }
 
@@ -127,6 +141,9 @@ class DashboardController extends Controller
     public function profile_password()
     {
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = '';
+        $data['subitem'] = '';
         return view('dashboard.profile_password', ['data' => $data]);
     }
 

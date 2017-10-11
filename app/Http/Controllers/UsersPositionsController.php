@@ -28,6 +28,9 @@ class UsersPositionsController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'users';
+        $data['subitem'] = 'users_positions/index';
         # Request
         $method = $request->method();
         $search = $request->input('search');
@@ -52,6 +55,9 @@ class UsersPositionsController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'users';
+        $data['subitem'] = 'users_positions/index';
         # View
         return view('users_positions.create', ['data' => $data]);
     }
@@ -87,6 +93,9 @@ class UsersPositionsController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'users';
+        $data['subitem'] = 'users_positions/index';
         $count = DB::table('users_positions')->where('user_position_id', '=', $user_position_id)->count();
         if ($count>0) {
             # Show
@@ -108,6 +117,9 @@ class UsersPositionsController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'users';
+        $data['subitem'] = 'users_positions/index';
         $count = DB::table('users_positions')->where('user_position_id', '=', $user_position_id)->count();
         if ($count>0) {
             # Edit

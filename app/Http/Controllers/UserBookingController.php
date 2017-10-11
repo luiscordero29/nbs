@@ -30,6 +30,9 @@ class UserBookingController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'user_booking';
+        $data['subitem'] = '';
         $count = DB::table('users')->where('user_id', $data['user']->user_id)->count();
         if ($count>0) {
             # Request

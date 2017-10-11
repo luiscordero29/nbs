@@ -29,6 +29,9 @@ class ParkingsLotController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'parkings';
+        $data['subitem'] = 'parkings/index';
         # View
         $data['vehicles_types'] = DB::table('vehicles_types')->get();
         $data['parkings_dimensions'] = DB::table('parkings_dimensions')->get();

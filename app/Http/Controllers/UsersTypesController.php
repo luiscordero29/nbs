@@ -28,6 +28,9 @@ class UsersTypesController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'users';
+        $data['subitem'] = 'users_types/index';
         # Request
         $method = $request->method();
         $search = $request->input('search');
@@ -52,6 +55,9 @@ class UsersTypesController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'users';
+        $data['subitem'] = 'users_types/index';
         # View
         return view('users_types.create', ['data' => $data]);
     }
@@ -87,6 +93,9 @@ class UsersTypesController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'users';
+        $data['subitem'] = 'users_types/index';
         $count = DB::table('users_types')->where('user_type_id', '=', $user_type_id)->count();
         if ($count>0) {
             # Show
@@ -108,6 +117,9 @@ class UsersTypesController extends Controller
     {
         # User
         $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'users';
+        $data['subitem'] = 'users_types/index';
         $count = DB::table('users_types')->where('user_type_id', '=', $user_type_id)->count();
         if ($count>0) {
             # Edit
