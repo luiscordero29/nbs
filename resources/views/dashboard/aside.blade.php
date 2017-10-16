@@ -54,7 +54,8 @@
                         <li @if($data['item'] == 'booking') class="active" @endif >
                             <a class="has-arrow" href="#" @if($data['item'] == 'booking') aria-expanded="true" @else aria-expanded="false" @endif><i class="fa fa-calendar"></i><span class="hide-menu">Reservas </span></a>
                             <ul class="collapse @if($data['item'] == 'booking') in @endif " @if($data['item'] == 'booking') aria-expanded="true" @else aria-expanded="false" @endif >
-                                <li @if($data['subitem'] == 'booking/index') class="active" @endif ><a href="/booking/index"><i class="fa fa-caret-right fa-fw"></i> Reservas</a></li>
+                                <li @if($data['subitem'] == 'booking/index') class="active" @endif ><a href="/booking/index"><i class="fa fa-caret-right fa-fw"></i> Reservar por Dia</a></li>
+                                <li @if($data['subitem'] == 'booking_date/index') class="active" @endif ><a href="/booking_date/index"><i class="fa fa-caret-right fa-fw"></i> Reservar por Rango</a></li>
                             </ul>
                         </li>
                         <li @if($data['item'] == 'users') class="active" @endif >
