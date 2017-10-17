@@ -190,4 +190,12 @@ Route::middleware(AdminMiddleware::class)->group(function () {
 	Route::post('booking_date/update', 'BookingDateController@update');
 	Route::post('booking_date/destroy', 'BookingDateController@destroy');
 	Route::get('booking_date/getvehicles/{user_number_id}/{booking_date}', 'BookingDateController@getvehicles');
+	/* rewards */
+	Route::match(['get', 'post'],'rewards/index', 'RewardsController@index');
+	Route::get('rewards/create', 'RewardsController@create');
+	Route::post('rewards/store', 'RewardsController@store');
+	Route::get('rewards/show/{reward_uid}', 'RewardsController@show');
+	Route::get('rewards/edit/{reward_uid}', 'RewardsController@edit');
+	Route::post('rewards/update/{reward_uid}', 'RewardsController@update');
+	Route::get('rewards/destroy/{reward_uid}', 'RewardsController@destroy');
 });

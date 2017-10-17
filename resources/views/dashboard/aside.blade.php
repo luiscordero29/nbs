@@ -58,6 +58,12 @@
                                 <li @if($data['subitem'] == 'booking_date/index') class="active" @endif ><a href="/booking_date/index"><i class="fa fa-caret-right fa-fw"></i> Reservar por Rango</a></li>
                             </ul>
                         </li>
+                        <li @if($data['item'] == 'rewards') class="active" @endif >
+                            <a class="has-arrow" href="#" @if($data['item'] == 'rewards') aria-expanded="true" @else aria-expanded="false" @endif><i class="fa fa-university"></i><span class="hide-menu">Recompensas </span></a>
+                            <ul class="collapse @if($data['item'] == 'rewards') in @endif " @if($data['item'] == 'booking') aria-expanded="true" @else aria-expanded="false" @endif >
+                                <li @if($data['subitem'] == 'rewards/index') class="active" @endif ><a href="/rewards/index"><i class="fa fa-caret-right fa-fw"></i> Recompensas</a></li>
+                            </ul>
+                        </li>
                         <li @if($data['item'] == 'users') class="active" @endif >
                             <a class="has-arrow" href="#" @if($data['item'] == 'users') aria-expanded="true" @else aria-expanded="false" @endif><i class="fa fa-users"></i><span class="hide-menu">Usuarios </span></a>
                             <ul class="collapse @if($data['item'] == 'users') in @endif" @if($data['item'] == 'users') aria-expanded="true" @else aria-expanded="false" @endif>

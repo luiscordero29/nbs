@@ -135,44 +135,11 @@ class BookingDateController extends Controller
         $parking_section_name = $request->input('parking_section_name');
         $today = $request->input('today');
 
-        return redirect('booking/index')
+        return redirect('booking_date/index')
             ->with('search', $search)
             ->with('parking_section_name', $parking_section_name )
             ->with('today', $today)
             ->with('success', 'Parqueadero Asignado');
-    }
-
-    public function store_test()
-    {
-        $user_number_id = 'ID-002';
-        $vehicle_code = '82488657';
-        $parking_name = 'The other.';
-        $booking_date = date('Y-m-d');
-        $daterange = '16/10/2017 - 18/10/2017';
-        $daterange = explode(" - ", $daterange);
-
-        $date_array = explode('/',$daterange[0]);
-        $date_array = array_reverse($date_array);   
-        $daterange_begin    = date(implode('-', $date_array));
-
-        $date_array = explode('/',$daterange[1]);
-        $date_array = array_reverse($date_array);   
-        $daterange_end    = date(implode('-', $date_array));
-
-        #loop 
-        do {
-            # Insert
-            DB::table('booking')->insert(
-                [
-                    'vehicle_code' => $vehicle_code,
-                    'parking_name' => $parking_name,
-                    'booking_date' => $daterange_begin,
-                ]
-            );
-            $daterange_begin = new DateTime($daterange_begin);
-            $daterange_begin->modify('+1 day');
-            $daterange_begin = $daterange_begin->format('Y-m-d');            
-        } while ( date($daterange_begin) <=  date($daterange_end) );       
     }
 
     /**
@@ -207,7 +174,7 @@ class BookingDateController extends Controller
         $parking_section_name = $request->input('parking_section_name');
         $today = $request->input('today');
 
-        return redirect('booking/index')
+        return redirect('booking_date/index')
             ->with('search', $search)
             ->with('parking_section_name', $parking_section_name )
             ->with('today', $today)
@@ -228,7 +195,7 @@ class BookingDateController extends Controller
         $today = $request->input('today');
         DB::table('booking')->where('booking_id', '=', $booking_id)->delete();
 
-        return redirect('booking/index')
+        return redirect('booking_date/index')
             ->with('search', $search)
             ->with('parking_section_name', $parking_section_name )
             ->with('today', $today)
