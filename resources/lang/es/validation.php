@@ -100,6 +100,20 @@ return [
     */
 
     'custom' => [
+        'reward_name' => [
+            'required'  => 'El campo Recompensa es obligatorio. ',
+            'max'       => [
+                'numeric' => 'El campo Recompensa debe ser :max como máximo.',
+                'file'    => 'El archivo Recompensa debe pesar :max kilobytes como máximo.',
+                'string'  => 'El campo Recompensa debe contener :max caracteres como máximo.',
+                'array'   => 'El campo Recompensa debe contener :max elementos como máximo.',
+            ],
+            'unique'    => 'El elemento Recompensa ya está en uso.',
+        ],
+        'reward_ammount' => [
+            'required'  => 'El campo Crédito es obligatorio. ',
+            'integer'   => 'El campo Cantidad de Crédito debe ser un número entero.',     
+        ],
         'vehicles_user_number_id' => [
             'required'  => 'El campo Empleado es obligatorio. ',
         ],
