@@ -100,6 +100,17 @@ return [
     */
 
     'custom' => [
+        # Test
+        'tests_user_uid' => [
+            'required'  => 'El campo Empleado es obligatorio. ',
+        ],
+        'tests_reward_uid' => [
+            'required'  => 'El campo Recompensa es obligatorio. ',
+        ],
+        'test_date' => [
+            'required'  => 'El campo Fecha es obligatorio. ',
+        ],
+        # Rewrd
         'reward_name' => [
             'required'  => 'El campo Recompensa es obligatorio. ',
             'max'       => [

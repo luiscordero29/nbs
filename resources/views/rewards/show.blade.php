@@ -23,11 +23,19 @@
                 <div class="col-2">
                     <b>ID:</b> {{ $data['row']->reward_id }}
                 </div>
-                <div class="col-8">
+                <div class="col-5">
                     <b>Nombre:</b> {{ $data['row']->reward_name }}
                 </div>
                 <div class="col-2">
                     <b>Crédito:</b> {{ $data['row']->reward_ammount }}
+                </div>
+                <div class="col-3">
+                    <b>Estatus:</b> 
+                        @if($data['row']->reward_status)
+                            Habilidato
+                        @else
+                            Desabilitado
+                        @endif
                 </div>
                 <div class="col-12">
                     <b>Descripción:</b> {{ $data['row']->reward_description }}

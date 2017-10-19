@@ -18,6 +18,7 @@ class CreateRewardsTable extends Migration
             $table->bigIncrements('reward_id');
             $table->char('reward_name', 60);
             $table->text('reward_description')->nullable();
+            $table->boolean('reward_status');
             $table->BigInteger('reward_ammount');
             # Fields System
             $table->uuid('reward_uid');

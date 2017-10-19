@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->char('email',160)->unique();
             $table->text('password');
             $table->rememberToken();
-            $table->timestamps();
+            #$table->timestamps();
             # Fields
             $table->bigIncrements('user_id');
             $table->char('user_type_description', 60)->nullable();
@@ -33,7 +33,12 @@ class CreateUsersTable extends Migration
             $table->binary('user_image')->nullable();
             $table->char('user_number_id',60);
             $table->char('user_number_employee',60);
+            # Fields System
+            $table->uuid('user_uid');
+            $table->dateTime('user_created');
+            $table->dateTime('user_updated');
             # Keys 
+            $table->unique('user_uid');
             $table->unique('user_number_id');
             $table->unique('user_number_employee');
         });

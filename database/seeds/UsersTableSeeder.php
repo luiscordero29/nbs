@@ -1,7 +1,11 @@
 <?php
+
+use App\User;
+use Faker\Factory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
-use Faker\Factory;
+use Webpatser\Uuid\Uuid;
+
 
 class UsersTableSeeder extends Seeder
 {
@@ -12,44 +16,43 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->delete();
+        # User::truncate();
+        # buscar una mejor forma para eliminar todos los registros 
+        
+        $user = new User;
+        $user->user_firstname = 'Luis';
+        $user->user_lastname = 'Cordero';
+        $user->email = 'luis.cordero@webdiv.co';
+        $user->password = bcrypt('gabriel02');
+        $user->user_rol_name = 'admins';
+        $user->user_number_id = 'ID-001';
+        $user->user_number_employee = 'EID-001';
+        $user->user_uid  = Uuid::generate()->string;
+        $user->save();
 
-        DB::table('users')->insert(
-            [
-                'user_firstname' => 'Luis',
-                'user_lastname' => 'Cordero',
-                'email' => 'luis.cordero@webdiv.co',
-                'password' => bcrypt('gabriel02'),
-                'user_rol_name' => 'admins',
-                'user_number_id' => 'ID-001',
-                'user_number_employee' => 'EID-001',
-            ]
-        );
-        DB::table('users')->insert(
-            [
-                'user_firstname' => 'Juan',
-                'user_lastname' => 'Cubillos',
-                'email' => 'cubillos@webdiv.co',
-                'password' => bcrypt('cubillos'),
-                'user_rol_name' => 'admins',
-                'user_number_id' => 'ID-002',
-                'user_number_employee' => 'EID-002',
-            ]
-        );
+        $user = new User;
+        $user->user_firstname = 'Juan';
+        $user->user_lastname = 'Cubillos';
+        $user->email = 'cubillos@webdiv.co';
+        $user->password = bcrypt('cubillos');
+        $user->user_rol_name = 'admins';
+        $user->user_number_id = 'ID-002';
+        $user->user_number_employee = 'EID-002';
+        $user->user_uid  = Uuid::generate()->string;
+        $user->save();
 
         $faker = Faker\Factory::create();
         for ($i=0; $i < 100; $i++) { 
-            DB::table('users')->insert(
-	            [
-	                'user_firstname' => $faker->firstName,
-	                'user_lastname' => $faker->lastName,
-	                'email' => $faker->unique()->email,
-	                'password' => bcrypt($faker->password),
-	                'user_rol_name' => 'admins',
-	                'user_number_id' => $faker->unique()->uuid,
-	                'user_number_employee' => $faker->unique()->uuid,
-	            ]
-	        );
+            $user = new User;
+            $user->user_firstname = $faker->firstName;
+            $user->user_lastname = $faker->lastName;
+            $user->email = $faker->unique()->email;
+            $user->password = bcrypt($faker->password);
+            $user->user_rol_name = 'admins';
+            $user->user_number_id = $faker->unique()->uuid;
+            $user->user_number_employee = $faker->unique()->uuid;
+            $user->user_uid  = Uuid::generate()->string;
+            $user->save();
         }
     }
 }

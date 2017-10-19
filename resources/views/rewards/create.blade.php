@@ -24,7 +24,7 @@
             @include('dashboard.alerts')            
             <div class="p-t-20">
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-6">
                         <div class="form-group @if($errors->has('reward_name')) has-danger @endif">
                             <label class="form-control-label">Nombre</label>
                             <input id="reward_name" name="reward_name" class="form-control" placeholder="Nombre de la Recompensa" type="text" value="{{ old('reward_name') }}">
@@ -36,7 +36,7 @@
                             <small class="form-control-feedback"> Ingrese el Nombre del Recompensa</small> 
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group @if($errors->has('reward_ammount')) has-danger @endif">
                             <label class="form-control-label">Crédito</label>
                             <input id="reward_ammount" name="reward_ammount" class="form-control" placeholder="Crédito de la Recompensa" type="text" value="{{ old('reward_ammount') }}">
@@ -46,6 +46,22 @@
                                 @endforeach
                             @endif
                             <small class="form-control-feedback"> Ingrese el Crédit </small> 
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group @if($errors->has('reward_status')) has-danger @endif">
+                            <label class="form-control-label">Estatus</label>
+                            <select class="custom-select col-12" name="reward_status">
+                                <option value="">Seleccione</option>
+                                <option @if (old('reward_status') == 1 ) selected=""  @endif value="1">Habilitado</option>
+                                <option @if (old('reward_status') == 0 ) selected=""  @endif value="0">Desabilitado</option>
+                            </select>
+                            @if ($errors->has('reward_status'))
+                                @foreach ($errors->get('reward_status') as $error)
+                                    <div class="form-control-feedback">{{ $error }}</div>
+                                @endforeach
+                            @endif
+                            <small class="form-control-feedback"> Seleccione Estatus</small> 
                         </div>
                     </div>
                     <div class="col-md-12">

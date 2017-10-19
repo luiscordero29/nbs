@@ -198,4 +198,12 @@ Route::middleware(AdminMiddleware::class)->group(function () {
 	Route::get('rewards/edit/{reward_uid}', 'RewardsController@edit');
 	Route::post('rewards/update/{reward_uid}', 'RewardsController@update');
 	Route::get('rewards/destroy/{reward_uid}', 'RewardsController@destroy');
+	/* tests */
+	Route::match(['get', 'post'],'tests/index', 'TestsController@index');
+	Route::get('tests/create', 'TestsController@create');
+	Route::post('tests/store', 'TestsController@store');
+	Route::get('tests/show/{test_uid}', 'TestsController@show');
+	Route::get('tests/edit/{test_uid}', 'TestsController@edit');
+	Route::post('tests/update/{test_uid}', 'TestsController@update');
+	Route::get('tests/destroy/{test_uid}', 'TestsController@destroy');
 });

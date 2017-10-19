@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\User;
+use DB;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use DB;
+use Webpatser\Uuid\Uuid;
+
 
 class UsersController extends Controller
 {
@@ -42,8 +45,7 @@ class UsersController extends Controller
             $request->session()->forget('info');
             $request->session()->forget('search');
         }
-        $data['rows'] = DB::table('users')
-            ->where('user_firstname', 'like', '%'.$search.'%')
+        $data['rows'] = User::where('user_firstname', 'like', '%'.$search.'%')
             ->orWhere('user_lastname', 'like', '%'.$search.'%')
             ->orWhere('user_number_id', 'like', '%'.$search.'%')
             ->orWhere('user_number_employee', 'like', '%'.$search.'%')

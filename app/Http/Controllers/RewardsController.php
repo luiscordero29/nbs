@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Reward;
 use Illuminate\Http\Request;
-use App\Rewards;
 use Illuminate\Support\Facades\Auth;
 use Webpatser\Uuid\Uuid;
 
@@ -39,10 +40,10 @@ class RewardsController extends Controller
             $request->session()->flash('search', $search);
             $request->session()->flash('info', 'Resultado de la busqueda: '.$search );
         }else{
-            $request->session()->forget('info');
             $request->session()->forget('search');
+            $request->session()->forget('info');
         }
-        $data['rows'] = Rewards::where('reward_name', 'like', '%'.$search.'%')->paginate(30);
+        $data['rows'] = Reward::where('reward_name', 'like', '%'.$search.'%')->paginate(30);
         # View
         return view('rewards.index', ['data' => $data]);
     }
@@ -75,17 +76,20 @@ class RewardsController extends Controller
         $this->validate($request, [
             'reward_name' => 'required|max:60|unique:rewards,reward_name',
             'reward_ammount' => 'required|integer',
+            'reward_status' => 'required',
         ]);
         # Request
         $reward_name = $request->input('reward_name');
         $reward_ammount = $request->input('reward_ammount');
         $reward_description = $request->input('reward_description');
+        $reward_status = $request->input('reward_status');
         $reward_uid = Uuid::generate()->string;
         # Insert
-        $reward = new Rewards;
+        $reward = new Reward;
         $reward->reward_name = $reward_name;
         $reward->reward_ammount = $reward_ammount;
         $reward->reward_description = $reward_description;
+        $reward->reward_status = $reward_status;
         $reward->reward_uid  = $reward_uid;
         $reward->save();
         # Redirect
@@ -105,11 +109,11 @@ class RewardsController extends Controller
         # Menu
         $data['item'] = 'rewards';
         $data['subitem'] = 'rewards/index';
-        $count = Rewards::where('reward_uid', $reward_uid)->count();
+        $count = Reward::where('reward_uid', $reward_uid)->count();
         if ($count>0) {
             # Show
             $data['row'] = 
-                Rewards::where('reward_uid', $reward_uid)->first();
+                Reward::where('reward_uid', $reward_uid)->first();
             return view('rewards.show', ['data' => $data]);
         }else{
             # Error
@@ -130,10 +134,10 @@ class RewardsController extends Controller
         # Menu
         $data['item'] = 'rewards';
         $data['subitem'] = 'rewards/index';
-        $count = Rewards::where('reward_uid', $reward_uid)->count();
+        $count = Reward::where('reward_uid', $reward_uid)->count();
         if ($count>0) {
             # Edit
-            $data['row'] = Rewards::where('reward_uid', $reward_uid)->first();
+            $data['row'] = Reward::where('reward_uid', $reward_uid)->first();
             return view('rewards.edit', ['data' => $data]);
         }else{
             # Error
@@ -154,19 +158,22 @@ class RewardsController extends Controller
         $this->validate($request, [
             'reward_name' => 'required|max:60',
             'reward_ammount' => 'required|integer',
+            'reward_status' => 'required',
         ]);
         # Request
         $reward_name = $request->input('reward_name');
         $reward_ammount = $request->input('reward_ammount');
+        $reward_status = $request->input('reward_status');
         $reward_description = $request->input('reward_description');
         # Unique 
-        $count = Rewards::where('reward_name', $reward_name)->where('reward_uid', '<>', $reward_uid)->count();
+        $count = Reward::where('reward_name', $reward_name)->where('reward_uid', '<>', $reward_uid)->count();
         if ($count<1) {
             # Update
-            $reward = Rewards::where('reward_uid', $reward_uid)->first();
+            $reward = Reward::where('reward_uid', $reward_uid)->first();
             $reward->reward_name = $reward_name;
-        $reward->reward_ammount = $reward_ammount;
-        $reward->reward_description = $reward_description;
+            $reward->reward_ammount = $reward_ammount;
+            $reward->reward_status = $reward_status;
+            $reward->reward_description = $reward_description;
             $reward->save();
             return redirect('rewards/edit/'.$reward_uid)->with('success', 'Registro Actualizado');
         }else{
@@ -183,10 +190,10 @@ class RewardsController extends Controller
      */
     public function destroy($reward_uid)
     {
-        $count = Rewards::where('reward_uid', $reward_uid)->count();
+        $count = Reward::where('reward_uid', $reward_uid)->count();
         if ($count>0) {
             # delete
-            Rewards::where('reward_uid', $reward_uid)->delete();
+            Reward::where('reward_uid', $reward_uid)->delete();
             return redirect('rewards/index')->with('success', 'Registro Elimino');
         }else{
             return redirect('rewards/index')->with('info', 'No se puede Eliminar el registro');

@@ -39,6 +39,7 @@
                 <tr>
                     <th>Recompensa</th>
                     <th>Crédito</th>
+                    <th>Estatus</th>
                     <th class="text-nowrap"></th>
                 </tr>
             </thead>
@@ -47,6 +48,13 @@
                     <tr>
                         <td>{{ $r->reward_name }}</td>
                         <td>{{ $r->reward_ammount }}</td>
+                        <td>
+                            @if($r->reward_status)
+                                Habilidato
+                            @else
+                                Desabilitado
+                            @endif
+                        </td>
                         <td class="text-nowrap">
                             <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                                 <a class="btn btn-secondary" href="/rewards/show/{{ $r->reward_uid }}" data-toggle="tooltip" data-original-title="Ver"> <i class="fa fa-eye"></i> </a>

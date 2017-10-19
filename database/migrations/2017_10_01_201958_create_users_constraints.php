@@ -19,22 +19,26 @@ class CreateUsersConstraints extends Migration
                 ->foreign('user_rol_name')
                 ->references('rol_name')
                 ->on('roles')
-                ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
             $table
                 ->foreign('user_type_description')
                 ->references('user_type_description')
                 ->on('users_types')
-                ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
             $table
                 ->foreign('user_position_description')
                 ->references('user_position_description')
                 ->on('users_positions')
-                ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
             $table
                 ->foreign('user_division_description')
                 ->references('user_division_description')
                 ->on('users_divisions')
-                ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 

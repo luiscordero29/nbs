@@ -62,6 +62,7 @@
                             <a class="has-arrow" href="#" @if($data['item'] == 'rewards') aria-expanded="true" @else aria-expanded="false" @endif><i class="fa fa-university"></i><span class="hide-menu">Recompensas </span></a>
                             <ul class="collapse @if($data['item'] == 'rewards') in @endif " @if($data['item'] == 'booking') aria-expanded="true" @else aria-expanded="false" @endif >
                                 <li @if($data['subitem'] == 'rewards/index') class="active" @endif ><a href="/rewards/index"><i class="fa fa-caret-right fa-fw"></i> Recompensas</a></li>
+                                <li @if($data['subitem'] == 'tests/index') class="active" @endif ><a href="/tests/index"><i class="fa fa-caret-right fa-fw"></i> Evaluaciones</a></li>
                             </ul>
                         </li>
                         <li @if($data['item'] == 'users') class="active" @endif >
