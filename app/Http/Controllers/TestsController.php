@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Test;
 use App\User;
 use App\Reward;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Webpatser\Uuid\Uuid;
@@ -44,7 +45,16 @@ class TestsController extends Controller
             $request->session()->forget('search');
             $request->session()->forget('info');
         }
-        $data['rows'] = Test::where('test_date', 'like', '%'.$search.'%')->paginate(30);
+       $data['rows'] = DB::table('tests')
+            ->join('users', 'users.user_uid', '=', 'tests.user_uid')
+            ->join('rewards', 'rewards.reward_uid', '=', 'tests.reward_uid')
+            ->where('tests.test_ammount', 'like', '%'.$search.'%')
+            ->orWhere('users.user_firstname', 'like', '%'.$search.'%')
+            ->orWhere('users.user_lastname', 'like', '%'.$search.'%')            
+            ->orWhere('users.user_number_id', 'like', '%'.$search.'%')            
+            ->orWhere('users.user_number_employee', 'like', '%'.$search.'%')            
+            ->orWhere('rewards.reward_name', 'like', '%'.$search.'%')            
+            ->paginate(30);
         # View
         return view('tests.index', ['data' => $data]);
     }

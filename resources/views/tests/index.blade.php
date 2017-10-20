@@ -2,7 +2,7 @@
 @section('title', 'Evaluaciones')
 @section('breadcrumb')
     <div class="col-md-8 col-8 align-self-center">
-        <h3 class="text-themecolor m-b-0 m-t-0">Evaluaciones</h3>
+        <h3 class="text-themecolor m-b-0 m-t-0"><i class="fa fa-university"></i> Recompensas</h3>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
             <li class="breadcrumb-item active">Evaluaciones </li>
@@ -57,23 +57,23 @@
                         <td>
                             <div class="row">
                                 <div class="col-12">
-                                    {{ $r->reward->reward_name }} Crédito: {{ $r->reward->reward_ammount }}
+                                    {{ $r->reward_name }} Crédito: {{ $r->reward_ammount }}
                                 </div>
                             </div>
                         </td>
                         <td>
                             <div class="row">
                                 <div class="col-12">
-                                    <b>Número ID: </b>{{ $r->user->user_number_id }}
+                                    <b>Número ID: </b>{{ $r->user_number_id }}
                                 </div>
                                 <div class="col-12">
-                                    <b>Número de Empleado: </b>{{ $r->user->user_number_employee }}
+                                    <b>Número de Empleado: </b>{{ $r->user_number_employee }}
                                 </div>
                                 <div class="col-12">
-                                    <b>Apellidos: </b>{{ $r->user->user_firstname }}
+                                    <b>Apellidos: </b>{{ $r->user_firstname }}
                                 </div>
                                 <div class="col-12">
-                                    <b>Nombres: </b>{{ $r->user->user_lastname }}
+                                    <b>Nombres: </b>{{ $r->user_lastname }}
                                 </div>
                             </div>
                         </td>

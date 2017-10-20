@@ -119,32 +119,6 @@ class ParkingsDimensionsController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($parking_dimension_id)
-    {
-        # User
-        $data['user'] = Auth::user();
-        # Menu
-        $data['item'] = 'parkings';
-        $data['subitem'] = 'parkings_dimensions/index';
-        $count = DB::table('parkings_dimensions')->where('parking_dimension_id', '=', $parking_dimension_id)->count();
-        if ($count>0) {
-            # Show
-            $data['row'] = DB::table('parkings_dimensions')
-                ->where('parking_dimension_id', '=', $parking_dimension_id)
-                ->first();
-            return view('parkings_dimensions.show', ['data' => $data]);
-        }else{
-            # Error
-            return redirect('parkings_dimensions/index')->with('info', 'No se puede Ver el registro');
-        }
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id

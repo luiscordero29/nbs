@@ -206,4 +206,7 @@ Route::middleware(AdminMiddleware::class)->group(function () {
 	Route::get('tests/edit/{test_uid}', 'TestsController@edit');
 	Route::post('tests/update/{test_uid}', 'TestsController@update');
 	Route::get('tests/destroy/{test_uid}', 'TestsController@destroy');
+	/* tests_report */
+	Route::match(['get', 'post'],'tests_report/index', 'TestsReportController@index');
+	Route::get('tests_report/show/{month_first}/{month_last}/{test_uid}', 'TestsReportController@show');
 });

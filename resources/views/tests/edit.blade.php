@@ -2,7 +2,7 @@
 @section('title', 'Editar Recompensa')
 @section('breadcrumb')
     <div class="col-md-8 col-8 align-self-center">
-        <h3 class="text-themecolor m-b-0 m-t-0">Editar Recompensa</h3>
+        <h3 class="text-themecolor m-b-0 m-t-0"><i class="fa fa-university"></i> Recompensas</h3>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
             <li class="breadcrumb-item"><a href="/tests/index">Recompensas</a></li>
