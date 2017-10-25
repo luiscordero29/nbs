@@ -17,7 +17,7 @@ class UserMiddleware
     public function handle($request, Closure $next)
     {
         $data['user'] = Auth::user();
-        if ($data['user']->user_rol_name != 'users'){
+        if ($data['user']->rol_name != 'user'){
             return redirect('dashboard');
         }else{
             return $next($request);

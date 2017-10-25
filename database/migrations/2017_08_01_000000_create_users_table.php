@@ -27,12 +27,12 @@ class CreateUsersTable extends Migration
             $table->char('user_type_description', 60)->nullable();
             $table->char('user_division_description', 60)->nullable();
             $table->char('user_position_description', 60)->nullable();
-            $table->char('user_rol_name', 60);
             $table->char('user_firstname', 60);
             $table->char('user_lastname', 60);
             $table->binary('user_image')->nullable();
             $table->char('user_number_id',60);
             $table->char('user_number_employee',60);
+            $table->enum('rol_name', ['user', 'admin']);
             # Fields System
             $table->uuid('user_uid');
             $table->dateTime('user_created');

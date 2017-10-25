@@ -16,12 +16,6 @@ class CreateUsersConstraints extends Migration
         Schema::table('users', function (Blueprint $table) {
             # Foreign Key Constraints
             $table
-                ->foreign('user_rol_name')
-                ->references('rol_name')
-                ->on('roles')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
-            $table
                 ->foreign('user_type_description')
                 ->references('user_type_description')
                 ->on('users_types')
@@ -51,7 +45,6 @@ class CreateUsersConstraints extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             # Foreign Key Constraints
-            $table->dropForeign('users_user_rol_name_foreign');
             $table->dropForeign('users_user_type_description_foreign');
             $table->dropForeign('users_user_position_description_foreign');
             $table->dropForeign('users_user_division_description_foreign');

@@ -232,6 +232,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         # UUID
         'Uuid' => Webpatser\Uuid\Uuid::class,
+        # Helpers
+        'Helper' => App\Helpers\Helper::class,
 
     ],
 

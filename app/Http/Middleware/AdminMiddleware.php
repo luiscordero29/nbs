@@ -17,7 +17,7 @@ class AdminMiddleware
     public function handle($request, Closure $next)
     {
         $data['user'] = Auth::user();
-        if ($data['user']->user_rol_name != 'admins'){
+        if ($data['user']->rol_name != 'admin'){
             return redirect('dashboard');
         }else{
             return $next($request);

@@ -38,7 +38,7 @@
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
                         
-                        @if($data['user']->user_rol_name == 'users')
+                        @if($data['user']->rol_name == 'user')
                         <li class="nav-devider"></li>
                         <li class="nav-small-cap">Nidoo Business Solution</li>
                         <li @if($data['item'] == 'user_vehicles') class="active" @endif >
@@ -49,7 +49,7 @@
                         </li>
                         @endif
                         
-                        @if($data['user']->user_rol_name == 'admins')
+                        @if($data['user']->rol_name == 'admin')
                         <li class="nav-small-cap">Administración</li>
                         <li @if($data['item'] == 'booking') class="active" @endif >
                             <a class="has-arrow" href="#" @if($data['item'] == 'booking') aria-expanded="true" @else aria-expanded="false" @endif><i class="fa fa-calendar"></i><span class="hide-menu">Reservas </span></a>
@@ -70,10 +70,6 @@
                             <a class="has-arrow" href="#" @if($data['item'] == 'users') aria-expanded="true" @else aria-expanded="false" @endif><i class="fa fa-users"></i><span class="hide-menu">Usuarios </span></a>
                             <ul class="collapse @if($data['item'] == 'users') in @endif" @if($data['item'] == 'users') aria-expanded="true" @else aria-expanded="false" @endif>
                                 <li @if($data['subitem'] == 'users/index') class="active" @endif ><a @if($data['subitem'] == 'users/index') class="active" @endif href="/users/index"><i class="fa fa-caret-right fa-fw"></i> Usuarios</a></li>
-                                {{--
-                                Esto debe ir un modulo de control de acceso
-                                <li><a href="/roles/index"><i class="fa fa-caret-right fa-fw"></i> Roles</a></li>
-                                --}}
                                 <li @if($data['subitem'] == 'users_types/index') class="active" @endif ><a @if($data['subitem'] == 'users_types/index') class="active" @endif href="/users_types/index"><i class="fa fa-caret-right fa-fw"></i> Tipos</a></li>
                                 <li @if($data['subitem'] == 'users_positions/index') class="active" @endif ><a @if($data['subitem'] == 'users_positions/index') class="active" @endif href="/users_positions/index"><i class="fa fa-caret-right fa-fw"></i> Cargos</a></li>
                                 <li @if($data['subitem'] == 'users_divisions/index') class="active" @endif ><a @if($data['subitem'] == 'users_divisions/index') class="active" @endif href="/users_divisions/index"><i class="fa fa-caret-right fa-fw"></i> Divisiones</a></li>
