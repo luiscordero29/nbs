@@ -87,10 +87,10 @@ Route::middleware(AdminMiddleware::class)->group(function () {
 	Route::match(['get', 'post'],'users_types/index', 'UsersTypesController@index');
 	Route::get('users_types/create', 'UsersTypesController@create');
 	Route::post('users_types/store', 'UsersTypesController@store');
-	Route::get('users_types/show/{user_type_id}', 'UsersTypesController@show')->where('user_type_id', '[0-9]+');
-	Route::get('users_types/edit/{user_type_id}', 'UsersTypesController@edit')->where('user_type_id', '[0-9]+');
-	Route::post('users_types/update/{user_type_id}', 'UsersTypesController@update')->where('user_type_id', '[0-9]+');
-	Route::get('users_types/destroy/{user_type_id}', 'UsersTypesController@destroy')->where('user_type_id', '[0-9]+');
+	Route::get('users_types/show/{user_type_uid}', 'UsersTypesController@show');
+	Route::get('users_types/edit/{user_type_uid}', 'UsersTypesController@edit');
+	Route::post('users_types/update/{user_type_uid}', 'UsersTypesController@update');
+	Route::get('users_types/destroy/{user_type_uid}', 'UsersTypesController@destroy');
 	/* users_positions */
 	Route::match(['get', 'post'],'users_positions/index', 'UsersPositionsController@index');
 	Route::get('users_positions/create', 'UsersPositionsController@create');

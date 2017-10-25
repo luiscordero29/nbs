@@ -19,7 +19,13 @@ class CreateUsersTypesTable extends Migration
             $table->bigIncrements('user_type_id');
             $table->char('user_type_description', 60);
             #Keys 
+            # Fields System
+            $table->uuid('user_type_uid');
+            $table->dateTime('user_type_created');
+            $table->dateTime('user_type_updated');
+            # Keys
             $table->unique('user_type_description');  
+            $table->unique('user_type_uid');
         });
     }
 

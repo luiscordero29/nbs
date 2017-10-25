@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\UserType;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use DB;
+use Webpatser\Uuid\Uuid;
 
 class UsersTypesController extends Controller
 {
@@ -41,7 +42,7 @@ class UsersTypesController extends Controller
             $request->session()->forget('info');
             $request->session()->forget('search');
         }
-        $data['rows'] = DB::table('users_types')->where('user_type_description', 'like', '%'.$search.'%')->paginate(30);
+        $data['rows'] = UserType::where('user_type_description', 'like', '%'.$search.'%')->paginate(30);
         # View
         return view('users_types.index', ['data' => $data]);
     }
@@ -76,10 +77,12 @@ class UsersTypesController extends Controller
         ]);
         # Request
         $user_type_description = $request->input('user_type_description');
+        $user_type_uid = Uuid::generate()->string;
         # Insert
-        DB::table('users_types')->insert(
-            ['user_type_description' => $user_type_description]
-        );
+        $user_type = new UserType;
+        $user_type->user_type_description = $user_type_description;
+        $user_type->user_type_uid  = $user_type_uid;
+        $user_type->save();
         return redirect('users_types/create')->with('success', 'Registro Guardado');
     }
 
@@ -89,17 +92,17 @@ class UsersTypesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($user_type_id)
+    public function show($user_type_uid)
     {
         # User
         $data['user'] = Auth::user();
         # Menu
         $data['item'] = 'users';
         $data['subitem'] = 'users_types/index';
-        $count = DB::table('users_types')->where('user_type_id', '=', $user_type_id)->count();
+        $count = UserType::where('user_type_uid', $user_type_uid)->count();
         if ($count>0) {
             # Show
-            $data['row'] = DB::table('users_types')->where('user_type_id', '=', $user_type_id)->first();
+            $data['row'] = UserType::where('user_type_uid', $user_type_uid)->first();
             return view('users_types.show', ['data' => $data]);
         }else{
             # Error
@@ -113,17 +116,17 @@ class UsersTypesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($user_type_id)
+    public function edit($user_type_uid)
     {
         # User
         $data['user'] = Auth::user();
         # Menu
         $data['item'] = 'users';
         $data['subitem'] = 'users_types/index';
-        $count = DB::table('users_types')->where('user_type_id', '=', $user_type_id)->count();
+        $count = UserType::where('user_type_uid', $user_type_uid)->count();
         if ($count>0) {
             # Edit
-            $data['row'] = DB::table('users_types')->where('user_type_id', '=', $user_type_id)->first();
+            $data['row'] = UserType::where('user_type_uid', $user_type_uid)->first();
             return view('users_types.edit', ['data' => $data]);
         }else{
             # Error
@@ -138,26 +141,25 @@ class UsersTypesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $user_type_id)
+    public function update(Request $request, $user_type_uid)
     {
         # Rules
         $this->validate($request, [
             'user_type_description' => 'required|max:60',
         ]);
         # Request
-        $user_type_id = $request->input('user_type_id');
         $user_type_description = $request->input('user_type_description');
         # Unique 
-        $count = DB::table('users_types')->where('user_type_description', $user_type_description)->where('user_type_id', '<>', $user_type_id)->count();
+        $count = UserType::where('user_type_description', $user_type_description)->where('user_type_uid', '<>', $user_type_uid)->count();
         if ($count<1) {
             # Update
-            DB::table('users_types')
-                ->where('user_type_id', $user_type_id)
-                ->update(['user_type_description' => $user_type_description]);
-            return redirect('users_types/edit/'.$user_type_id)->with('success', 'Registro Actualizado');
+            $user_type = UserType::where('user_type_uid', $user_type_uid)->first();
+            $user_type->user_type_description = $user_type_description;
+            $user_type->save();
+            return redirect('users_types/edit/'.$user_type_uid)->with('success', 'Registro Actualizado');
         }else{
             # Error
-            return redirect('users_types/edit/'.$user_type_id)->with('danger', 'El elemento descripción ya está en uso.');
+            return redirect('users_types/edit/'.$user_type_uid)->with('danger', 'El elemento descripción ya está en uso.');
         }
     }
 
@@ -167,12 +169,12 @@ class UsersTypesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($user_type_id)
+    public function destroy($user_type_uid)
     {
-        $count = DB::table('users_types')->where('user_type_id', '=', $user_type_id)->count();
+        $count = UserType::where('user_type_uid', $user_type_uid)->count();
         if ($count>0) {
             # Delete
-            DB::table('users_types')->where('user_type_id', '=', $user_type_id)->delete();
+            UserType::where('user_type_uid', '=', $user_type_uid)->delete();
             return redirect('users_types/index')->with('success', 'Registro Elimino');
         }else{
             # Error

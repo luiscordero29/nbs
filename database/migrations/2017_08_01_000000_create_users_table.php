@@ -33,6 +33,7 @@ class CreateUsersTable extends Migration
             $table->char('user_number_id',60);
             $table->char('user_number_employee',60);
             $table->enum('rol_name', ['user', 'admin']);
+            $table->uuid('user_type_uid')->nullable();
             # Fields System
             $table->uuid('user_uid');
             $table->dateTime('user_created');
