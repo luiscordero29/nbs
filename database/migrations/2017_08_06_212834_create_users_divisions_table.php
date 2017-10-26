@@ -18,8 +18,13 @@ class CreateUsersDivisionsTable extends Migration
             # Fields
             $table->bigIncrements('user_division_id');
             $table->char('user_division_description', 60);
-            #Keys 
+            # Fields System
+            $table->uuid('user_division_uid');
+            $table->dateTime('user_division_created');
+            $table->dateTime('user_division_updated');
+            # Keys
             $table->unique('user_division_description');  
+            $table->unique('user_division_uid'); 
         });
     }
 

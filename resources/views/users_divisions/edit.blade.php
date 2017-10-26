@@ -2,7 +2,7 @@
 @section('title', 'Editar División')
 @section('breadcrumb')
     <div class="col-md-9 col-9 align-self-center">
-        <h3 class="text-themecolor m-b-0 m-t-0">Editar División</h3>
+        <h3 class="text-themecolor m-b-0 m-t-0"><i class="fa fa-users"></i> Usuarios</h3>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
             <li class="breadcrumb-item"><a href="/users_divisions/index">Divisiones</a></li>
@@ -14,7 +14,7 @@
     </div>
 @endsection
 @section('content')
-	<form method="POST" action="/users_divisions/update/{{ $data['row']->user_division_id }}">
+	<form method="POST" action="/users_divisions/update/{{ $data['row']->user_division_uid }}">
 		{{ csrf_field() }}
         <div class="form-body">
             <h3 class="card-title">Editar División</h3>
@@ -40,7 +40,7 @@
         <div class="form-actions">
             <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Guardar</button>
             <a href="/users_divisions/index" class="btn btn-inverse">Regresar</a>
-            <input type="hidden" name="user_division_id" value="{{ $data['row']->user_division_id }}">
+            <input type="hidden" name="user_division_uid" value="{{ $data['row']->user_division_uid }}">
         </div>
     </form>
 @endsection

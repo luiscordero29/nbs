@@ -2,7 +2,7 @@
 @section('title', 'Divisiones')
 @section('breadcrumb')
     <div class="col-md-9 col-9 align-self-center">
-        <h3 class="text-themecolor m-b-0 m-t-0">Divisiones</h3>
+        <h3 class="text-themecolor m-b-0 m-t-0"><i class="fa fa-users"></i> Usuarios</h3>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
             <li class="breadcrumb-item active">Divisiones </li>
@@ -35,7 +35,6 @@
        	<table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Id</th>
                     <th>División</th>
                     <th class="text-nowrap"></th>
                 </tr>
@@ -43,13 +42,12 @@
             <tbody>
     			@foreach ($data['rows'] as $r)
                     <tr>
-                       	<td>{{ $r->user_division_id }}</td>
                         <td>{{ $r->user_division_description }}</td>
                         <td class="text-nowrap">
                             <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                <a class="btn btn-secondary" href="/users_divisions/show/{{ $r->user_division_id }}" data-toggle="tooltip" data-original-title="Ver"> <i class="fa fa-eye text-inverse"></i> </a>
-                                <a class="btn btn-secondary" href="/users_divisions/edit/{{ $r->user_division_id }}" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse"></i> </a>
-                                <a class="btn btn-secondary" href="/users_divisions/destroy/{{ $r->user_division_id }}" data-toggle="tooltip" data-original-title="Eliminar"> <i class="fa fa-close text-danger"></i> </a>
+                                <a class="btn btn-secondary" href="/users_divisions/show/{{ $r->user_division_uid }}" data-toggle="tooltip" data-original-title="Ver"> <i class="fa fa-eye text-inverse"></i> </a>
+                                <a class="btn btn-secondary" href="/users_divisions/edit/{{ $r->user_division_uid }}" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse"></i> </a>
+                                <a class="btn btn-secondary" href="/users_divisions/destroy/{{ $r->user_division_uid }}" data-toggle="tooltip" data-original-title="Eliminar"> <i class="fa fa-close text-danger"></i> </a>
                             </div>
                         </td>
                     </tr>             

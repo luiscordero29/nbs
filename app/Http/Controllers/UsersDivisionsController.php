@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\UserDivision;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use DB;
+use Webpatser\Uuid\Uuid;
 
 class UsersDivisionsController extends Controller
 {
@@ -41,7 +42,7 @@ class UsersDivisionsController extends Controller
             $request->session()->forget('info');
             $request->session()->forget('search');
         }
-        $data['rows'] = DB::table('users_divisions')->where('user_division_description', 'like', '%'.$search.'%')->paginate(30);
+        $data['rows'] = UserDivision::where('user_division_description', 'like', '%'.$search.'%')->paginate(30);
         # View
         return view('users_divisions.index', ['data' => $data]);
     }
@@ -76,10 +77,12 @@ class UsersDivisionsController extends Controller
         ]);
         # Request
         $user_division_description = $request->input('user_division_description');
+        $user_division_uid = Uuid::generate()->string;
         # Insert
-        DB::table('users_divisions')->insert(
-            ['user_division_description' => $user_division_description]
-        );
+        $user_division = New UserDivision;
+        $user_division->user_division_description = $user_division_description;
+        $user_division->user_division_uid = $user_division_uid;
+        $user_division->save();
         return redirect('users_divisions/create')->with('success', 'Registro Guardado');
     }
 
@@ -89,17 +92,17 @@ class UsersDivisionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($user_division_id)
+    public function show($user_division_uid)
     {
         # User
         $data['user'] = Auth::user();
         # Menu
         $data['item'] = 'users';
         $data['subitem'] = 'users_divisions/index';
-        $count = DB::table('users_divisions')->where('user_division_id', '=', $user_division_id)->count();
+        $count = UserDivision::where('user_division_uid', $user_division_uid)->count();
         if ($count>0) {
             # Show
-            $data['row'] = DB::table('users_divisions')->where('user_division_id', '=', $user_division_id)->first();
+            $data['row'] = UserDivision::where('user_division_uid', $user_division_uid)->first();
             return view('users_divisions.show', ['data' => $data]);
         }else{
             # Error
@@ -113,17 +116,17 @@ class UsersDivisionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($user_division_id)
+    public function edit($user_division_uid)
     {
         # User
         $data['user'] = Auth::user();
         # Menu
         $data['item'] = 'users';
         $data['subitem'] = 'users_divisions/index';
-        $count = DB::table('users_divisions')->where('user_division_id', '=', $user_division_id)->count();
+        $count = UserDivision::where('user_division_uid', $user_division_uid)->count();
         if ($count>0) {
             # Edit
-            $data['row'] = DB::table('users_divisions')->where('user_division_id', '=', $user_division_id)->first();
+            $data['row'] = UserDivision::where('user_division_uid', $user_division_uid)->first();
             return view('users_divisions.edit', ['data' => $data]);
         }else{
             # Error
@@ -138,26 +141,26 @@ class UsersDivisionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $user_division_id)
+    public function update(Request $request, $user_division_uid)
     {
         # Rules
         $this->validate($request, [
             'user_division_description' => 'required|max:60',
         ]);
         # Request
-        $user_division_id = $request->input('user_division_id');
+        $user_division_uid = $request->input('user_division_uid');
         $user_division_description = $request->input('user_division_description');
         # Unique 
-        $count = DB::table('users_divisions')->where('user_division_description', $user_division_description)->where('user_division_id', '<>', $user_division_id)->count();
+        $count = UserDivision::where('user_division_description', $user_division_description)->where('user_division_uid', '<>', $user_division_uid)->count();
         if ($count<1) {
             # Update
-            DB::table('users_divisions')
-                ->where('user_division_id', $user_division_id)
-                ->update(['user_division_description' => $user_division_description]);
-            return redirect('users_divisions/edit/'.$user_division_id)->with('success', 'Registro Actualizado');
+            $user_division = UserDivision::where('user_division_uid', $user_division_uid)->first();
+            $user_division->user_division_description = $user_division_description;
+            $user_division->save();
+            return redirect('users_divisions/edit/'.$user_division_uid)->with('success', 'Registro Actualizado');
         }else{
             # Error
-            return redirect('users_divisions/edit/'.$user_division_id)->with('danger', 'El elemento descripción ya está en uso.');
+            return redirect('users_divisions/edit/'.$user_division_uid)->with('danger', 'El elemento descripción ya está en uso.');
         }
     }
 
@@ -167,12 +170,12 @@ class UsersDivisionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($user_division_id)
+    public function destroy($user_division_uid)
     {
-        $count = DB::table('users_divisions')->where('user_division_id', '=', $user_division_id)->count();
+        $count = UserDivision::where('user_division_uid', $user_division_uid)->count();
         if ($count>0) {
             # Delete
-            DB::table('users_divisions')->where('user_division_id', '=', $user_division_id)->delete();
+            UserDivision::where('user_division_uid', $user_division_uid)->delete();
             return redirect('users_divisions/index')->with('success', 'Registro Elimino');
         }else{
             # Error

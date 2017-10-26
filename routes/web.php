@@ -63,10 +63,10 @@ Route::middleware(AdminMiddleware::class)->group(function () {
 	Route::match(['get', 'post'],'users/index', 'UsersController@index');
 	Route::get('users/create', 'UsersController@create');
 	Route::post('users/store', 'UsersController@store');
-	Route::get('users/show/{user_id}', 'UsersController@show')->where('user_id', '[0-9]+');
-	Route::get('users/edit/{user_id}', 'UsersController@edit')->where('user_id', '[0-9]+');
-	Route::post('users/update/{user_id}', 'UsersController@update')->where('user_id', '[0-9]+');
-	Route::get('users/destroy/{user_id}', 'UsersController@destroy')->where('user_id', '[0-9]+');
+	Route::get('users/show/{user_uid}', 'UsersController@show');
+	Route::get('users/edit/{user_uid}', 'UsersController@edit');
+	Route::post('users/update/{user_uid}', 'UsersController@update');
+	Route::get('users/destroy/{user_uid}', 'UsersController@destroy');
 	/* users_vehicles */
 	Route::match(['get', 'post'],'users_vehicles/index/{user_id}', 'UsersVehiclesController@index')->where('user_id', '[0-9]+');
 	Route::get('users_vehicles/create/{user_id}', 'UsersVehiclesController@create')->where('user_id', '[0-9]+');
@@ -95,18 +95,18 @@ Route::middleware(AdminMiddleware::class)->group(function () {
 	Route::match(['get', 'post'],'users_positions/index', 'UsersPositionsController@index');
 	Route::get('users_positions/create', 'UsersPositionsController@create');
 	Route::post('users_positions/store', 'UsersPositionsController@store');
-	Route::get('users_positions/show/{user_position_id}', 'UsersPositionsController@show')->where('user_position_id', '[0-9]+');
-	Route::get('users_positions/edit/{user_position_id}', 'UsersPositionsController@edit')->where('user_position_id', '[0-9]+');
-	Route::post('users_positions/update/{user_position_id}', 'UsersPositionsController@update')->where('user_position_id', '[0-9]+');
-	Route::get('users_positions/destroy/{user_position_id}', 'UsersPositionsController@destroy')->where('user_position_id', '[0-9]+');
+	Route::get('users_positions/show/{user_position_uid}', 'UsersPositionsController@show');
+	Route::get('users_positions/edit/{user_position_uid}', 'UsersPositionsController@edit');
+	Route::post('users_positions/update/{user_position_uid}', 'UsersPositionsController@update');
+	Route::get('users_positions/destroy/{user_position_uid}', 'UsersPositionsController@destroy');
 	/* users_divisions */
 	Route::match(['get', 'post'],'users_divisions/index', 'UsersDivisionsController@index');
 	Route::get('users_divisions/create', 'UsersDivisionsController@create');
 	Route::post('users_divisions/store', 'UsersDivisionsController@store');
-	Route::get('users_divisions/show/{user_division_id}', 'UsersDivisionsController@show')->where('user_division_id', '[0-9]+');
-	Route::get('users_divisions/edit/{user_division_id}', 'UsersDivisionsController@edit')->where('user_division_id', '[0-9]+');
-	Route::post('users_divisions/update/{user_division_id}', 'UsersDivisionsController@update')->where('user_division_id', '[0-9]+');
-	Route::get('users_divisions/destroy/{user_division_id}', 'UsersDivisionsController@destroy')->where('user_division_id', '[0-9]+');
+	Route::get('users_divisions/show/{user_division_uid}', 'UsersDivisionsController@show');
+	Route::get('users_divisions/edit/{user_division_uid}', 'UsersDivisionsController@edit');
+	Route::post('users_divisions/update/{user_division_uid}', 'UsersDivisionsController@update');
+	Route::get('users_divisions/destroy/{user_division_uid}', 'UsersDivisionsController@destroy');
 	/* vehicles */
 	Route::match(['get', 'post'],'vehicles/index', 'VehiclesController@index');
 	Route::get('vehicles/create', 'VehiclesController@create');

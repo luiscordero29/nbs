@@ -2,7 +2,7 @@
 @section('title', 'Ver Usuario')
 @section('breadcrumb')
     <div class="col-md-9 col-9 align-self-center">
-        <h3 class="text-themecolor m-b-0 m-t-0">Ver Usuario</h3>
+        <h3 class="text-themecolor m-b-0 m-t-0"><i class="fa fa-users"></i> Usuarios</h3>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
             <li class="breadcrumb-item"><a href="/users/index">Usuarios</a></li>
@@ -32,19 +32,19 @@
                     <b>Nombres: </b>{{ $data['row']->user_lastname }}
                 </div>
                 <div class="col-4">
-                    <b>Tipo: </b>{{ $data['row']->user_type_description }}
+                    <b>Tipo: </b>@isset($data['row']->user_type->user_type_description) {{ $data['row']->user_type->user_type_description }} @endisset
                 </div> 
                 <div class="col-4">
-                    <b>División: </b>{{ $data['row']->user_division_description }}
+                    <b>División: </b>@isset($data['row']->user_division->user_division_description) {{ $data['row']->user_division->user_division_description }} @endisset
                 </div> 
                 <div class="col-4">
-                    <b>Cargo: </b>{{ $data['row']->user_position_description }}
-                </div>   
+                    <b>Cargo: </b>@isset($data['row']->user_position->user_position_description) {{ $data['row']->user_position->user_position_description }} @endisset
+                </div> 
                 <div class="col-8">
                     <b>E-mail: </b>{{ $data['row']->email }}<br />
                 </div>
                 <div class="col-4">
-                    <b>Rol: </b>{{ $data['row']->rol_description }}<br />
+                    <b>Rol: </b>{{ $data['row']->rol_name }}<br />
                 </div>
             </div>
         </div>
@@ -67,19 +67,19 @@
                     <b>Nombres: </b>{{ $data['row']->user_lastname }}
                 </div>
                 <div class="col-4">
-                    <b>Tipo: </b>{{ $data['row']->user_type_description }}
+                    <b>Tipo: </b>@isset($data['row']->user_type->user_type_description) {{ $data['row']->user_type->user_type_description }} @endisset
                 </div> 
                 <div class="col-4">
-                    <b>División: </b>{{ $data['row']->user_division_description }}
+                    <b>División: </b>@isset($data['row']->user_division->user_division_description) {{ $data['row']->user_division->user_division_description }} @endisset
                 </div> 
                 <div class="col-4">
-                    <b>Cargo: </b>{{ $data['row']->user_position_description }}
+                    <b>Cargo: </b>@isset($data['row']->user_position->user_position_description) {{ $data['row']->user_position->user_position_description }} @endisset
                 </div>   
                 <div class="col-8">
                     <b>E-mail: </b>{{ $data['row']->email }}<br />
                 </div>
                 <div class="col-4">
-                    <b>Rol: </b>{{ $data['row']->rol_description }}<br />
+                    <b>Rol: </b>{{ $data['row']->rol_name }}<br />
                 </div>
             </div>
         </div>

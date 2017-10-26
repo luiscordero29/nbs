@@ -21,6 +21,18 @@ class CreateUsersConstraints extends Migration
                 ->on('users_types')
                 ->onDelete(DB::raw('set null'))
                 ->onUpdate('cascade');
+            $table
+                ->foreign('user_position_uid')
+                ->references('user_position_uid')
+                ->on('users_positions')
+                ->onDelete(DB::raw('set null'))
+                ->onUpdate('cascade');
+            $table
+                ->foreign('user_division_uid')
+                ->references('user_division_uid')
+                ->on('users_divisions')
+                ->onDelete(DB::raw('set null'))
+                ->onUpdate('cascade');
         });
     }
 
@@ -34,6 +46,8 @@ class CreateUsersConstraints extends Migration
         Schema::table('users', function (Blueprint $table) {
             # Foreign Key Constraints
             $table->dropForeign('users_user_type_uid_foreign');
+            $table->dropForeign('users_user_position_uid_foreign');
+            $table->dropForeign('users_user_division_uid_foreign');
         });
     }
 }

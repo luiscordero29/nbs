@@ -51,4 +51,28 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ]; 
+
+    /**
+     * Get the UserDivision record associated with the Test.
+     */
+    public function user_division()
+    {
+        return $this->hasOne('App\UserDivision', 'user_division_uid', 'user_division_uid');
+    }
+
+    /**
+     * Get the UserPosition record associated with the Test.
+     */
+    public function user_position()
+    {
+        return $this->hasOne('App\UserPosition', 'user_position_uid', 'user_position_uid');
+    }
+
+    /**
+     * Get the UserType record associated with the Test.
+     */
+    public function user_type()
+    {
+        return $this->hasOne('App\UserType', 'user_type_uid', 'user_type_uid');
+    }
 }

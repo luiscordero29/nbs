@@ -2,7 +2,7 @@
 @section('title', 'Editar Usuario')
 @section('breadcrumb')
     <div class="col-md-9 col-9 align-self-center">
-        <h3 class="text-themecolor m-b-0 m-t-0">Editar Usuario</h3>
+        <h3 class="text-themecolor m-b-0 m-t-0"><i class="fa fa-users"></i> Usuarios</h3>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
             <li class="breadcrumb-item"><a href="/users/index">Usuarios</a></li>
@@ -14,7 +14,7 @@
     </div>
 @endsection
 @section('content')
-	<form method="POST" action="/users/update/{{ $data['row']->user_id }}" enctype="multipart/form-data">
+	<form method="POST" action="/users/update/{{ $data['row']->user_uid }}" enctype="multipart/form-data">
 		{{ csrf_field() }}
         <div class="form-body">
             <h3 class="card-title">Datos del Usuario</h3>
@@ -89,16 +89,15 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <div class="form-group @if($errors->has('users_user_rol_name')) has-danger @endif">
-                                    <label for="users_user_rol_name" class="form-control-label">Rol</label>
-                                    <select class="custom-select select2" name="users_user_rol_name" id="users_user_rol_name" style="width: 100%">
+                                <div class="form-group @if($errors->has('rol_name')) has-danger @endif">
+                                    <label for="rol_name" class="form-control-label">Rol</label>
+                                    <select class="custom-select select2" name="rol_name" id="rol_name" style="width: 100%">
                                         <option value="">Seleccione</option>
-                                        @foreach ($data['roles'] as $r)
-                                        <option @if ($data['row']->rol_name == $r->rol_name ) selected=""  @endif value="{{$r->rol_name}}">{{$r->rol_description}}</option>
-                                        @endforeach
+                                        <option @if ($data['row']->rol_name == 'admin' ) selected=""  @endif value="admin">Administrador</option>
+                                        <option @if ($data['row']->rol_name == 'user' ) selected=""  @endif value="user">Usuario</option>
                                     </select>
-                                    @if ($errors->has('users_user_rol_name'))
-                                        @foreach ($errors->get('users_user_rol_name') as $error)
+                                    @if ($errors->has('rol_name'))
+                                        @foreach ($errors->get('rol_name') as $error)
                                             <div class="form-control-feedback">{{ $error }}</div>
                                         @endforeach
                                     @endif
@@ -113,16 +112,16 @@
                     <div class="p-20">
                         <div class="row ">
                             <div class="col-md-12">
-                                <div class="form-group @if($errors->has('users_user_type_description')) has-danger @endif">
+                                <div class="form-group @if($errors->has('users_user_type_uid')) has-danger @endif">
                                     <label class="form-control-label">Tipo</label>
-                                    <select id="users_user_type_description" class="custom-select select2" name="users_user_type_description" style="width: 100%">
+                                    <select id="users_user_type_uid" class="custom-select select2" name="users_user_type_uid" style="width: 100%">
                                         <option value="">Seleccione</option>
                                         @foreach ($data['users_types'] as $r)
-                                        <option @if ($data['row']->user_type_description == $r->user_type_description ) selected=""  @endif value="{{$r->user_type_description}}">{{$r->user_type_description}}</option>
+                                        <option @if ($data['row']->user_type_uid == $r->user_type_uid ) selected=""  @endif value="{{$r->user_type_uid}}">{{$r->user_type_description}}</option>
                                         @endforeach
                                     </select>
-                                    @if ($errors->has('users_user_type_description'))
-                                        @foreach ($errors->get('users_user_type_description') as $error)
+                                    @if ($errors->has('users_user_type_uid'))
+                                        @foreach ($errors->get('users_user_type_uid') as $error)
                                             <div class="form-control-feedback">{{ $error }}</div>
                                         @endforeach
                                     @endif
@@ -130,16 +129,16 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <div class="form-group" @if($errors->has('users_user_division_description')) has-danger @endif">
+                                <div class="form-group" @if($errors->has('users_user_division_uid')) has-danger @endif">
                                     <label class="form-control-label">División</label>
-                                    <select class="custom-select select2" name="users_user_division_description" style="width: 100%">
+                                    <select class="custom-select select2" name="users_user_division_uid" style="width: 100%">
                                         <option value="">Seleccione</option>
                                         @foreach ($data['users_divisions'] as $r)
-                                        <option @if ($data['row']->user_division_description == $r->user_division_description ) selected=""  @endif value="{{$r->user_division_description}}">{{$r->user_division_description}}</option>
+                                        <option @if ($data['row']->user_division_uid == $r->user_division_uid ) selected=""  @endif value="{{$r->user_division_uid}}">{{$r->user_division_description}}</option>
                                         @endforeach
                                     </select>
-                                    @if ($errors->has('users_user_division_description'))
-                                        @foreach ($errors->get('users_user_division_description') as $error)
+                                    @if ($errors->has('users_user_division_uid'))
+                                        @foreach ($errors->get('users_user_division_uid') as $error)
                                             <div class="form-control-feedback">{{ $error }}</div>
                                         @endforeach
                                     @endif
@@ -147,16 +146,16 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <div class="form-group @if($errors->has('users_user_position_description')) has-danger @endif">
+                                <div class="form-group @if($errors->has('users_user_position_uid')) has-danger @endif">
                                     <label class="form-control-label">Cargo</label>
-                                    <select class="custom-select select2" name="users_user_position_description" style="width: 100%">
+                                    <select class="custom-select select2" name="users_user_position_uid" style="width: 100%">
                                         <option value="">Seleccione</option>
                                         @foreach ($data['users_positions'] as $r)
-                                        <option @if ($data['row']->user_position_description == $r->user_position_description ) selected=""  @endif value="{{$r->user_position_description}}">{{$r->user_position_description}}</option>
+                                        <option @if ($data['row']->user_position_uid == $r->user_position_uid ) selected=""  @endif value="{{$r->user_position_uid}}">{{$r->user_position_description}}</option>
                                         @endforeach
                                     </select>
-                                    @if ($errors->has('users_user_position_description'))
-                                        @foreach ($errors->get('users_user_position_description') as $error)
+                                    @if ($errors->has('users_user_position_uid'))
+                                        @foreach ($errors->get('users_user_position_uid') as $error)
                                             <div class="form-control-feedback">{{ $error }}</div>
                                         @endforeach
                                     @endif
@@ -187,7 +186,7 @@
             <!--/row-->                                        
         </div>
         <div class="form-actions p-t-20">
-            <input type="hidden" name="user_id" value="{{ $data['row']->user_id }}">
+            <input type="hidden" name="user_uid" value="{{ $data['row']->user_uid }}">
             <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Guardar</button>
             <a href="/users/index" class="btn btn-inverse">Regresar</a>
         </div>

@@ -2,7 +2,7 @@
 @section('title', 'Gestor de Usuarios')
 @section('breadcrumb')
     <div class="col-md-9 col-9 align-self-center">
-        <h3 class="text-themecolor m-b-0 m-t-0">Usuarios</h3>
+        <h3 class="text-themecolor m-b-0 m-t-0"><i class="fa fa-users"></i> Usuarios</h3>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
             <li class="breadcrumb-item active">Usuarios </li>
@@ -35,7 +35,6 @@
        	<table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Id</th>
                     <th>Datos</th>
                     <th class="text-nowrap"></th>
                 </tr>
@@ -43,7 +42,6 @@
             <tbody>
     			@foreach ($data['rows'] as $r)
                     <tr>
-                       	<td>{{ $r->user_id }}</td>
                         <td>
                             <div class="row">
                                 <div class="col-6">
@@ -60,11 +58,11 @@
                         </td>
                         <td class="text-nowrap">
                             <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                <a class="btn btn-secondary" href="/users_booking/index/{{ $r->user_id }}" data-toggle="tooltip" data-original-title="Reservas"><i class="fa fa-calendar"></i></a>
-                                <a class="btn btn-secondary" href="/users_vehicles/index/{{ $r->user_id }}" data-toggle="tooltip" data-original-title="Vehiculos"><i class="fa fa-car"></i></a>
-                                <a class="btn btn-secondary" href="/users/show/{{ $r->user_id }}" data-toggle="tooltip" data-original-title="Ver"><i class="fa fa-eye"></i></a>
-                                <a class="btn btn-secondary" href="/users/edit/{{ $r->user_id }}" data-toggle="tooltip" data-original-title="Editar"><i class="fa fa-pencil"></i></a>
-                                <a class="btn btn-secondary" href="/users/destroy/{{ $r->user_id }}" data-toggle="tooltip" data-original-title="Eliminar"><i class="fa fa-close  text-danger"></i></a>
+                                <a class="btn btn-secondary" href="/users_booking/index/{{ $r->user_uid }}" data-toggle="tooltip" data-original-title="Reservas"><i class="fa fa-calendar"></i></a>
+                                <a class="btn btn-secondary" href="/users_vehicles/index/{{ $r->user_uid }}" data-toggle="tooltip" data-original-title="Vehiculos"><i class="fa fa-car"></i></a>
+                                <a class="btn btn-secondary" href="/users/show/{{ $r->user_uid }}" data-toggle="tooltip" data-original-title="Ver"><i class="fa fa-eye"></i></a>
+                                <a class="btn btn-secondary" href="/users/edit/{{ $r->user_uid }}" data-toggle="tooltip" data-original-title="Editar"><i class="fa fa-pencil"></i></a>
+                                <a class="btn btn-secondary" href="/users/destroy/{{ $r->user_uid }}" data-toggle="tooltip" data-original-title="Eliminar"><i class="fa fa-close  text-danger"></i></a>
                             </div>
                         </td>
                     </tr>             

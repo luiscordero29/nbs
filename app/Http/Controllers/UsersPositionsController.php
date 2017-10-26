@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\UserPosition;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use DB;
+use Webpatser\Uuid\Uuid;
 
 class UsersPositionsController extends Controller
 {
@@ -41,7 +42,7 @@ class UsersPositionsController extends Controller
             $request->session()->forget('info');
             $request->session()->forget('search');
         }
-        $data['rows'] = DB::table('users_positions')->where('user_position_description', 'like', '%'.$search.'%')->paginate(30);
+        $data['rows'] = UserPosition::where('user_position_description', 'like', '%'.$search.'%')->paginate(30);
         # View
         return view('users_positions.index', ['data' => $data]);
     }
@@ -76,10 +77,12 @@ class UsersPositionsController extends Controller
         ]);
         # Request
         $user_position_description = $request->input('user_position_description');
+        $user_position_uid = Uuid::generate()->string;
         # Insert
-        DB::table('users_positions')->insert(
-            ['user_position_description' => $user_position_description]
-        );
+        $user_position = New UserPosition;
+        $user_position->user_position_description = $user_position_description;
+        $user_position->user_position_uid = $user_position_uid;
+        $user_position->save();
         return redirect('users_positions/create')->with('success', 'Registro Guardado');
     }
 
@@ -89,17 +92,17 @@ class UsersPositionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($user_position_id)
+    public function show($user_position_uid)
     {
         # User
         $data['user'] = Auth::user();
         # Menu
         $data['item'] = 'users';
         $data['subitem'] = 'users_positions/index';
-        $count = DB::table('users_positions')->where('user_position_id', '=', $user_position_id)->count();
+        $count = UserPosition::where('user_position_uid', $user_position_uid)->count();
         if ($count>0) {
             # Show
-            $data['row'] = DB::table('users_positions')->where('user_position_id', '=', $user_position_id)->first();
+            $data['row'] = UserPosition::where('user_position_uid', $user_position_uid)->first();
             return view('users_positions.show', ['data' => $data]);
         }else{
             # Error
@@ -113,17 +116,17 @@ class UsersPositionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($user_position_id)
+    public function edit($user_position_uid)
     {
         # User
         $data['user'] = Auth::user();
         # Menu
         $data['item'] = 'users';
         $data['subitem'] = 'users_positions/index';
-        $count = DB::table('users_positions')->where('user_position_id', '=', $user_position_id)->count();
+        $count = UserPosition::where('user_position_uid', $user_position_uid)->count();
         if ($count>0) {
             # Edit
-            $data['row'] = DB::table('users_positions')->where('user_position_id', '=', $user_position_id)->first();
+            $data['row'] = UserPosition::where('user_position_uid', $user_position_uid)->first();
             return view('users_positions.edit', ['data' => $data]);
         }else{
             # Error
@@ -138,26 +141,26 @@ class UsersPositionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $user_position_id)
+    public function update(Request $request, $user_position_uid)
     {
         # Rules
         $this->validate($request, [
             'user_position_description' => 'required|max:60',
         ]);
         # Request
-        $user_position_id = $request->input('user_position_id');
+        $user_position_uid = $request->input('user_position_uid');
         $user_position_description = $request->input('user_position_description');
         # Unique 
-        $count = DB::table('users_positions')->where('user_position_description', $user_position_description)->where('user_position_id', '<>', $user_position_id)->count();
+        $count = UserPosition::where('user_position_description', $user_position_description)->where('user_position_uid', '<>', $user_position_uid)->count();
         if ($count<1) {
             # Update
-            DB::table('users_positions')
-                ->where('user_position_id', $user_position_id)
-                ->update(['user_position_description' => $user_position_description]);
-            return redirect('users_positions/edit/'.$user_position_id)->with('success', 'Registro Actualizado');
+            $user_position = UserPosition::where('user_position_uid', $user_position_uid)->first();
+            $user_position->user_position_description = $user_position_description;
+            $user_position->save();
+            return redirect('users_positions/edit/'.$user_position_uid)->with('success', 'Registro Actualizado');
         }else{
             # Error
-            return redirect('users_positions/edit/'.$user_position_id)->with('danger', 'El elemento descripción ya está en uso.');
+            return redirect('users_positions/edit/'.$user_position_uid)->with('danger', 'El elemento descripción ya está en uso.');
         }
     }
 
@@ -167,12 +170,12 @@ class UsersPositionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($user_position_id)
+    public function destroy($user_position_uid)
     {
-        $count = DB::table('users_positions')->where('user_position_id', '=', $user_position_id)->count();
+        $count = UserPosition::where('user_position_uid', $user_position_uid)->count();
         if ($count>0) {
             # Delete
-            DB::table('users_positions')->where('user_position_id', '=', $user_position_id)->delete();
+            UserPosition::where('user_position_uid', $user_position_uid)->delete();
             return redirect('users_positions/index')->with('success', 'Registro Elimino');
         }else{
             # Error

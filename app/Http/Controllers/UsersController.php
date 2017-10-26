@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\User;
-use DB;
+use App\UserType;
+use App\UserPosition;
+use App\UserDivision;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -66,11 +68,10 @@ class UsersController extends Controller
         # Menu
         $data['item'] = 'users';
         $data['subitem'] = 'users/index';
-        # 
-        $data['users_types'] = DB::table('users_types')->get();
-        $data['users_positions'] = DB::table('users_positions')->get();
-        $data['users_divisions'] = DB::table('users_divisions')->get();
-        $data['roles'] = DB::table('roles')->get();
+        # Data
+        $data['users_types'] = UserType::get();
+        $data['users_positions'] = UserPosition::get();
+        $data['users_divisions'] = UserDivision::get();
         # View
         return view('users.create', ['data' => $data]);
     }
@@ -90,58 +91,58 @@ class UsersController extends Controller
             'user_firstname' => 'required|max:60',
             'user_lastname' => 'required|max:60',
             'email' => 'required|max:160|unique:users,email|email',
-            'users_user_rol_name' => 'required',
+            'rol_name' => 'required',
             'user_image' => 'image|mimes:jpeg,png',
         ]);
         # Request
         $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $length = 16;
+        $email = $request->input('email');
         $password = substr(str_shuffle(str_repeat($pool, $length)), 0, $length);
         $user_number_id = $request->input('user_number_id');
         $user_number_employee = $request->input('user_number_employee');
         $user_firstname = $request->input('user_firstname');
         $user_lastname = $request->input('user_lastname');
-        $user_type_description = $request->input('users_user_type_description');
-        $user_division_description = $request->input('users_user_division_description');
-        $user_position_description = $request->input('users_user_position_description');
-        $email = $request->input('email');
-        $user_rol_name = $request->input('users_user_rol_name');
+        $rol_name = $request->input('rol_name');
+        $user_type_uid = $request->input('users_user_type_uid');
+        $user_division_uid = $request->input('users_user_division_uid');
+        $user_position_uid = $request->input('users_user_position_uid');
+        $user_uid = Uuid::generate()->string;
         if ($request->hasFile('user_image')) {
             $extension = $request->file('user_image')->extension();
-            $user_image = $user_number_id.'.'.$extension;
+            $user_image = $user_uid.'.'.$extension;
             $request->user_image->storeAs('public', $user_image);
             # Insert
-            DB::table('users')->insert(
-                [
-                    'user_number_id' => $user_number_id,
-                    'user_number_employee' => $user_number_employee,
-                    'user_firstname' => $user_firstname,
-                    'user_lastname' => $user_lastname,
-                    'user_type_description' => $user_type_description,
-                    'user_division_description' => $user_division_description,
-                    'user_position_description' => $user_position_description,
-                    'user_rol_name' => $user_rol_name,
-                    'email' => $email,
-                    'password' => $password,
-                    'user_image' => $user_image,
-                ]
-            );
+            $user = New User;
+            $user->email = $email;
+            $user->password = $password;
+            $user->user_number_id = $user_number_id;
+            $user->user_number_employee = $user_number_employee;
+            $user->user_firstname = $user_firstname;
+            $user->user_lastname = $user_lastname;
+            $user->rol_name = $rol_name;
+            $user->user_image = $user_image;
+            $user->user_type_uid = $user_type_uid;
+            $user->user_division_uid = $user_division_uid;
+            $user->user_position_uid = $user_position_uid;
+            $user->user_uid = $user_uid;
+            $user->save();
+            
         }else{
             # Insert
-            DB::table('users')->insert(
-                [
-                    'user_number_id' => $user_number_id,
-                    'user_number_employee' => $user_number_employee,
-                    'user_firstname' => $user_firstname,
-                    'user_lastname' => $user_lastname,
-                    'user_type_description' => $user_type_description,
-                    'user_division_description' => $user_division_description,
-                    'user_position_description' => $user_position_description,
-                    'user_rol_name' => $user_rol_name,
-                    'email' => $email,
-                    'password' => $password,
-                ]
-            );
+            $user = New User;
+            $user->email = $email;
+            $user->password = $password;
+            $user->user_number_id = $user_number_id;
+            $user->user_number_employee = $user_number_employee;
+            $user->user_firstname = $user_firstname;
+            $user->user_lastname = $user_lastname;
+            $user->rol_name = $rol_name;
+            $user->user_type_uid = $user_type_uid;
+            $user->user_division_uid = $user_division_uid;
+            $user->user_position_uid = $user_position_uid;
+            $user->user_uid = $user_uid;
+            $user->save();
         }
         return redirect('users/create')->with('success', 'Registro Guardado');
     }
@@ -152,17 +153,17 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($user_id)
+    public function show($user_uid)
     {
         # User
         $data['user'] = Auth::user();
         # Menu
         $data['item'] = 'users';
         $data['subitem'] = 'users/index';
-        $count = DB::table('users')->where('user_id', '=', $user_id)->count();
+        $count = User::where('user_uid', $user_uid)->count();
         if ($count>0) {
             # Show
-            $data['row'] = DB::table('users')->join('roles', 'roles.rol_name', '=', 'users.user_rol_name')->where('user_id', '=', $user_id)->first();
+            $data['row'] = User::where('user_uid', $user_uid)->first();
             return view('users.show', ['data' => $data]);
         }else{
             # Error
@@ -176,21 +177,20 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($user_id)
+    public function edit($user_uid)
     {
         # User
         $data['user'] = Auth::user();
         # Menu
         $data['item'] = 'users';
         $data['subitem'] = 'users/index';
-        $count = DB::table('users')->where('user_id', '=', $user_id)->count();
+        $count = User::where('user_uid', $user_uid)->count();
         if ($count>0) {
             # Edit
-            $data['users_types'] = DB::table('users_types')->get();
-            $data['users_positions'] = DB::table('users_positions')->get();
-            $data['users_divisions'] = DB::table('users_divisions')->get();
-            $data['roles'] = DB::table('roles')->get();
-            $data['row'] = DB::table('users')->join('roles', 'roles.rol_name', '=', 'users.user_rol_name')->where('user_id', '=', $user_id)->first();
+            $data['users_types'] = UserType::get();
+            $data['users_positions'] = UserPosition::get();
+            $data['users_divisions'] = UserDivision::get();
+            $data['row'] = User::where('user_uid', $user_uid)->first();
             return view('users.edit', ['data' => $data]);
         }else{
             # Error
@@ -205,7 +205,7 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $user_id)
+    public function update(Request $request, $user_uid)
     {
         # Rules
         $this->validate($request, [
@@ -214,75 +214,67 @@ class UsersController extends Controller
             'user_firstname' => 'required|max:60',
             'user_lastname' => 'required|max:60',
             'email' => 'required|max:160|email',
-            'users_user_rol_name' => 'required',
+            'rol_name' => 'required',
             'user_image' => 'image|mimes:jpeg,png',
         ]);
         # Request
-        $user_id = $request->input('user_id');
+        $user_uid = $request->input('user_uid');
+        $email = $request->input('email');
         $user_number_id = $request->input('user_number_id');
         $user_number_employee = $request->input('user_number_employee');
         $user_firstname = $request->input('user_firstname');
         $user_lastname = $request->input('user_lastname');
-        $user_type_description = $request->input('users_user_type_description');
-        $user_division_description = $request->input('users_user_division_description');
-        $user_position_description = $request->input('users_user_position_description');
-        $email = $request->input('email');
-        $user_rol_name = $request->input('users_user_rol_name');
+        $rol_name = $request->input('rol_name');
+        $user_type_uid = $request->input('users_user_type_uid');
+        $user_division_uid = $request->input('users_user_division_uid');
+        $user_position_uid = $request->input('users_user_position_uid');
         # Unique 
-        $count_user_number_id = DB::table('users')->where('user_number_id', $user_number_id)->where('user_id', '<>', $user_id)->count();
-        $count_user_number_employee = DB::table('users')->where('user_number_employee', $user_number_employee)->where('user_id', '<>', $user_id)->count();
-        $count_email = DB::table('users')->where('email', $email)->where('user_id', '<>', $user_id)->count();
+        $count_user_number_id = User::where('user_number_id', $user_number_id)->where('user_uid', '<>', $user_uid)->count();
+        $count_user_number_employee = User::where('user_number_employee', $user_number_employee)->where('user_uid', '<>', $user_uid)->count();
+        $count_email = User::where('email', $email)->where('user_uid', '<>', $user_uid)->count();
         if ($count_user_number_id<1 or $count_user_number_employee<1 or $count_email<1) {
             if ($request->hasFile('user_image')) {
                 $extension = $request->file('user_image')->extension();
-                $user_image = $user_number_id.'.'.$extension;
+                $user_image = $user_uid.'.'.$extension;
                 $request->user_image->storeAs('public', $user_image);
                 # Update
-                DB::table('users')
-                    ->where('user_id', $user_id)
-                    ->update(
-                        [
-                            'user_number_id' => $user_number_id,
-                            'user_number_employee' => $user_number_employee,
-                            'user_firstname' => $user_firstname,
-                            'user_lastname' => $user_lastname,
-                            'user_type_description' => $user_type_description,
-                            'user_division_description' => $user_division_description,
-                            'user_position_description' => $user_position_description,
-                            'user_rol_name' => $user_rol_name,
-                            'email' => $email,
-                            'user_image' => $user_image,
-                        ]
-                    );
+                $user = User::where('user_uid', $user_uid)->first();
+                $user->user_number_id = $user_number_id;
+                $user->user_number_employee = $user_number_employee;
+                $user->user_firstname = $user_firstname;
+                $user->user_lastname = $user_lastname;
+                $user->user_type_uid = $user_type_uid;
+                $user->user_division_uid = $user_division_uid;
+                $user->user_position_uid = $user_position_uid;
+                $user->rol_name = $rol_name;
+                $user->email = $email;
+                $user->user_image = $user_image;
+                $user->save();
             }else{
                 # Update
-                DB::table('users')
-                    ->where('user_id', $user_id)
-                    ->update(
-                        [
-                            'user_number_id' => $user_number_id,
-                            'user_number_employee' => $user_number_employee,
-                            'user_firstname' => $user_firstname,
-                            'user_lastname' => $user_lastname,
-                            'user_type_description' => $user_type_description,
-                            'user_division_description' => $user_division_description,
-                            'user_position_description' => $user_position_description,
-                            'user_rol_name' => $user_rol_name,
-                            'email' => $email,
-                        ]
-                    );
+                $user = User::where('user_uid', $user_uid)->first();
+                $user->user_number_id = $user_number_id;
+                $user->user_number_employee = $user_number_employee;
+                $user->user_firstname = $user_firstname;
+                $user->user_lastname = $user_lastname;
+                $user->user_type_uid = $user_type_uid;
+                $user->user_division_uid = $user_division_uid;
+                $user->user_position_uid = $user_position_uid;
+                $user->rol_name = $rol_name;
+                $user->email = $email;
+                $user->save();
             }
-            return redirect('users/edit/'.$user_id)->with('success', 'Registro Actualizado');
+            return redirect('users/edit/'.$user_uid)->with('success', 'Registro Actualizado');
         }else{
             # Error
             if ($count_user_number_id<1 ) {
-                return redirect('users/edit/'.$user_id)->with('danger', 'El elemento Número ID ya está en uso.');
+                return redirect('users/edit/'.$user_uid)->with('danger', 'El elemento Número ID ya está en uso.');
             }
             if ($count_user_number_employee<1 ) {
-                return redirect('users/edit/'.$user_id)->with('danger', 'El elemento Número de Empleado ya está en uso.');
+                return redirect('users/edit/'.$user_uid)->with('danger', 'El elemento Número de Empleado ya está en uso.');
             }
             if ($count_email<1 ) {
-                return redirect('users/edit/'.$user_id)->with('danger', 'El elemento E-mail ya está en uso.');
+                return redirect('users/edit/'.$user_uid)->with('danger', 'El elemento E-mail ya está en uso.');
             }
         }
     }
@@ -293,14 +285,14 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($user_id)
+    public function destroy($user_uid)
     {
-        $count = DB::table('users')->where('user_id', '=', $user_id)->count();
+        $count = User::where('user_uid',$user_uid)->count();
         if ($count>0) {
             # Delete
-            $data = DB::table('users')->where('user_id', '=', $user_id)->first();
-            Storage::delete($data->user_number_id);
-            DB::table('users')->where('user_id', '=', $user_id)->delete();
+            $data = User::where('user_uid', $user_uid)->first();
+            Storage::delete($data->user_uid);
+            User::where('user_uid', $user_uid)->delete();
             return redirect('users/index')->with('success', 'Registro Elimino');
         }else{
             # Error
