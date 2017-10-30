@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\VehicleType;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-use DB;
+use Webpatser\Uuid\Uuid;
 
 class VehiclesTypesController extends Controller
 {
@@ -42,9 +42,7 @@ class VehiclesTypesController extends Controller
             $request->session()->forget('info');
             $request->session()->forget('search');
         }
-        $data['rows'] = DB::table('vehicles_types')
-            ->where('vehicle_type_name', 'like', '%'.$search.'%')
-            ->paginate(30);
+        $data['rows'] = VehicleType::where('vehicle_type_name', 'like', '%'.$search.'%')->paginate(30);
         # View
         return view('vehicles_types.index', ['data' => $data]);
     }
@@ -81,26 +79,24 @@ class VehiclesTypesController extends Controller
         # Request
         $vehicle_type_name = $request->input('vehicle_type_name');
         $vehicle_type_description = $request->input('vehicle_type_description');
+        $vehicle_type_uid = Uuid::generate()->string;        
         if ($request->hasFile('vehicle_type_icon')) {
             $extension = $request->file('vehicle_type_icon')->extension();
-            $vehicle_type_icon = $vehicle_type_name.'.'.$extension;
+            $vehicle_type_icon = $vehicle_type_uid.'.'.$extension;
             $request->vehicle_type_icon->storeAs('public', $vehicle_type_icon);
             # Insert
-            DB::table('vehicles_types')->insert(
-                [
-                    'vehicle_type_name' => $vehicle_type_name,
-                    'vehicle_type_description' => $vehicle_type_description,
-                    'vehicle_type_icon' => $vehicle_type_icon,
-                ]
-            );
+            $vehicle_type = New VehicleType;
+            $vehicle_type->vehicle_type_name = $vehicle_type_name;
+            $vehicle_type->vehicle_type_description = $vehicle_type_description;
+            $vehicle_type->vehicle_type_icon = $vehicle_type_icon;
+            $vehicle_type->vehicle_type_uid = $vehicle_type_uid;
+            $vehicle_type->save();
         }else{
-            # Insert
-            DB::table('vehicles_types')->insert(
-                [
-                    'vehicle_type_name' => $vehicle_type_name,
-                    'vehicle_type_description' => $vehicle_type_description,
-                ]
-            );
+            $vehicle_type = New VehicleType;
+            $vehicle_type->vehicle_type_name = $vehicle_type_name;
+            $vehicle_type->vehicle_type_description = $vehicle_type_description;
+            $vehicle_type->vehicle_type_uid = $vehicle_type_uid;
+            $vehicle_type->save();
         }
         return redirect('vehicles_types/create')->with('success', 'Registro Guardado');
     }
@@ -111,17 +107,17 @@ class VehiclesTypesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($vehicle_type_id)
+    public function show($vehicle_type_uid)
     {
         # User
         $data['user'] = Auth::user();
         # Menu
         $data['item'] = 'vehicles';
         $data['subitem'] = 'vehicles_types/index';
-        $count = DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->count();
+        $count = VehicleType::where('vehicle_type_uid', $vehicle_type_uid)->count();
         if ($count>0) {
             # Show
-            $data['row'] = DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->first();
+            $data['row'] = VehicleType::where('vehicle_type_uid', $vehicle_type_uid)->first();
             return view('vehicles_types.show', ['data' => $data]);
         }else{
             # Error
@@ -135,17 +131,17 @@ class VehiclesTypesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($vehicle_type_id)
+    public function edit($vehicle_type_uid)
     {
         # User
         $data['user'] = Auth::user();
         # Menu
         $data['item'] = 'vehicles';
         $data['subitem'] = 'vehicles_types/index';
-        $count = DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->count();
+        $count = VehicleType::where('vehicle_type_uid', $vehicle_type_uid)->count();
         if ($count>0) {
             # Edit
-            $data['row'] = DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->first();
+            $data['row'] = VehicleType::where('vehicle_type_uid', $vehicle_type_uid)->first();
             return view('vehicles_types.edit', ['data' => $data]);
         }else{
             # Error
@@ -160,7 +156,7 @@ class VehiclesTypesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $vehicle_type_id)
+    public function update(Request $request, $vehicle_type_uid)
     {
         # Rules
         $this->validate($request, [
@@ -168,41 +164,33 @@ class VehiclesTypesController extends Controller
             'vehicle_type_icon' => 'image|mimes:jpeg,png',
         ]);
         # Request
-        $vehicle_type_id = $request->input('vehicle_type_id');
+        $vehicle_type_uid = $request->input('vehicle_type_uid');
         $vehicle_type_name = $request->input('vehicle_type_name');
         $vehicle_type_description = $request->input('vehicle_type_description');
         # Unique 
-        $count = DB::table('vehicles_types')->where('vehicle_type_name', $vehicle_type_name)->where('vehicle_type_id', '<>', $vehicle_type_id)->count();
+        $count = VehicleType::where('vehicle_type_name', $vehicle_type_name)->where('vehicle_type_uid', '<>', $vehicle_type_uid)->count();
         if ($count<1) {
             if ($request->hasFile('vehicle_type_icon')) {
                 $extension = $request->file('vehicle_type_icon')->extension();
                 $vehicle_type_icon = $vehicle_type_name.'.'.$extension;
                 $request->vehicle_type_icon->storeAs('public', $vehicle_type_icon);
                 # Update
-                DB::table('vehicles_types')
-                    ->where('vehicle_type_id', $vehicle_type_id)
-                    ->update(
-                        [
-                            'vehicle_type_name' => $vehicle_type_name,
-                            'vehicle_type_description' => $vehicle_type_description,
-                            'vehicle_type_icon' => $vehicle_type_icon,
-                        ]
-                    );
+                $vehicle_type = VehicleType::where('vehicle_type_uid', $vehicle_type_uid)->first();
+                $vehicle_type->vehicle_type_name = $vehicle_type_name;
+                $vehicle_type->vehicle_type_description = $vehicle_type_description;
+                $vehicle_type->vehicle_type_icon = $vehicle_type_icon;
+                $vehicle_type->save();
             }else{
                 # Update
-                DB::table('vehicles_types')
-                    ->where('vehicle_type_id', $vehicle_type_id)
-                    ->update(
-                        [
-                            'vehicle_type_name' => $vehicle_type_name,
-                            'vehicle_type_description' => $vehicle_type_description,
-                        ]
-                    );
+                $vehicle_type = VehicleType::where('vehicle_type_uid', $vehicle_type_uid)->first();
+                $vehicle_type->vehicle_type_name = $vehicle_type_name;
+                $vehicle_type->vehicle_type_description = $vehicle_type_description;
+                $vehicle_type->save();
             }
-            return redirect('vehicles_types/edit/'.$vehicle_type_id)->with('success', 'Registro Actualizado');
+            return redirect('vehicles_types/edit/'.$vehicle_type_uid)->with('success', 'Registro Actualizado');
         }else{
             # Error
-            return redirect('vehicles_types/edit/'.$vehicle_type_id)->with('danger', 'El elemento tipo ya está en uso.');
+            return redirect('vehicles_types/edit/'.$vehicle_type_uid)->with('danger', 'El elemento tipo ya está en uso.');
         }
     }
 
@@ -212,14 +200,14 @@ class VehiclesTypesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($vehicle_type_id)
+    public function destroy($vehicle_type_uid)
     {
-        $count = DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->count();
+        $count = VehicleType::where('vehicle_type_uid', $vehicle_type_uid)->count();
         if ($count>0) {
             # Delete
-            $data = DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->first();
+            $data = VehicleType::where('vehicle_type_uid', $vehicle_type_uid)->first();
             Storage::delete($data->vehicle_type_icon);
-            DB::table('vehicles_types')->where('vehicle_type_id', '=', $vehicle_type_id)->delete();
+            VehicleType::where('vehicle_type_uid', $vehicle_type_uid)->delete();
             return redirect('vehicles_types/index')->with('success', 'Registro Elimino');
         }else{
             # Error

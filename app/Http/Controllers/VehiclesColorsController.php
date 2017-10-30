@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\VehicleColor;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use DB;
+use Webpatser\Uuid\Uuid;
 
 class VehiclesColorsController extends Controller
 {
@@ -41,9 +42,7 @@ class VehiclesColorsController extends Controller
             $request->session()->forget('info');
             $request->session()->forget('search');
         }
-        $data['rows'] = DB::table('vehicles_colors')
-            ->where('vehicles_colors.vehicle_color_name', 'like', '%'.$search.'%')
-            ->paginate(30);
+        $data['rows'] = VehicleColor::where('vehicle_color_name', 'like', '%'.$search.'%')->paginate(30);
         # View
         return view('vehicles_colors.index', ['data' => $data]);
     }
@@ -78,12 +77,13 @@ class VehiclesColorsController extends Controller
         ]);
         # Request
         $vehicle_color_name = $request->input('vehicle_color_name');
+        $vehicle_color_uid = Uuid::generate()->string;        
         # Insert
-        DB::table('vehicles_colors')->insert(
-            [
-                'vehicle_color_name' => $vehicle_color_name,
-            ]
-        );
+        $vehicle_color = New VehicleColor;
+        $vehicle_color->vehicle_color_name = $vehicle_color_name;
+        $vehicle_color->vehicle_color_uid = $vehicle_color_uid;
+        $vehicle_color->save();
+        # Return
         return redirect('vehicles_colors/create')->with('success', 'Registro Guardado');
     }
 
@@ -93,19 +93,17 @@ class VehiclesColorsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($vehicle_color_id)
+    public function show($vehicle_color_uid)
     {
         # User
         $data['user'] = Auth::user();
         # Menu
         $data['item'] = 'vehicles';
         $data['subitem'] = 'vehicles_colors/index';
-        $count = DB::table('vehicles_colors')->where('vehicle_color_id', '=', $vehicle_color_id)->count();
+        $count = VehicleColor::where('vehicle_color_uid', $vehicle_color_uid)->count();
         if ($count>0) {
             # Show
-            $data['row'] = DB::table('vehicles_colors')
-                ->where('vehicle_color_id', '=', $vehicle_color_id)
-                ->first();
+            $data['row'] = VehicleColor::where('vehicle_color_uid', $vehicle_color_uid)->first();
             return view('vehicles_colors.show', ['data' => $data]);
         }else{
             # Error
@@ -119,19 +117,17 @@ class VehiclesColorsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($vehicle_color_id)
+    public function edit($vehicle_color_uid)
     {
         # User
         $data['user'] = Auth::user();
         # Menu
         $data['item'] = 'vehicles';
         $data['subitem'] = 'vehicles_colors/index';
-        $count = DB::table('vehicles_colors')->where('vehicle_color_id', '=', $vehicle_color_id)->count();
+        $count = VehicleColor::where('vehicle_color_uid', $vehicle_color_uid)->count();
         if ($count>0) {
             # Edit
-            $data['row'] = DB::table('vehicles_colors')
-                ->where('vehicle_color_id', '=', $vehicle_color_id)
-                ->first();
+            $data['row'] = VehicleColor::where('vehicle_color_uid', $vehicle_color_uid)->first();
             return view('vehicles_colors.edit', ['data' => $data]);
         }else{
             # Error
@@ -146,30 +142,26 @@ class VehiclesColorsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $vehicle_color_id)
+    public function update(Request $request, $vehicle_color_uid)
     {
         # Rules
         $this->validate($request, [
             'vehicle_color_name' => 'required|max:60',
         ]);
         # Request
-        $vehicle_color_id = $request->input('vehicle_color_id');
+        $vehicle_color_uid = $request->input('vehicle_color_uid');
         $vehicle_color_name = $request->input('vehicle_color_name');
         # Unique 
-        $count = DB::table('vehicles_colors')->where('vehicle_color_name', $vehicle_color_name)->where('vehicle_color_id', '<>', $vehicle_color_id)->count();
+        $count = VehicleColor::where('vehicle_color_name', $vehicle_color_name)->where('vehicle_color_uid', '<>', $vehicle_color_uid)->count();
         if ($count<1) {
             # Update
-            DB::table('vehicles_colors')
-                ->where('vehicle_color_id', $vehicle_color_id)
-                ->update(
-                    [
-                        'vehicle_color_name' => $vehicle_color_name,
-                    ]
-                );
-            return redirect('vehicles_colors/edit/'.$vehicle_color_id)->with('success', 'Registro Actualizado');
+            $vehicle_color = VehicleColor::where('vehicle_color_uid', $vehicle_color_uid)->first();
+            $vehicle_color->vehicle_color_name = $vehicle_color_name;
+            $vehicle_color->save();
+            return redirect('vehicles_colors/edit/'.$vehicle_color_uid)->with('success', 'Registro Actualizado');
         }else{
             # Error
-            return redirect('vehicles_colors/edit/'.$vehicle_color_id)->with('danger', 'El elemento marca ya está en uso.');
+            return redirect('vehicles_colors/edit/'.$vehicle_color_uid)->with('danger', 'El elemento marca ya está en uso.');
         }
     }
 
@@ -179,12 +171,12 @@ class VehiclesColorsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($vehicle_color_id)
+    public function destroy($vehicle_color_uid)
     {
-        $count = DB::table('vehicles_colors')->where('vehicle_color_id', '=', $vehicle_color_id)->count();
+        $count = VehicleColor::where('vehicle_color_uid', $vehicle_color_uid)->count();
         if ($count>0) {
             # Delete
-            DB::table('vehicles_colors')->where('vehicle_color_id', '=', $vehicle_color_id)->delete();
+            VehicleColor::where('vehicle_color_uid', $vehicle_color_uid)->delete();
             return redirect('vehicles_colors/index')->with('success', 'Registro Elimino');
         }else{
             # Error

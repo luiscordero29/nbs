@@ -2,7 +2,7 @@
 @section('title', 'Editar Modelo de Vehiculo')
 @section('breadcrumb')
     <div class="col-md-9 col-9 align-self-center">
-        <h3 class="text-themecolor m-b-0 m-t-0">Editar Modelo de Vehiculo</h3>
+        <h3 class="text-themecolor m-b-0 m-t-0"><i class="fa fa-car"></i> Vehiculos</h3>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
             <li class="breadcrumb-item"><a href="/vehicles_models/index">Vehiculos Modelos</a></li>
@@ -14,7 +14,7 @@
     </div>
 @endsection
 @section('content')
-	<form method="POST" action="/vehicles_models/update/{{ $data['row']->vehicle_model_id }}">
+	<form method="POST" action="/vehicles_models/update/{{ $data['row']->vehicle_model_uid }}">
 		{{ csrf_field() }}
         <div class="form-body">
             <h3 class="card-title">Editar Modelo de Vehiculo</h3>
@@ -22,16 +22,16 @@
             @include('dashboard.alerts')
             <div class="row p-t-20">
                 <div class="col-md-6">
-                    <div class="form-group @if($errors->has('vehicle_type_name')) has-danger @endif">
+                    <div class="form-group @if($errors->has('vehicle_type_uid')) has-danger @endif">
                         <label class="form-control-label">Tipo</label>
-                        <select class="custom-select select2 col-12" name="vehicle_type_name" id="vehicles_models_vehicle_type_name">
+                        <select class="custom-select select2 col-12" name="vehicle_type_uid" id="vehicles_models_vehicle_type_uid">
                             <option value="" selected>Seleccione</option>
                             @foreach ($data['vehicles_types'] as $r)
-                            <option @if ($data['row']->vehicle_type_name == $r->vehicle_type_name ) selected=""  @endif value="{{$r->vehicle_type_name}}">{{$r->vehicle_type_name}}</option>
+                            <option @if ($data['row']->vehicle_brand->vehicle_type->vehicle_type_uid == $r->vehicle_type_uid ) selected=""  @endif value="{{$r->vehicle_type_uid}}">{{$r->vehicle_type_name}}</option>
                             @endforeach
                         </select>
-                        @if ($errors->has('vehicle_type_name'))
-                            @foreach ($errors->get('vehicle_type_name') as $error)
+                        @if ($errors->has('vehicle_type_uid'))
+                            @foreach ($errors->get('vehicle_type_uid') as $error)
                                 <div class="form-control-feedback">{{ $error }}</div>
                             @endforeach
                         @endif
@@ -39,14 +39,14 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group @if($errors->has('vehicle_brand_name')) has-danger @endif">
+                    <div class="form-group @if($errors->has('vehicle_brand_uid')) has-danger @endif">
                         <label class="form-control-label">Marca</label>
-                        <select class="custom-select select2 col-12" name="vehicle_brand_name" id="vehicles_models_vehicle_brand_name">
+                        <select class="custom-select select2 col-12" name="vehicle_brand_uid" id="vehicles_models_vehicle_brand_uid">
                             <option value="" selected>Seleccione</option>
-                            <option selected="" value="{{$data['row']->vehicle_brand_name}}">{{$data['row']->vehicle_brand_name}}</option>                          
+                            <option selected="" value="{{$data['row']->vehicle_brand_uid}}">{{$data['row']->vehicle_brand->vehicle_brand_name}}</option>                          
                         </select>
-                        @if ($errors->has('vehicle_brand_name'))
-                            @foreach ($errors->get('vehicle_brand_name') as $error)
+                        @if ($errors->has('vehicle_brand_uid'))
+                            @foreach ($errors->get('vehicle_brand_uid') as $error)
                                 <div class="form-control-feedback">{{ $error }}</div>
                             @endforeach
                         @endif
@@ -84,21 +84,21 @@
         <div class="form-actions">
             <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Guardar</button>
             <a href="/vehicles_models/index" class="btn btn-inverse">Regresar</a>
-            <input type="hidden" name="vehicle_model_id" value="{{ $data['row']->vehicle_model_id }}">
+            <input type="hidden" name="vehicle_model_uid" value="{{ $data['row']->vehicle_model_uid }}">
         </div>
     </form>
 @endsection
 @section('script')
     <script type="text/javascript">
         $(".select2").select2();
-        $('#vehicles_models_vehicle_type_name').change(function(even) {
-            var vehicle_type_name = $(this).val();
-            $.getJSON( "/vehicles_models/getbrands/" + vehicle_type_name, function( data ) {
-                $("#vehicles_models_vehicle_brand_name").html('');
-                $("#vehicles_models_vehicle_brand_name").append('<option value="">Seleccione</option>');
+        $('#vehicles_models_vehicle_type_uid').change(function(even) {
+            var vehicle_type_uid = $(this).val();
+            $.getJSON( "/vehicles_models/getbrands/" + vehicle_type_uid, function( data ) {
+                $("#vehicles_models_vehicle_brand_uid").html('');
+                $("#vehicles_models_vehicle_brand_uid").append('<option value="">Seleccione</option>');
                 $.each( data, function( key, val ) {
-                    $("#vehicles_models_vehicle_brand_name").append('<option value="' + val['vehicle_brand_name'] + '">' + val['vehicle_brand_name'] + '</option>');
-                    console.log( key + " - " + val['vehicle_brand_name'] );
+                    $("#vehicles_models_vehicle_brand_uid").append('<option value="' + val['vehicle_brand_uid'] + '">' + val['vehicle_brand_name'] + '</option>');
+                    console.log( key + " - " + val['vehicle_brand_uid'] );
                 });
             });
         })

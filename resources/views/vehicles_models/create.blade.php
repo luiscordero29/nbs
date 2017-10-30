@@ -2,7 +2,7 @@
 @section('title', 'Registrar Modelo de Vehiculo')
 @section('breadcrumb')
     <div class="col-md-9 col-9 align-self-center">
-        <h3 class="text-themecolor m-b-0 m-t-0">Registrar Modelo de Vehiculo</h3>
+        <h3 class="text-themecolor m-b-0 m-t-0"><i class="fa fa-car"></i> Vehiculos</h3>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
             <li class="breadcrumb-item"><a href="/vehicles_models/index">Vehiculos Modelos</a></li>
@@ -22,16 +22,16 @@
             @include('dashboard.alerts')
             <div class="row p-t-20">
                 <div class="col-md-6">
-                    <div class="form-group @if($errors->has('vehicle_type_name')) has-danger @endif">
+                    <div class="form-group @if($errors->has('vehicle_type_uid')) has-danger @endif">
                         <label class="form-control-label">Tipo</label>
-                        <select class="custom-select select2 col-12" name="vehicle_type_name" id="vehicles_models_vehicle_type_name">
+                        <select class="custom-select select2 col-12" name="vehicle_type_uid" id="vehicles_models_vehicle_type_uid">
                             <option value="" selected>Seleccione</option>
                             @foreach ($data['vehicles_types'] as $r)
-                            <option @if (old('vehicle_type_name') == $r->vehicle_type_name ) selected=""  @endif value="{{$r->vehicle_type_name}}">{{$r->vehicle_type_name}}</option>
+                            <option @if (old('vehicle_type_uid') == $r->vehicle_type_uid ) selected=""  @endif value="{{$r->vehicle_type_uid}}">{{$r->vehicle_type_name}}</option>
                             @endforeach
                         </select>
-                        @if ($errors->has('vehicle_type_name'))
-                            @foreach ($errors->get('vehicle_type_name') as $error)
+                        @if ($errors->has('vehicle_type_uid'))
+                            @foreach ($errors->get('vehicle_type_uid') as $error)
                                 <div class="form-control-feedback">{{ $error }}</div>
                             @endforeach
                         @endif
@@ -39,13 +39,13 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group @if($errors->has('vehicle_brand_name')) has-danger @endif">
+                    <div class="form-group @if($errors->has('vehicle_brand_uid')) has-danger @endif">
                         <label class="form-control-label">Marca</label>
-                        <select class="custom-select select2 col-12" name="vehicle_brand_name" id="vehicles_models_vehicle_brand_name">                           
+                        <select class="custom-select select2 col-12" name="vehicle_brand_uid" id="vehicles_models_vehicle_brand_uid">                           
                             <option value="" selected>Seleccione</option>
                         </select>
-                        @if ($errors->has('vehicle_brand_name'))
-                            @foreach ($errors->get('vehicle_brand_name') as $error)
+                        @if ($errors->has('vehicle_brand_uid'))
+                            @foreach ($errors->get('vehicle_brand_uid') as $error)
                                 <div class="form-control-feedback">{{ $error }}</div>
                             @endforeach
                         @endif
@@ -89,14 +89,14 @@
 @section('script')
     <script type="text/javascript">
         $(".select2").select2();
-        $('#vehicles_models_vehicle_type_name').change(function(even) {
-            var vehicle_type_name = $(this).val();
-            $.getJSON( "/vehicles_models/getbrands/" + vehicle_type_name, function( data ) {
-                $("#vehicles_models_vehicle_brand_name").html('');
-                $("#vehicles_models_vehicle_brand_name").append('<option value="">Seleccione</option>');
+        $('#vehicles_models_vehicle_type_uid').change(function(even) {
+            var vehicle_type_uid = $(this).val();
+            $.getJSON( "/vehicles_models/getbrands/" + vehicle_type_uid, function( data ) {
+                $("#vehicles_models_vehicle_brand_uid").html('');
+                $("#vehicles_models_vehicle_brand_uid").append('<option value="">Seleccione</option>');
                 $.each( data, function( key, val ) {
-                    $("#vehicles_models_vehicle_brand_name").append('<option value="' + val['vehicle_brand_name'] + '">' + val['vehicle_brand_name'] + '</option>');
-                    console.log( key + " - " + val['vehicle_brand_name'] );
+                    $("#vehicles_models_vehicle_brand_uid").append('<option value="' + val['vehicle_brand_uid'] + '">' + val['vehicle_brand_name'] + '</option>');
+                    console.log( key + " - " + val['vehicle_brand_uid'] );
                 });
             });
         })

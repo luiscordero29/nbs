@@ -19,9 +19,15 @@ class CreateVehiclesModelsTable extends Migration
             $table->bigIncrements('vehicle_model_id');
             $table->char('vehicle_model_name', 60);
             $table->text('vehicle_model_description')->nullable();
-            $table->char('vehicle_brand_name', 60);
-            # Keys 
-            $table->unique('vehicle_model_name');
+            # Foreign Key Constraints
+            $table->uuid('vehicle_brand_uid')->nullable();
+            # Fields System
+            $table->uuid('vehicle_model_uid');
+            $table->dateTime('vehicle_model_created');
+            $table->dateTime('vehicle_model_updated');
+            # Keys
+            $table->unique('vehicle_model_name');  
+            $table->unique('vehicle_model_uid');
         });
     }
 

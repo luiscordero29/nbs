@@ -2,7 +2,7 @@
 @section('title', 'Editar Marca de Vehiculo')
 @section('breadcrumb')
     <div class="col-md-9 col-9 align-self-center">
-        <h3 class="text-themecolor m-b-0 m-t-0">Editar Marca de Vehiculo</h3>
+        <h3 class="text-themecolor m-b-0 m-t-0"><i class="fa fa-car"></i> Vehiculos</h3>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
             <li class="breadcrumb-item"><a href="/vehicles_brands/index">Vehiculos Marcas</a></li>
@@ -14,7 +14,7 @@
     </div>
 @endsection
 @section('content')
-	<form method="POST" action="/vehicles_brands/update/{{ $data['row']->vehicle_brand_id }}" enctype="multipart/form-data">
+	<form method="POST" action="/vehicles_brands/update/{{ $data['row']->vehicle_brand_uid }}" enctype="multipart/form-data">
 		{{ csrf_field() }}
         <div class="form-body">
             <h3 class="card-title">Editar Marca de Vehiculo</h3>
@@ -22,16 +22,16 @@
             @include('dashboard.alerts')
             <div class="row p-t-20">
                 <div class="col-md-12">
-                    <div class="form-group @if($errors->has('vehicle_type_name')) has-danger @endif">
+                    <div class="form-group @if($errors->has('vehicle_type_uid')) has-danger @endif">
                         <label class="control-label">Tipo</label>
-                        <select class="custom-select select2 col-12" name="vehicle_type_name">
+                        <select class="custom-select select2 col-12" name="vehicle_type_uid">
                             <option value="" selected>Seleccione</option>
                             @foreach ($data['vehicles_types'] as $r)
-                            <option @if ($data['row']->vehicle_type_name == $r->vehicle_type_name ) selected=""  @endif value="{{$r->vehicle_type_name}}">{{$r->vehicle_type_name}}</option>
+                            <option @if ($data['row']->vehicle_type_uid == $r->vehicle_type_uid ) selected=""  @endif value="{{$r->vehicle_type_uid}}">{{$r->vehicle_type_name}}</option>
                             @endforeach
                         </select>
-                        @if ($errors->has('vehicle_type_name'))
-                            @foreach ($errors->get('vehicle_type_name') as $error)
+                        @if ($errors->has('vehicle_type_uid'))
+                            @foreach ($errors->get('vehicle_type_uid') as $error)
                                 <div class="form-control-feedback">{{ $error }}</div>
                             @endforeach
                         @endif
@@ -84,7 +84,7 @@
         <div class="form-actions">
             <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Guardar</button>
             <a href="/vehicles_brands/index" class="btn btn-inverse">Regresar</a>
-            <input type="hidden" name="vehicle_brand_id" value="{{ $data['row']->vehicle_brand_id }}">
+            <input type="hidden" name="vehicle_brand_uid" value="{{ $data['row']->vehicle_brand_uid }}">
         </div>
     </form>
 @endsection

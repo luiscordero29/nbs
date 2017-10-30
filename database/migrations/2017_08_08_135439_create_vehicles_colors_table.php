@@ -18,8 +18,13 @@ class CreateVehiclesColorsTable extends Migration
             # Fields
             $table->bigIncrements('vehicle_color_id');
             $table->char('vehicle_color_name', 60);
-            #Keys 
-            $table->unique('vehicle_color_name');  
+            # Fields System
+            $table->uuid('vehicle_color_uid');
+            $table->dateTime('vehicle_color_created');
+            $table->dateTime('vehicle_color_updated');
+            # Keys
+            $table->unique('vehicle_color_name');
+            $table->unique('vehicle_color_uid'); 
         });
     }
 

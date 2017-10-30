@@ -1,7 +1,10 @@
 <?php
+
+use App\VehicleColor;
+use Faker\Factory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
-use Faker\Factory;
+use Webpatser\Uuid\Uuid;
 
 class VehiclesColorsTableSeeder extends Seeder
 {
@@ -15,9 +18,10 @@ class VehiclesColorsTableSeeder extends Seeder
         $faker = Faker\Factory::create();
         DB::table('vehicles_colors')->delete();
         for ($i=0; $i < 100; $i++) { 
-            DB::table('vehicles_colors')->insert([
-                'vehicle_color_name' => $faker->unique()->colorName,
-            ]);
+            $vehicle_color = new VehicleColor;
+            $vehicle_color->vehicle_color_name = $faker->unique()->colorName;
+            $vehicle_color->vehicle_color_uid  = Uuid::generate()->string;
+            $vehicle_color->save();
         }
     }
 }

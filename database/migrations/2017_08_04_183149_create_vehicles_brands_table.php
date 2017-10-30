@@ -20,9 +20,15 @@ class CreateVehiclesBrandsTable extends Migration
             $table->char('vehicle_brand_name', 60);
             $table->text('vehicle_brand_description')->nullable();
             $table->binary('vehicle_brand_logo')->nullable();
-            $table->char('vehicle_type_name', 60);
-            # Keys 
-            $table->unique('vehicle_brand_name');
+            # Foreign Key Constraints
+            $table->uuid('vehicle_type_uid')->nullable();
+            # Fields System
+            $table->uuid('vehicle_brand_uid');
+            $table->dateTime('vehicle_brand_created');
+            $table->dateTime('vehicle_brand_updated');
+            # Keys
+            $table->unique('vehicle_brand_name');  
+            $table->unique('vehicle_brand_uid');
         });
     }
 

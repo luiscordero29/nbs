@@ -2,7 +2,7 @@
 @section('title', 'Editar Vehiculo')
 @section('breadcrumb')
     <div class="col-md-9 col-9 align-self-center">
-        <h3 class="text-themecolor m-b-0 m-t-0">Editar Vehiculo</h3>
+        <h3 class="text-themecolor m-b-0 m-t-0"><i class="fa fa-car"></i> Vehiculos</h3>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
             <li class="breadcrumb-item"><a href="/vehicles/index">Vehiculos</a></li>
@@ -14,7 +14,7 @@
     </div>
 @endsection
 @section('content')
-	<form method="POST" action="/vehicles/update/{{ $data['row']->vehicle_id }}" enctype="multipart/form-data">
+	<form method="POST" action="/vehicles/update/{{ $data['row']->vehicle_uid }}" enctype="multipart/form-data">
 		{{ csrf_field() }}
         <div class="form-body">
             <h3 class="card-title">Editar Vehiculo</h3>
@@ -29,16 +29,16 @@
                     <div class="p-20">
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="form-group @if($errors->has('vehicles_user_number_id')) has-danger @endif">
+                                <div class="form-group @if($errors->has('user_uid')) has-danger @endif">
                                     <label class="form-control-label">Empleado</label>
-                                    <select class="custom-select select2 col-12" name="vehicles_user_number_id" id="user_number_id" style="width: 100%">
+                                    <select class="custom-select select2 col-12" name="user_uid" id="user_number_id" style="width: 100%">
                                         <option value="" selected>Seleccione</option>
                                         @foreach ($data['users'] as $r)
-                                        <option @if ($data['row']->user_number_id == $r->user_number_id ) selected=""  @endif value="{{$r->user_number_id}}">{{$r->user_number_id}} {{$r->user_firstname}} {{$r->user_lastname}} </option>
+                                        <option @if ($data['row']->user_uid == $r->user_uid ) selected=""  @endif value="{{$r->user_uid}}">{{$r->user_number_id}} {{$r->user_firstname}} {{$r->user_lastname}} </option>
                                         @endforeach
                                     </select>
-                                    @if ($errors->has('vehicles_user_number_id'))
-                                        @foreach ($errors->get('vehicles_user_number_id') as $error)
+                                    @if ($errors->has('user_uid'))
+                                        @foreach ($errors->get('user_uid') as $error)
                                             <div class="form-control-feedback">{{ $error }}</div>
                                         @endforeach
                                     @endif
@@ -46,16 +46,16 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group @if($errors->has('vehicle_type_name')) has-danger @endif">
+                                <div class="form-group @if($errors->has('vehicle_type_uid')) has-danger @endif">
                                     <label class="form-control-label">Tipo</label>
-                                    <select class="custom-select select2 col-12" name="vehicle_type_name" id="vehicles_vehicle_type_name">
+                                    <select class="custom-select select2 col-12" name="vehicle_type_uid" id="vehicles_vehicle_type_uid">
                                         <option value="" selected>Seleccione</option>
                                         @foreach ($data['vehicles_types'] as $r)
-                                        <option @if ($data['row']->vehicle_type_name == $r->vehicle_type_name ) selected=""  @endif value="{{$r->vehicle_type_name}}">{{$r->vehicle_type_name}}</option>
+                                        <option @if ($data['row']->vehicle_type_uid == $r->vehicle_type_uid ) selected=""  @endif value="{{$r->vehicle_type_uid}}">{{$r->vehicle_type_uid}}</option>
                                         @endforeach
                                     </select>
-                                    @if ($errors->has('vehicle_type_name'))
-                                        @foreach ($errors->get('vehicle_type_name') as $error)
+                                    @if ($errors->has('vehicle_type_uid'))
+                                        @foreach ($errors->get('vehicle_type_uid') as $error)
                                             <div class="form-control-feedback">{{ $error }}</div>
                                         @endforeach
                                     @endif
@@ -100,14 +100,16 @@
                     <div class="p-20">
                         <div class="row">
                             <div class="col-md-4">
-                                <div class="form-group @if($errors->has('vehicle_brand_name')) has-danger @endif">
+                                <div class="form-group @if($errors->has('vehicle_brand_uid')) has-danger @endif">
                                     <label class="form-control-label">Marca</label>
-                                    <select class="custom-select select2 col-12" name="vehicle_brand_name" id="vehicles_vehicle_brand_name" style="width: 100%">
+                                    <select class="custom-select select2 col-12" name="vehicle_brand_uid" id="vehicles_vehicle_brand_uid" style="width: 100%">
                                         <option value="" selected>Seleccione</option>
-                                        <option selected="" value="{{$data['row']->vehicle_brand_name}}">{{$data['row']->vehicle_brand_name}}</option>                          
+                                        @foreach ($data['vehicles_brands'] as $r)
+                                        <option @if ($data['row']->vehicle_brand_uid == $r->vehicle_brand_uid ) selected=""  @endif value="{{$r->vehicle_brand_uid}}">{{$r->vehicle_brand_name}}</option>
+                                        @endforeach                   
                                     </select>
-                                    @if ($errors->has('vehicle_brand_name'))
-                                        @foreach ($errors->get('vehicle_brand_name') as $error)
+                                    @if ($errors->has('vehicle_brand_uid'))
+                                        @foreach ($errors->get('vehicle_brand_uid') as $error)
                                             <div class="form-control-feedback">{{ $error }}</div>
                                         @endforeach
                                     @endif
@@ -115,14 +117,16 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="form-group @if($errors->has('vehicle_model_name')) has-danger @endif">
+                                <div class="form-group @if($errors->has('vehicle_model_uid')) has-danger @endif">
                                     <label class="form-control-label">Modelo</label>
-                                    <select class="custom-select select2 col-12" name="vehicle_model_name" id="vehicles_create_vehicle_model_name" style="width: 100%">
+                                    <select class="custom-select select2 col-12" name="vehicle_model_uid" id="vehicles_create_vehicle_model_uid" style="width: 100%">
                                         <option value="" selected>Seleccione</option>
-                                        <option selected="" value="{{$data['row']->vehicle_model_name}}">{{$data['row']->vehicle_model_name}}</option>                          
+                                        @foreach ($data['vehicles_models'] as $r)
+                                        <option @if ($data['row']->vehicle_model_uid == $r->vehicle_model_uid ) selected=""  @endif value="{{$r->vehicle_model_uid}}">{{$r->vehicle_model_name}}</option>
+                                        @endforeach
                                     </select>
-                                    @if ($errors->has('vehicle_model_name'))
-                                        @foreach ($errors->get('vehicle_model_name') as $error)
+                                    @if ($errors->has('vehicle_model_uid'))
+                                        @foreach ($errors->get('vehicle_model_uid') as $error)
                                             <div class="form-control-feedback">{{ $error }}</div>
                                         @endforeach
                                     @endif
@@ -130,16 +134,16 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="form-group @if($errors->has('vehicle_color_name')) has-danger @endif">
+                                <div class="form-group @if($errors->has('vehicle_color_uid')) has-danger @endif">
                                     <label class="form-control-label">Color</label>
-                                    <select class="custom-select select2 col-12" name="vehicle_color_name" id="vehicle_color_name" style="width: 100%">
+                                    <select class="custom-select select2 col-12" name="vehicle_color_uid" id="vehicle_color_uid" style="width: 100%">
                                         <option value="" selected>Seleccione</option>
                                         @foreach ($data['vehicles_colors'] as $r)
-                                        <option @if ($data['row']->vehicle_color_name == $r->vehicle_color_name ) selected=""  @endif value="{{$r->vehicle_color_name}}">{{$r->vehicle_color_name}}</option>
+                                        <option @if ($data['row']->vehicle_color_uid == $r->vehicle_color_uid ) selected=""  @endif value="{{$r->vehicle_color_uid}}">{{$r->vehicle_color_name}}</option>
                                         @endforeach
                                     </select>
-                                    @if ($errors->has('vehicle_color_name'))
-                                        @foreach ($errors->get('vehicle_color_name') as $error)
+                                    @if ($errors->has('vehicle_color_uid'))
+                                        @foreach ($errors->get('vehicle_color_uid') as $error)
                                             <div class="form-control-feedback">{{ $error }}</div>
                                         @endforeach
                                     @endif
@@ -196,31 +200,31 @@
         <div class="form-actions p-t-20">
             <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Guardar</button>
             <a href="/vehicles/index" class="btn btn-inverse">Regresar</a>
-            <input type="hidden" name="vehicle_id" value="{{ $data['row']->vehicle_id }}">
+            <input type="hidden" name="vehicle_uid" value="{{ $data['row']->vehicle_uid }}">
         </div>
     </form>
 @endsection
 @section('script')
     <script type="text/javascript">
         $(".select2").select2();
-        $('#vehicles_vehicle_type_name').change(function(even) {
-            var vehicle_type_name = $(this).val();
-            $.getJSON( "/vehicles/getbrands/" + vehicle_type_name, function( data ) {
-                $("#vehicles_vehicle_brand_name").html('');
-                $("#vehicles_vehicle_brand_name").append('<option value="">Seleccione</option>');
+        $('#vehicles_vehicle_type_uid').change(function(even) {
+            var vehicle_type_uid = $(this).val();
+            $.getJSON( "/vehicles/getbrands/" + vehicle_type_uid, function( data ) {
+                $("#vehicles_vehicle_brand_uid").html('');
+                $("#vehicles_vehicle_brand_uid").append('<option value="">Seleccione</option>');
                 $.each( data, function( key, val ) {
-                    $("#vehicles_vehicle_brand_name").append('<option value="' + val['vehicle_brand_name'] + '">' + val['vehicle_brand_name'] + '</option>')
+                    $("#vehicles_vehicle_brand_uid").append('<option value="' + val['vehicle_brand_uid'] + '">' + val['vehicle_brand_name'] + '</option>')
                     console.log( key + " - " + val['vehicle_brand_name'] );
                 });
             });
         });
-        $('#vehicles_vehicle_brand_name').change(function(even) {
-            var vehicle_brand_name = $(this).val();
-            $.getJSON( "/vehicles/getmodels/" + vehicle_brand_name, function( data ) {
-                $("#vehicles_create_vehicle_model_name").html('');
-                $("#vehicles_create_vehicle_model_name").append('<option value="">Seleccione</option>')
+        $('#vehicles_vehicle_brand_uid').change(function(even) {
+            var vehicle_brand_uid = $(this).val();
+            $.getJSON( "/vehicles/getmodels/" + vehicle_brand_uid, function( data ) {
+                $("#vehicles_create_vehicle_model_uid").html('');
+                $("#vehicles_create_vehicle_model_uid").append('<option value="">Seleccione</option>')
                 $.each( data, function( key, val ) {
-                    $("#vehicles_create_vehicle_model_name").append('<option value="' + val['vehicle_model_name'] + '">' + val['vehicle_model_name'] + '</option>')
+                    $("#vehicles_create_vehicle_model_uid").append('<option value="' + val['vehicle_model_uid'] + '">' + val['vehicle_model_name'] + '</option>')
                     console.log( key + " - " + val['vehicle_model_name'] );
                 });
             });

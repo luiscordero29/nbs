@@ -18,17 +18,23 @@ class CreateVehiclesTable extends Migration
             # Fields
             $table->bigIncrements('vehicle_id');
             $table->char('vehicle_code', 8);
-            $table->char('vehicle_type_name', 60);
-            $table->char('vehicle_brand_name', 60)->nullable();
-            $table->char('vehicle_model_name', 60)->nullable();
             $table->char('vehicle_name', 60)->nullable();
             $table->char('vehicle_year', 4)->nullable();
-            $table->char('vehicle_color_name', 60)->nullable();
-            $table->char('user_number_id',60);
             $table->binary('vehicle_image')->nullable();
             $table->enum('vehicle_status', ['even', 'odd', 'does not apply']);
-            #Keys 
-            $table->unique('vehicle_code');  
+            # Foreign Key Constraints
+            $table->uuid('user_uid');
+            $table->uuid('vehicle_type_uid');
+            $table->uuid('vehicle_brand_uid')->nullable();
+            $table->uuid('vehicle_model_uid')->nullable();
+            $table->uuid('vehicle_color_uid')->nullable();
+            # Fields System
+            $table->uuid('vehicle_uid');
+            $table->dateTime('vehicle_created');
+            $table->dateTime('vehicle_updated');
+            # Keys
+            $table->unique('vehicle_code');
+            $table->unique('vehicle_uid');   
         });
     }
 

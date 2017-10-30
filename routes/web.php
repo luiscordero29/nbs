@@ -34,10 +34,10 @@ Route::middleware(UserMiddleware::class)->group(function () {
 	Route::match(['get', 'post'], 'user_vehicles/index', 'UserVehiclesController@index');
 	Route::get('user_vehicles/create', 'UserVehiclesController@create');
 	Route::post('user_vehicles/store', 'UserVehiclesController@store');
-	Route::get('user_vehicles/show/{vehicle_id}', 'UserVehiclesController@show')->where('vehicle_id', '[0-9]+');
-	Route::get('user_vehicles/edit/{vehicle_id}', 'UserVehiclesController@edit')->where('vehicle_id', '[0-9]+');
-	Route::post('user_vehicles/update/{vehicle_id}', 'UserVehiclesController@update')->where('vehicle_id', '[0-9]+');
-	Route::get('user_vehicles/destroy/{vehicle_id}', 'UserVehiclesController@destroy')->where('vehicle_id', '[0-9]+');
+	Route::get('user_vehicles/show/{vehicle_uid}', 'UserVehiclesController@show');
+	Route::get('user_vehicles/edit/{vehicle_uid}', 'UserVehiclesController@edit');
+	Route::post('user_vehicles/update/{vehicle_uid}', 'UserVehiclesController@update');
+	Route::get('user_vehicles/destroy/{vehicle_uid}', 'UserVehiclesController@destroy');
 	Route::get('user_vehicles/getbrands/{vehicle_type_name}', 'UserVehiclesController@getbrands');
 	Route::get('user_vehicles/getmodels/{vehicle_brand_name}', 'UserVehiclesController@getmodels');
 	/* user_booking */
@@ -71,10 +71,10 @@ Route::middleware(AdminMiddleware::class)->group(function () {
 	Route::match(['get', 'post'],'users_vehicles/index/{user_id}', 'UsersVehiclesController@index')->where('user_id', '[0-9]+');
 	Route::get('users_vehicles/create/{user_id}', 'UsersVehiclesController@create')->where('user_id', '[0-9]+');
 	Route::post('users_vehicles/store/{user_id}', 'UsersVehiclesController@store')->where('user_id', '[0-9]+');
-	Route::get('users_vehicles/show/{user_id}/{vehicle_id}', 'UsersVehiclesController@show')->where('user_id', '[0-9]+')->where('vehicle_id', '[0-9]+');
-	Route::get('users_vehicles/edit/{user_id}/{vehicle_id}', 'UsersVehiclesController@edit')->where('user_id', '[0-9]+')->where('vehicle_id', '[0-9]+');
-	Route::post('users_vehicles/update/{user_id}/{vehicle_id}', 'UsersVehiclesController@update')->where('user_id', '[0-9]+')->where('vehicle_id', '[0-9]+');
-	Route::get('users_vehicles/destroy/{user_id}/{vehicle_id}', 'UsersVehiclesController@destroy')->where('user_id', '[0-9]+')->where('vehicle_id', '[0-9]+');
+	Route::get('users_vehicles/show/{user_id}/{vehicle_uid}', 'UsersVehiclesController@show')->where('user_id', '[0-9]+')->where('vehicle_uid', '[0-9]+');
+	Route::get('users_vehicles/edit/{user_id}/{vehicle_uid}', 'UsersVehiclesController@edit')->where('user_id', '[0-9]+')->where('vehicle_uid', '[0-9]+');
+	Route::post('users_vehicles/update/{user_id}/{vehicle_uid}', 'UsersVehiclesController@update')->where('user_id', '[0-9]+')->where('vehicle_uid', '[0-9]+');
+	Route::get('users_vehicles/destroy/{user_id}/{vehicle_uid}', 'UsersVehiclesController@destroy')->where('user_id', '[0-9]+')->where('vehicle_uid', '[0-9]+');
 	Route::get('users_vehicles/getbrands/{vehicle_type_name}', 'UsersVehiclesController@getbrands');
 	Route::get('users_vehicles/getmodels/{vehicle_brand_name}', 'UsersVehiclesController@getmodels');
 	/* users_booking */
@@ -111,45 +111,45 @@ Route::middleware(AdminMiddleware::class)->group(function () {
 	Route::match(['get', 'post'],'vehicles/index', 'VehiclesController@index');
 	Route::get('vehicles/create', 'VehiclesController@create');
 	Route::post('vehicles/store', 'VehiclesController@store');
-	Route::get('vehicles/show/{vehicle_id}', 'VehiclesController@show')->where('vehicle_id', '[0-9]+');
-	Route::get('vehicles/edit/{vehicle_id}', 'VehiclesController@edit')->where('vehicle_id', '[0-9]+');
-	Route::post('vehicles/update/{vehicle_id}', 'VehiclesController@update')->where('vehicle_id', '[0-9]+');
-	Route::get('vehicles/destroy/{vehicle_id}', 'VehiclesController@destroy')->where('vehicle_id', '[0-9]+');
-	Route::get('vehicles/getbrands/{vehicle_type_name}', 'VehiclesController@getbrands');
-	Route::get('vehicles/getmodels/{vehicle_brand_name}', 'VehiclesController@getmodels');
+	Route::get('vehicles/show/{vehicle_uid}', 'VehiclesController@show');
+	Route::get('vehicles/edit/{vehicle_uid}', 'VehiclesController@edit');
+	Route::post('vehicles/update/{vehicle_uid}', 'VehiclesController@update');
+	Route::get('vehicles/destroy/{vehicle_uid}', 'VehiclesController@destroy');
+	Route::get('vehicles/getbrands/{vehicle_type_uid}', 'VehiclesController@getbrands');
+	Route::get('vehicles/getmodels/{vehicle_brand_uid}', 'VehiclesController@getmodels');
 	/* vehicles_brands */
 	Route::match(['get', 'post'],'vehicles_brands/index', 'VehiclesBrandsController@index');
 	Route::get('vehicles_brands/create', 'VehiclesBrandsController@create');
 	Route::post('vehicles_brands/store', 'VehiclesBrandsController@store');
-	Route::get('vehicles_brands/show/{vehicle_brand_id}', 'VehiclesBrandsController@show')->where('vehicle_brand_id', '[0-9]+');
-	Route::get('vehicles_brands/edit/{vehicle_brand_id}', 'VehiclesBrandsController@edit')->where('vehicle_brand_id', '[0-9]+');
-	Route::post('vehicles_brands/update/{vehicle_brand_id}', 'VehiclesBrandsController@update')->where('vehicle_brand_id', '[0-9]+');
-	Route::get('vehicles_brands/destroy/{vehicle_brand_id}', 'VehiclesBrandsController@destroy')->where('vehicle_brand_id', '[0-9]+');
+	Route::get('vehicles_brands/show/{vehicle_brand_uid}', 'VehiclesBrandsController@show');
+	Route::get('vehicles_brands/edit/{vehicle_brand_uid}', 'VehiclesBrandsController@edit');
+	Route::post('vehicles_brands/update/{vehicle_brand_uid}', 'VehiclesBrandsController@update');
+	Route::get('vehicles_brands/destroy/{vehicle_brand_uid}', 'VehiclesBrandsController@destroy');
 	/* vehicles_models */
 	Route::match(['get', 'post'],'vehicles_models/index', 'VehiclesModelsController@index');
 	Route::get('vehicles_models/create', 'VehiclesModelsController@create');
 	Route::post('vehicles_models/store', 'VehiclesModelsController@store');
-	Route::get('vehicles_models/show/{vehicle_model_id}', 'VehiclesModelsController@show')->where('vehicle_model_id', '[0-9]+');
-	Route::get('vehicles_models/edit/{vehicle_model_id}', 'VehiclesModelsController@edit')->where('vehicle_model_id', '[0-9]+');
-	Route::post('vehicles_models/update/{vehicle_model_id}', 'VehiclesModelsController@update')->where('vehicle_model_id', '[0-9]+');
-	Route::get('vehicles_models/destroy/{vehicle_model_id}', 'VehiclesModelsController@destroy')->where('vehicle_model_id', '[0-9]+');
-	Route::get('vehicles_models/getbrands/{vehicle_type_name}', 'VehiclesModelsController@getbrands');
+	Route::get('vehicles_models/show/{vehicle_model_uid}', 'VehiclesModelsController@show');
+	Route::get('vehicles_models/edit/{vehicle_model_uid}', 'VehiclesModelsController@edit');
+	Route::post('vehicles_models/update/{vehicle_model_uid}', 'VehiclesModelsController@update');
+	Route::get('vehicles_models/destroy/{vehicle_model_uid}', 'VehiclesModelsController@destroy');
+	Route::get('vehicles_models/getbrands/{vehicle_type_uid}', 'VehiclesModelsController@getbrands');
 	/* vehicles_types */
 	Route::match(['get', 'post'],'vehicles_types/index', 'VehiclesTypesController@index');
 	Route::get('vehicles_types/create', 'VehiclesTypesController@create');
 	Route::post('vehicles_types/store', 'VehiclesTypesController@store');
-	Route::get('vehicles_types/show/{vehicle_type_id}', 'VehiclesTypesController@show')->where('vehicle_type_id', '[0-9]+');
-	Route::get('vehicles_types/edit/{vehicle_type_id}', 'VehiclesTypesController@edit')->where('vehicle_type_id', '[0-9]+');
-	Route::post('vehicles_types/update/{vehicle_type_id}', 'VehiclesTypesController@update')->where('vehicle_type_id', '[0-9]+');
-	Route::get('vehicles_types/destroy/{vehicle_type_id}', 'VehiclesTypesController@destroy')->where('vehicle_type_id', '[0-9]+');
+	Route::get('vehicles_types/show/{vehicle_type_uid}', 'VehiclesTypesController@show');
+	Route::get('vehicles_types/edit/{vehicle_type_uid}', 'VehiclesTypesController@edit');
+	Route::post('vehicles_types/update/{vehicle_type_uid}', 'VehiclesTypesController@update');
+	Route::get('vehicles_types/destroy/{vehicle_type_uid}', 'VehiclesTypesController@destroy');
 	/* vehicles_colors */
 	Route::match(['get', 'post'],'vehicles_colors/index', 'VehiclesColorsController@index');
 	Route::get('vehicles_colors/create', 'VehiclesColorsController@create');
 	Route::post('vehicles_colors/store', 'VehiclesColorsController@store');
-	Route::get('vehicles_colors/show/{vehicle_color_id}', 'VehiclesColorsController@show')->where('vehicle_color_id', '[0-9]+');
-	Route::get('vehicles_colors/edit/{vehicle_color_id}', 'VehiclesColorsController@edit')->where('vehicle_color_id', '[0-9]+');
-	Route::post('vehicles_colors/update/{vehicle_color_id}', 'VehiclesColorsController@update')->where('vehicle_color_id', '[0-9]+');
-	Route::get('vehicles_colors/destroy/{vehicle_color_id}', 'VehiclesColorsController@destroy')->where('vehicle_color_id', '[0-9]+');
+	Route::get('vehicles_colors/show/{vehicle_color_uid}', 'VehiclesColorsController@show');
+	Route::get('vehicles_colors/edit/{vehicle_color_uid}', 'VehiclesColorsController@edit');
+	Route::post('vehicles_colors/update/{vehicle_color_uid}', 'VehiclesColorsController@update');
+	Route::get('vehicles_colors/destroy/{vehicle_color_uid}', 'VehiclesColorsController@destroy');
 	/* parkings_sections */
 	Route::match(['get', 'post'],'parkings_sections/index', 'ParkingsSectionsController@index');
 	Route::get('parkings_sections/create', 'ParkingsSectionsController@create');

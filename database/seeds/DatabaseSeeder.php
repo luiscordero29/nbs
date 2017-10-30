@@ -21,18 +21,20 @@ class DatabaseSeeder extends Seeder
         /*
         Section Vehicles
         */
-
-        /*
+        $this->call(VehiclesColorsTableSeeder::class); 
         $this->call(VehiclesTypesTableSeeder::class); 
-        $this->call(VehiclesTableSeeder::class); 
-
-        
         $this->call(VehiclesBrandsTableSeeder::class); 
         $this->call(VehiclesModelsTableSeeder::class); 
-        $this->call(VehiclesColorsTableSeeder::class); 
+        $this->call(VehiclesTableSeeder::class); 
 
+        /*
+        Section Parkings
+        */
+        
+        /*
         $this->call(ParkingsSectionsTableSeeder::class); 
         $this->call(ParkingsDimensionsTableSeeder::class); 
-        $this->call(ParkingsTableSeeder::class); */
+        $this->call(ParkingsTableSeeder::class); 
+        */
     }
 }

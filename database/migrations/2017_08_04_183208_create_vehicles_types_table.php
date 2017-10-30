@@ -20,8 +20,13 @@ class CreateVehiclesTypesTable extends Migration
             $table->char('vehicle_type_name', 60);
             $table->text('vehicle_type_description')->nullable();
             $table->binary('vehicle_type_icon')->nullable();
-            # Keys 
-            $table->unique('vehicle_type_name');
+            # Fields System
+            $table->uuid('vehicle_type_uid');
+            $table->dateTime('vehicle_type_created');
+            $table->dateTime('vehicle_type_updated');
+            # Keys
+            $table->unique('vehicle_type_name');  
+            $table->unique('vehicle_type_uid'); 
         });
     }
 

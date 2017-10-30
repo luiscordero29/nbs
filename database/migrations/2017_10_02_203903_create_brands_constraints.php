@@ -15,8 +15,8 @@ class CreateBrandsConstraints extends Migration
     {
         Schema::table('vehicles_brands', function (Blueprint $table) {
             # Foreign Key Constraints
-            $table->foreign('vehicle_type_name')
-                ->references('vehicle_type_name')
+            $table->foreign('vehicle_type_uid')
+                ->references('vehicle_type_uid')
                 ->on('vehicles_types')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
@@ -32,7 +32,7 @@ class CreateBrandsConstraints extends Migration
     {
         Schema::table('vehicles_brands', function (Blueprint $table) {
             # Foreign Key Constraints
-            $table->dropForeign('vehicles_brands_vehicle_type_name_foreign');
+            $table->dropForeign('vehicles_brands_vehicle_type_uid_foreign');
         });
     }
 }

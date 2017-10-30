@@ -16,28 +16,28 @@ class CreateVehiclesConstraints extends Migration
          Schema::table('vehicles', function (Blueprint $table) {
             # Foreign Key Constraints
             $table
-                ->foreign('vehicle_color_name')
-                ->references('vehicle_color_name')
+                ->foreign('vehicle_color_uid')
+                ->references('vehicle_color_uid')
                 ->on('vehicles_colors')
                 ->onDelete('cascade')->onUpdate('cascade');
             $table
-                ->foreign('vehicle_model_name')
-                ->references('vehicle_model_name')
+                ->foreign('vehicle_model_uid')
+                ->references('vehicle_model_uid')
                 ->on('vehicles_models')
                 ->onDelete('cascade')->onUpdate('cascade');
             $table
-                ->foreign('vehicle_type_name')
-                ->references('vehicle_type_name')
+                ->foreign('vehicle_type_uid')
+                ->references('vehicle_type_uid')
                 ->on('vehicles_types')
                 ->onDelete('cascade')->onUpdate('cascade');
             $table
-                ->foreign('vehicle_brand_name')
-                ->references('vehicle_brand_name')
+                ->foreign('vehicle_brand_uid')
+                ->references('vehicle_brand_uid')
                 ->on('vehicles_brands')
                 ->onDelete('cascade')->onUpdate('cascade');
             $table
-                ->foreign('user_number_id')
-                ->references('user_number_id')
+                ->foreign('user_uid')
+                ->references('user_uid')
                 ->on('users')
                 ->onDelete('cascade')->onUpdate('cascade');
         });
@@ -52,11 +52,11 @@ class CreateVehiclesConstraints extends Migration
     {
         Schema::table('vehicles', function (Blueprint $table) {
             # Foreign Key Constraints
-            $table->dropForeign('vehicles_vehicle_color_name_foreign');
-            $table->dropForeign('vehicles_vehicle_model_name_foreign');
-            $table->dropForeign('vehicles_vehicle_type_name_foreign');
-            $table->dropForeign('vehicles_vehicle_brand_name_foreign');
-            $table->dropForeign('vehicles_user_number_id_foreign');
+            $table->dropForeign('vehicles_vehicle_color_uid_foreign');
+            $table->dropForeign('vehicles_vehicle_model_uid_foreign');
+            $table->dropForeign('vehicles_vehicle_type_uid_foreign');
+            $table->dropForeign('vehicles_vehicle_brand_uid_foreign');
+            $table->dropForeign('vehicles_user_uid_foreign');
         });
     }
 }

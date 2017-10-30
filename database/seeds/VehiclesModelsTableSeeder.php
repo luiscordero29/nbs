@@ -1,7 +1,11 @@
 <?php
+
+use App\VehicleBrand;
+use App\VehicleModel;
+use Faker\Factory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
-use Faker\Factory;
+use Webpatser\Uuid\Uuid;
 
 class VehiclesModelsTableSeeder extends Seeder
 {
@@ -14,16 +18,16 @@ class VehiclesModelsTableSeeder extends Seeder
     {
         $faker = Faker\Factory::create();
         DB::table('vehicles_models')->delete();
-        $data = DB::table('vehicles_brands')->limit(30)->get();
+        $data = VehicleBrand::limit(30)->get();
         foreach ($data as $r) {
             for ($i=0; $i < 5; $i++) { 
-                DB::table('vehicles_models')->insert([
-                    'vehicle_brand_name' => $r->vehicle_brand_name,
-                    'vehicle_model_name' => $faker->unique()->realText($faker->numberBetween(10,60)),
-                    'vehicle_model_description' => $faker->text,
-                ]);
+                $vehicle_model = new VehicleModel;
+                $vehicle_model->vehicle_model_name = $faker->unique()->realText($faker->numberBetween(10,60));
+                $vehicle_model->vehicle_model_description = $faker->text;
+                $vehicle_model->vehicle_model_uid  = Uuid::generate()->string;
+                $vehicle_model->vehicle_brand_uid  = $r->vehicle_brand_uid;
+                $vehicle_model->save();
             }
         }
-
     }
 }
