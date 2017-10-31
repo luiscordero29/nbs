@@ -9,6 +9,9 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
+    \Mail::send('welcome', [], function ($message){
+        $message->to('luis.cordero@webdiv.co')->subject('Expertphp.in - Testing mail');
+    });
 */
 /* Emails */
 /* Auth */

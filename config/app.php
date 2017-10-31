@@ -181,7 +181,7 @@ return [
         *   Nidoo
         */
         
-        #Weblee\Mandrill\MandrillServiceProvider::class,
+        Weblee\Mandrill\MandrillServiceProvider::class,
 
     ],
 
@@ -236,7 +236,7 @@ return [
         # Helpers
         'Helper' => App\Helpers\Helper::class,
         # Mandrill
-        #'MandrillMail'  => Weblee\Mandrill\MandrillFacade::class,
+        'MandrillMail'  => Weblee\Mandrill\MandrillFacade::class,
 
     ],
 

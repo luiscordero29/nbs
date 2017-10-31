@@ -11,7 +11,8 @@
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
         "webpatser/laravel-uuid": "^3.0",
-        "mandrill/mandrill": "1.0.*"
+        "mandrill/mandrill": "1.0.*",
+        "weblee/mandrill": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
