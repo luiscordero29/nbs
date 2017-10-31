@@ -10,8 +10,10 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+/* Emails */
 /* Auth */
 Auth::routes();
+Route::get('email', 'EmailController@index');
 /* home */
 Route::get('/', 'HomeController@index');
 /* dashboar */

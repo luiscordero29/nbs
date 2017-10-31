@@ -181,6 +181,7 @@ return [
         *   Nidoo
         */
         
+        #Weblee\Mandrill\MandrillServiceProvider::class,
 
     ],
 
@@ -234,6 +235,8 @@ return [
         'Uuid' => Webpatser\Uuid\Uuid::class,
         # Helpers
         'Helper' => App\Helpers\Helper::class,
+        # Mandrill
+        #'MandrillMail'  => Weblee\Mandrill\MandrillFacade::class,
 
     ],
 

@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'driver' => env('MAIL_DRIVER', 'smtp'),
+    'driver' => env('MANDRILL_DRIVER', 'mandrill'),
 
     /*
     |--------------------------------------------------------------------------
@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'mail.luiscordero29.com'),
+    'host' => env('MANDRILL_HOST', 'smtp.mandrillapp.com'),
 
     /*
     |--------------------------------------------------------------------------
@@ -42,7 +42,7 @@ return [
     |
     */
 
-    'port' => env('MAIL_PORT', 993),
+    'port' => env('MANDRILL_PORT', 587),
 
     /*
     |--------------------------------------------------------------------------
@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@nidoo.la'),
-        'name' => env('MAIL_FROM_NAME', 'Nidoo Business Solutions'),
+        'address' => env('MANDRILL_ADDRESS', 'hello@nidoo.la'),
+        'name' => env('MANDRILL_NAME', 'Nidoo Business Solutions'),
     ],
 
     /*
@@ -71,7 +71,7 @@ return [
     |
     */
 
-    'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+    'encryption' => env('MANDRILL_ENCRYPTION', 'tls'),
 
     /*
     |--------------------------------------------------------------------------
@@ -84,9 +84,9 @@ return [
     |
     */
 
-    'username' => env('MAIL_USERNAME'),
+    'username' => env('MANDRILL_USERNAME'),
 
-    'password' => env('MAIL_PASSWORD'),
+    'password' => env('MANDRILL_PASSWORD'),
 
     /*
     |--------------------------------------------------------------------------
