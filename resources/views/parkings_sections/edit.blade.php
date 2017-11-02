@@ -2,7 +2,7 @@
 @section('title', 'Editar Sección')
 @section('breadcrumb')
     <div class="col-md-9 col-9 align-self-center">
-        <h3 class="text-themecolor m-b-0 m-t-0">Editar Sección</h3>
+        <h3 class="text-themecolor m-b-0 m-t-0"><i class="fa fa-road"></i> Parqueaderos</h3>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
             <li class="breadcrumb-item"><a href="/parkings_sections/index">Divisiones</a></li>
@@ -14,7 +14,7 @@
     </div>
 @endsection
 @section('content')
-	<form method="POST" action="/parkings_sections/update/{{ $data['row']->parking_section_id }}">
+	<form method="POST" action="/parkings_sections/update/{{ $data['row']->parking_section_uid }}">
 		{{ csrf_field() }}
         <div class="form-body">
             <h3 class="card-title">Editar Sección</h3>
@@ -40,7 +40,7 @@
         <div class="form-actions">
             <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Guardar</button>
             <a href="/parkings_sections/index" class="btn btn-inverse">Regresar</a>
-            <input type="hidden" name="parking_section_id" value="{{ $data['row']->parking_section_id }}">
+            <input type="hidden" name="parking_section_uid" value="{{ $data['row']->parking_section_uid }}">
         </div>
     </form>
 @endsection

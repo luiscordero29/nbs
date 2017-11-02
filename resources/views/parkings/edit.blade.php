@@ -2,7 +2,7 @@
 @section('title', 'Editar Parqueadero')
 @section('breadcrumb')
     <div class="col-md-8 col-8 align-self-center">
-        <h3 class="text-themecolor m-b-0 m-t-0">Editar Parqueadero</h3>
+        <h3 class="text-themecolor m-b-0 m-t-0"><i class="fa fa-road"></i> Parqueaderos</h3>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
             <li class="breadcrumb-item"><a href="/parkings/index">Parqueaderos</a></li>
@@ -17,7 +17,7 @@
     </div>
 @endsection
 @section('content')
-	<form method="POST" action="/parkings/update/{{ $data['row']->parking_id }}"  enctype="multipart/form-data">
+	<form method="POST" action="/parkings/update/{{ $data['row']->parking_uid }}"  enctype="multipart/form-data">
 		{{ csrf_field() }}
         <div class="form-body">
             <h3 class="card-title">Editar Parqueadero</h3>
@@ -32,16 +32,16 @@
                     <div class="p-20">
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="form-group @if($errors->has('vehicle_type_name')) has-danger @endif">
+                                <div class="form-group @if($errors->has('vehicle_type_uid')) has-danger @endif">
                                     <label class="form-control-label">Tipo de Vehiculo</label>
-                                    <select class="custom-select select2 col-12" name="vehicle_type_name" style="width: 100%">
+                                    <select class="custom-select select2 col-12" name="vehicle_type_uid" style="width: 100%">
                                         <option value="">Seleccione</option>
                                         @foreach ($data['vehicles_types'] as $r)
-                                        <option @if ($data['row']->vehicle_type_name == $r->vehicle_type_name ) selected=""  @endif value="{{$r->vehicle_type_name}}">{{$r->vehicle_type_name}}</option>
+                                        <option @if ($data['row']->vehicle_type_uid == $r->vehicle_type_uid ) selected=""  @endif value="{{$r->vehicle_type_uid}}">{{$r->vehicle_type_name}}</option>
                                         @endforeach
                                     </select>
-                                    @if ($errors->has('vehicle_type_name'))
-                                        @foreach ($errors->get('vehicle_type_name') as $error)
+                                    @if ($errors->has('vehicle_type_uid'))
+                                        @foreach ($errors->get('vehicle_type_uid') as $error)
                                             <div class="form-control-feedback">{{ $error }}</div>
                                         @endforeach
                                     @endif
@@ -49,16 +49,16 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group @if($errors->has('parking_section_name')) has-danger @endif">
+                                <div class="form-group @if($errors->has('parking_section_uid')) has-danger @endif">
                                     <label class="form-control-label">Sección</label>
-                                    <select class="custom-select select2 col-12" name="parking_section_name" style="width: 100%">
+                                    <select class="custom-select select2 col-12" name="parking_section_uid" style="width: 100%">
                                         <option value="">Seleccione</option>
                                         @foreach ($data['parkings_sections'] as $r)
-                                        <option @if ($data['row']->parking_section_name == $r->parking_section_name ) selected=""  @endif value="{{$r->parking_section_name}}">{{$r->parking_section_name}}</option>
+                                        <option @if ($data['row']->parking_section_uid == $r->parking_section_uid ) selected=""  @endif value="{{$r->parking_section_uid}}">{{$r->parking_section_name}}</option>
                                         @endforeach
                                     </select>
-                                    @if ($errors->has('parking_section_name'))
-                                        @foreach ($errors->get('parking_section_name') as $error)
+                                    @if ($errors->has('parking_section_uid'))
+                                        @foreach ($errors->get('parking_section_uid') as $error)
                                             <div class="form-control-feedback">{{ $error }}</div>
                                         @endforeach
                                     @endif
@@ -86,16 +86,16 @@
                     <div class="p-20">
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="form-group @if($errors->has('parking_dimension_name')) has-danger @endif">
+                                <div class="form-group @if($errors->has('parking_dimension_uid')) has-danger @endif">
                                     <label class="form-control-label">Dimensión del Parqueadero</label>
-                                    <select class="custom-select select2 col-12" name="parking_dimension_name" style="width: 100%">
+                                    <select class="custom-select select2 col-12" name="parking_dimension_uid" style="width: 100%">
                                         <option value="">Seleccione</option>
                                         @foreach ($data['parkings_dimensions'] as $r)
-                                        <option @if ($data['row']->parking_dimension_name == $r->parking_dimension_name ) selected=""  @endif value="{{$r->parking_dimension_name}}">{{$r->parking_dimension_name}}</option>
+                                        <option @if ($data['row']->parking_dimension_uid == $r->parking_dimension_uid ) selected=""  @endif value="{{$r->parking_dimension_uid}}">{{$r->parking_dimension_name}}</option>
                                         @endforeach
                                     </select>
-                                    @if ($errors->has('parking_dimension_name'))
-                                        @foreach ($errors->get('parking_dimension_name') as $error)
+                                    @if ($errors->has('parking_dimension_uid'))
+                                        @foreach ($errors->get('parking_dimension_uid') as $error)
                                             <div class="form-control-feedback">{{ $error }}</div>
                                         @endforeach
                                     @endif
@@ -141,7 +141,7 @@
         <div class="form-actions  p-t-20">
             <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Guardar</button>
             <a href="/parkings/index" class="btn btn-inverse">Regresar</a>
-            <input type="hidden" name="parking_id" value="{{ $data['row']->parking_id }}">
+            <input type="hidden" name="parking_uid" value="{{ $data['row']->parking_uid }}">
         </div>
     </form>
 @endsection

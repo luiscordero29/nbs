@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\ParkingDimension;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use DB;
+use Webpatser\Uuid\Uuid;
+
 
 class ParkingsDimensionsController extends Controller
 {
@@ -42,9 +45,7 @@ class ParkingsDimensionsController extends Controller
             $request->session()->forget('info');
             $request->session()->forget('search');
         }
-        $data['rows'] = DB::table('parkings_dimensions')
-            ->where('parkings_dimensions.parking_dimension_name', 'like', '%'.$search.'%')
-            ->paginate(30);
+        $data['rows'] = ParkingDimension::where('parking_dimension_name', 'like', '%'.$search.'%')->paginate(30);
         # View
         return view('parkings_dimensions.index', ['data' => $data]);
     }
@@ -88,34 +89,57 @@ class ParkingsDimensionsController extends Controller
         $parking_dimension_long = $request->input('parking_dimension_long');
         $parking_dimension_height = $request->input('parking_dimension_height');
         $parking_dimension_width = $request->input('parking_dimension_width');
+        $parking_dimension_uid  = Uuid::generate()->string;
         if ($request->hasFile('parking_dimension_icon')) {
             $extension = $request->file('parking_dimension_icon')->extension();
-            $parking_dimension_icon = $parking_dimension_name.'.'.$extension;
+            $parking_dimension_icon = $parking_dimension_uid.'.'.$extension;
             $request->parking_dimension_icon->storeAs('public', $parking_dimension_icon);
             # Insert
-            DB::table('parkings_dimensions')->insert(
-                [
-                    'parking_dimension_name' => $parking_dimension_name,
-                    'parking_dimension_size' => $parking_dimension_size,
-                    'parking_dimension_long' => $parking_dimension_long,
-                    'parking_dimension_height' => $parking_dimension_height,
-                    'parking_dimension_width' => $parking_dimension_width,
-                    'parking_dimension_icon' => $parking_dimension_icon,
-                ]
-            );
+            $parkings_dimensions = new ParkingDimension;
+            $parkings_dimensions->parking_dimension_name = $parking_dimension_name;
+            $parkings_dimensions->parking_dimension_size = $parking_dimension_size;
+            $parkings_dimensions->parking_dimension_long = $parking_dimension_long;
+            $parkings_dimensions->parking_dimension_height = $parking_dimension_height;
+            $parkings_dimensions->parking_dimension_width = $parking_dimension_width;
+            $parkings_dimensions->parking_dimension_icon = $parking_dimension_icon;
+            $parkings_dimensions->parking_dimension_uid  = $parking_dimension_uid;
+            $parkings_dimensions->save();
         }else{
             # Insert
-            DB::table('parkings_dimensions')->insert(
-                [
-                    'parking_dimension_name' => $parking_dimension_name,
-                    'parking_dimension_size' => $parking_dimension_size,
-                    'parking_dimension_long' => $parking_dimension_long,
-                    'parking_dimension_height' => $parking_dimension_height,
-                    'parking_dimension_width' => $parking_dimension_width,
-                ]
-            );
+            $parkings_dimensions = new ParkingDimension;
+            $parkings_dimensions->parking_dimension_name = $parking_dimension_name;
+            $parkings_dimensions->parking_dimension_size = $parking_dimension_size;
+            $parkings_dimensions->parking_dimension_long = $parking_dimension_long;
+            $parkings_dimensions->parking_dimension_height = $parking_dimension_height;
+            $parkings_dimensions->parking_dimension_width = $parking_dimension_width;
+            $parkings_dimensions->parking_dimension_uid  = $parking_dimension_uid;
+            $parkings_dimensions->save();
         }
         return redirect('parkings_dimensions/create')->with('success', 'Registro Guardado');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($parking_dimension_uid)
+    {
+        # User
+        $data['user'] = Auth::user();
+        # Menu
+        $data['item'] = 'parkings';
+        $data['subitem'] = 'parkings_dimensions/index';
+        $count = ParkingDimension::where('parking_dimension_uid', $parking_dimension_uid)->count();
+        if ($count>0) {
+            # Show
+            $data['row'] = ParkingDimension::where('parking_dimension_uid', $parking_dimension_uid)->first();
+            return view('parkings_dimensions.show', ['data' => $data]);
+        }else{
+            # Error
+            return redirect('parkings_dimensions/index')->with('info', 'No se puede Ver el registro');
+        }
     }
 
     /**
@@ -124,19 +148,17 @@ class ParkingsDimensionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($parking_dimension_id)
+    public function edit($parking_dimension_uid)
     {
         # User
         $data['user'] = Auth::user();
         # Menu
         $data['item'] = 'parkings';
         $data['subitem'] = 'parkings_dimensions/index';
-        $count = DB::table('parkings_dimensions')->where('parking_dimension_id', '=', $parking_dimension_id)->count();
+        $count = ParkingDimension::where('parking_dimension_uid', $parking_dimension_uid)->count();
         if ($count>0) {
             # Edit 
-            $data['vehicles_types'] = DB::table('vehicles_types')->get();
-            $data['row'] = DB::table('parkings_dimensions')
-                ->where('parking_dimension_id', '=', $parking_dimension_id)
+            $data['row'] = ParkingDimension::where('parking_dimension_uid', '=', $parking_dimension_uid)
                 ->first();
             return view('parkings_dimensions.edit', ['data' => $data]);
         }else{
@@ -152,7 +174,7 @@ class ParkingsDimensionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $parking_dimension_id)
+    public function update(Request $request, $parking_dimension_uid)
     {
         # Rules
         $this->validate($request, [
@@ -164,50 +186,44 @@ class ParkingsDimensionsController extends Controller
             'parking_dimension_icon' => 'image|mimes:jpeg,png',
         ]);
         # Request
-        $parking_dimension_id = $request->input('parking_dimension_id');
+        $parking_dimension_uid = $request->input('parking_dimension_uid');
         $parking_dimension_name = $request->input('parking_dimension_name');
         $parking_dimension_size = $request->input('parking_dimension_size');
         $parking_dimension_long = $request->input('parking_dimension_long');
         $parking_dimension_height = $request->input('parking_dimension_height');
         $parking_dimension_width = $request->input('parking_dimension_width');
         # Unique 
-        $count = DB::table('parkings_dimensions')->where('parking_dimension_name', $parking_dimension_name)->where('parking_dimension_id', '<>', $parking_dimension_id)->count();
+        $count = ParkingDimension::where('parking_dimension_name', $parking_dimension_name)->where('parking_dimension_uid', '<>', $parking_dimension_uid)->count();
         if ($count<1) {
             if ($request->hasFile('parking_dimension_icon')) {
                 $extension = $request->file('parking_dimension_icon')->extension();
-                $parking_dimension_icon = $parking_dimension_name.'.'.$extension;
+                $parking_dimension_icon = $parking_dimension_uid.'.'.$extension;
                 $request->parking_dimension_icon->storeAs('public', $parking_dimension_icon);
                 # Update
-                DB::table('parkings_dimensions')
-                    ->where('parking_dimension_id', $parking_dimension_id)
-                    ->update(
-                        [
-                            'parking_dimension_name' => $parking_dimension_name,
-                            'parking_dimension_size' => $parking_dimension_size,
-                            'parking_dimension_long' => $parking_dimension_long,
-                            'parking_dimension_height' => $parking_dimension_height,
-                            'parking_dimension_width' => $parking_dimension_width,
-                            'parking_dimension_icon' => $parking_dimension_icon,
-                        ]
-                    );
+                $parkings_dimensions = ParkingDimension::where('parking_dimension_uid', $parking_dimension_uid)->first();
+                $parkings_dimensions->parking_dimension_name = $parking_dimension_name;
+                $parkings_dimensions->parking_dimension_size = $parking_dimension_size;
+                $parkings_dimensions->parking_dimension_long = $parking_dimension_long;
+                $parkings_dimensions->parking_dimension_height = $parking_dimension_height;
+                $parkings_dimensions->parking_dimension_width = $parking_dimension_width;
+                $parkings_dimensions->parking_dimension_icon = $parking_dimension_icon;
+                $parkings_dimensions->parking_dimension_uid  = $parking_dimension_uid;
+                $parkings_dimensions->save();
             }else{
                 # Update
-                DB::table('parkings_dimensions')
-                    ->where('parking_dimension_id', $parking_dimension_id)
-                    ->update(
-                        [
-                            'parking_dimension_name' => $parking_dimension_name,
-                            'parking_dimension_size' => $parking_dimension_size,
-                            'parking_dimension_long' => $parking_dimension_long,
-                            'parking_dimension_height' => $parking_dimension_height,
-                            'parking_dimension_width' => $parking_dimension_width,
-                        ]
-                    );
+                $parkings_dimensions = ParkingDimension::where('parking_dimension_uid', $parking_dimension_uid)->first();
+                $parkings_dimensions->parking_dimension_name = $parking_dimension_name;
+                $parkings_dimensions->parking_dimension_size = $parking_dimension_size;
+                $parkings_dimensions->parking_dimension_long = $parking_dimension_long;
+                $parkings_dimensions->parking_dimension_height = $parking_dimension_height;
+                $parkings_dimensions->parking_dimension_width = $parking_dimension_width;
+                $parkings_dimensions->parking_dimension_uid  = $parking_dimension_uid;
+                $parkings_dimensions->save();
             }
-            return redirect('parkings_dimensions/edit/'.$parking_dimension_id)->with('success', 'Registro Actualizado');
+            return redirect('parkings_dimensions/edit/'.$parking_dimension_uid)->with('success', 'Registro Actualizado');
         }else{
             # Error
-            return redirect('parkings_dimensions/edit/'.$parking_dimension_id)->with('danger', 'El elemento marca ya está en uso.');
+            return redirect('parkings_dimensions/edit/'.$parking_dimension_uid)->with('danger', 'El elemento marca ya está en uso.');
         }
     }
 
@@ -217,14 +233,14 @@ class ParkingsDimensionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($parking_dimension_id)
+    public function destroy($parking_dimension_uid)
     {
-        $count = DB::table('parkings_dimensions')->where('parking_dimension_id', '=', $parking_dimension_id)->count();
+        $count = ParkingDimension::where('parking_dimension_uid', $parking_dimension_uid)->count();
         if ($count>0) {
             # Delete
-            $data = DB::table('parkings_dimensions')->where('parking_dimension_id', '=', $parking_dimension_id)->first();
+            $data = ParkingDimension::where('parking_dimension_uid', $parking_dimension_uid)->first();
             Storage::delete($data->parking_dimension_icon);
-            DB::table('parkings_dimensions')->where('parking_dimension_id', '=', $parking_dimension_id)->delete();
+            ParkingDimension::where('parking_dimension_uid', '=', $parking_dimension_uid)->delete();
             return redirect('parkings_dimensions/index')->with('success', 'Registro Elimino');
         }else{
             # Error

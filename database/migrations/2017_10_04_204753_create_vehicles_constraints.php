@@ -19,27 +19,32 @@ class CreateVehiclesConstraints extends Migration
                 ->foreign('vehicle_color_uid')
                 ->references('vehicle_color_uid')
                 ->on('vehicles_colors')
-                ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
             $table
                 ->foreign('vehicle_model_uid')
                 ->references('vehicle_model_uid')
                 ->on('vehicles_models')
-                ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
             $table
                 ->foreign('vehicle_type_uid')
                 ->references('vehicle_type_uid')
                 ->on('vehicles_types')
-                ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
             $table
                 ->foreign('vehicle_brand_uid')
                 ->references('vehicle_brand_uid')
                 ->on('vehicles_brands')
-                ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
             $table
                 ->foreign('user_uid')
                 ->references('user_uid')
                 ->on('users')
-                ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 

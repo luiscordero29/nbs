@@ -26,15 +26,11 @@ class DatabaseSeeder extends Seeder
         $this->call(VehiclesBrandsTableSeeder::class); 
         $this->call(VehiclesModelsTableSeeder::class); 
         $this->call(VehiclesTableSeeder::class); 
-
         /*
         Section Parkings
         */
-        
-        /*
-        $this->call(ParkingsSectionsTableSeeder::class); 
         $this->call(ParkingsDimensionsTableSeeder::class); 
+        $this->call(ParkingsSectionsTableSeeder::class); 
         $this->call(ParkingsTableSeeder::class); 
-        */
     }
 }

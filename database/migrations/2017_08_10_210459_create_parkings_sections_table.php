@@ -18,8 +18,13 @@ class CreateParkingsSectionsTable extends Migration
             # Fields
             $table->bigIncrements('parking_section_id');
             $table->char('parking_section_name', 60);
-            #Keys 
-            $table->unique('parking_section_name');
+            # Fields System
+            $table->uuid('parking_section_uid');
+            $table->dateTime('parking_section_created');
+            $table->dateTime('parking_section_updated');
+            # Keys
+            $table->unique('parking_section_name');  
+            $table->unique('parking_section_uid');
         });
     }
 

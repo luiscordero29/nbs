@@ -23,8 +23,13 @@ class CreateParkingsDimensionsTable extends Migration
             $table->decimal('parking_dimension_height', 5, 2);
             $table->decimal('parking_dimension_width', 5, 2);
             $table->binary('parking_dimension_icon')->nullable();
-            #Keys 
-            $table->unique('parking_dimension_name');
+            # Fields System
+            $table->uuid('parking_dimension_uid');
+            $table->dateTime('parking_dimension_created');
+            $table->dateTime('parking_dimension_updated');
+            # Keys
+            $table->unique('parking_dimension_name');  
+            $table->unique('parking_dimension_uid');
         });
     }
 

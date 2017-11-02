@@ -159,26 +159,26 @@ Route::middleware(AdminMiddleware::class)->group(function () {
 	Route::match(['get', 'post'],'parkings_sections/index', 'ParkingsSectionsController@index');
 	Route::get('parkings_sections/create', 'ParkingsSectionsController@create');
 	Route::post('parkings_sections/store', 'ParkingsSectionsController@store');
-	Route::get('parkings_sections/show/{parking_section_id}', 'ParkingsSectionsController@show')->where('parking_section_id', '[0-9]+');
-	Route::get('parkings_sections/edit/{parking_section_id}', 'ParkingsSectionsController@edit')->where('parking_section_id', '[0-9]+');
-	Route::post('parkings_sections/update/{parking_section_id}', 'ParkingsSectionsController@update')->where('parking_section_id', '[0-9]+');
-	Route::get('parkings_sections/destroy/{parking_section_id}', 'ParkingsSectionsController@destroy')->where('parking_section_id', '[0-9]+');
+	Route::get('parkings_sections/show/{parking_section_uid}', 'ParkingsSectionsController@show');
+	Route::get('parkings_sections/edit/{parking_section_uid}', 'ParkingsSectionsController@edit');
+	Route::post('parkings_sections/update/{parking_section_uid}', 'ParkingsSectionsController@update');
+	Route::get('parkings_sections/destroy/{parking_section_uid}', 'ParkingsSectionsController@destroy');
 	/* parkings_dimensions */
 	Route::match(['get', 'post'],'parkings_dimensions/index', 'ParkingsDimensionsController@index');
 	Route::get('parkings_dimensions/create', 'ParkingsDimensionsController@create');
 	Route::post('parkings_dimensions/store', 'ParkingsDimensionsController@store');
-	Route::get('parkings_dimensions/show/{parking_dimension_id}', 'ParkingsDimensionsController@show')->where('parking_dimension_id', '[0-9]+');
-	Route::get('parkings_dimensions/edit/{parking_dimension_id}', 'ParkingsDimensionsController@edit')->where('parking_dimension_id', '[0-9]+');
-	Route::post('parkings_dimensions/update/{parking_dimension_id}', 'ParkingsDimensionsController@update')->where('parking_dimension_id', '[0-9]+');
-	Route::get('parkings_dimensions/destroy/{parking_dimension_id}', 'ParkingsDimensionsController@destroy')->where('parking_dimension_id', '[0-9]+');
+	Route::get('parkings_dimensions/show/{parking_dimension_uid}', 'ParkingsDimensionsController@show');
+	Route::get('parkings_dimensions/edit/{parking_dimension_uid}', 'ParkingsDimensionsController@edit');
+	Route::post('parkings_dimensions/update/{parking_dimension_uid}', 'ParkingsDimensionsController@update');
+	Route::get('parkings_dimensions/destroy/{parking_dimension_uid}', 'ParkingsDimensionsController@destroy');
 	/* parkings */
 	Route::match(['get', 'post'],'parkings/index', 'ParkingsController@index');
 	Route::get('parkings/create', 'ParkingsController@create');
 	Route::post('parkings/store', 'ParkingsController@store');
-	Route::get('parkings/show/{parking_id}', 'ParkingsController@show')->where('parking_id', '[0-9]+');
-	Route::get('parkings/edit/{parking_id}', 'ParkingsController@edit')->where('parking_id', '[0-9]+');
-	Route::post('parkings/update/{parking_id}', 'ParkingsController@update')->where('parking_id', '[0-9]+');
-	Route::get('parkings/destroy/{parking_id}', 'ParkingsController@destroy')->where('parking_id', '[0-9]+');
+	Route::get('parkings/show/{parking_uid}', 'ParkingsController@show');
+	Route::get('parkings/edit/{parking_uid}', 'ParkingsController@edit');
+	Route::post('parkings/update/{parking_uid}', 'ParkingsController@update');
+	Route::get('parkings/destroy/{parking_uid}', 'ParkingsController@destroy');
 	/* parkings_lot */
 	Route::get('parkings_lot/create', 'ParkingsLotController@create');
 	Route::post('parkings_lot/store', 'ParkingsLotController@store');

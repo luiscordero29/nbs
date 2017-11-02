@@ -18,13 +18,19 @@ class CreateParkingsTable extends Migration
             # Fields
             $table->bigIncrements('parking_id');
             $table->char('parking_name', 60);
-            $table->char('vehicle_type_name', 60);
-            $table->char('parking_section_name', 60);
             $table->text('parking_description')->nullable();
-            $table->char('parking_dimension_name', 60)->nullable();
             $table->binary('parking_photo')->nullable();
-            #Keys 
-            $table->unique('parking_name');
+            # Foreign Key Constraints
+            $table->uuid('vehicle_type_uid');
+            $table->uuid('parking_section_uid');
+            $table->uuid('parking_dimension_uid')->nullable();
+            # Fields System
+            $table->uuid('parking_uid');
+            $table->dateTime('parking_created');
+            $table->dateTime('parking_updated');
+            # Keys
+            $table->unique('parking_name');  
+            $table->unique('parking_uid');
         });
     }
 

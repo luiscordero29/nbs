@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Parking;
+use App\ParkingDimension;
+use App\ParkingSection;
+use App\VehicleType;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use DB;
+use Webpatser\Uuid\Uuid;
 
 class ParkingsLotController extends Controller
 {
@@ -33,9 +38,9 @@ class ParkingsLotController extends Controller
         $data['item'] = 'parkings';
         $data['subitem'] = 'parkings/index';
         # View
-        $data['vehicles_types'] = DB::table('vehicles_types')->get();
-        $data['parkings_dimensions'] = DB::table('parkings_dimensions')->get();
-        $data['parkings_sections'] = DB::table('parkings_sections')->get();
+        $data['vehicles_types'] = VehicleType::get();
+        $data['parkings_dimensions'] = ParkingDimension::get();
+        $data['parkings_sections'] = ParkingSection::get();
         return view('parkings_lot.create', ['data' => $data]);
     }
 
@@ -49,51 +54,50 @@ class ParkingsLotController extends Controller
     {
         # Rules
         $this->validate($request, [
-            'vehicle_type_name' => 'required',
-            'parking_section_name' => 'required',
+            'vehicle_type_uid' => 'required',
+            'parking_section_uid' => 'required',
             'parking_number' => 'required|integer',
             'parking_name' => 'required|max:60|unique:parkings,parking_name',
         ]);
         # Request
         $parking_number = $request->input('parking_number');
-        $vehicle_type_name = $request->input('vehicle_type_name');
-        $parking_dimension_name = $request->input('parking_dimension_name');
+        $vehicle_type_uid = $request->input('vehicle_type_uid');
+        $parking_section_uid = $request->input('parking_section_uid');
+        $parking_dimension_uid = $request->input('parking_dimension_uid');
         $parking_name = $request->input('parking_name');
-        $parking_section_name = $request->input('parking_section_name');
         $parking_description = $request->input('parking_description');
         if ($parking_number > 0) {
             $insert = 1;
             $insert_ok = 0;
             do {
+                $parking_uid  = Uuid::generate()->string;
                 $name = $parking_name.'_'.$insert;
-                $count = DB::table('parkings')->where('parking_name', $name)->count();
+                $count = Parking::where('parking_name', $name)->count();
                 if ($count<1) {
                     if ($request->hasFile('parking_photo')) {
                         $extension = $request->file('parking_photo')->extension();
-                        $parking_photo = $name.'.'.$extension;
+                        $parking_photo = $parking_uid.'.'.$extension;
                         $request->parking_photo->storeAs('public', $parking_photo);
                         # Insert
-                        DB::table('parkings')->insert(
-                            [
-                                'vehicle_type_name' => $vehicle_type_name,
-                                'parking_dimension_name' => $parking_dimension_name,
-                                'parking_section_name' => $parking_section_name,
-                                'parking_name' => $name,
-                                'parking_description' => $parking_description,
-                                'parking_photo' => $parking_photo,
-                            ]
-                        );
+                        $parking = new Parking;
+                        $parking->vehicle_type_uid  = $vehicle_type_uid;
+                        $parking->parking_section_uid = $parking_section_uid;
+                        $parking->parking_dimension_uid  = $parking_dimension_uid;
+                        $parking->parking_name  = $name;
+                        $parking->parking_description  = $parking_description;
+                        $parking->parking_photo  = $parking_photo;
+                        $parking->parking_uid  = $parking_uid;
+                        $parking->save();
                     }else{
                         # Insert
-                        DB::table('parkings')->insert(
-                            [
-                                'vehicle_type_name' => $vehicle_type_name,
-                                'parking_dimension_name' => $parking_dimension_name,
-                                'parking_section_name' => $parking_section_name,
-                                'parking_name' => $name,
-                                'parking_description' => $parking_description,
-                            ]
-                        );
+                        $parking = new Parking;
+                        $parking->vehicle_type_uid  = $vehicle_type_uid;
+                        $parking->parking_section_uid = $parking_section_uid;
+                        $parking->parking_dimension_uid  = $parking_dimension_uid;
+                        $parking->parking_name  = $name;
+                        $parking->parking_description  = $parking_description;
+                        $parking->parking_uid  = $parking_uid;
+                        $parking->save();
                     }
                     $insert_ok++;
                 }

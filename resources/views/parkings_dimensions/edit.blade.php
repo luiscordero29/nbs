@@ -2,7 +2,7 @@
 @section('title', 'Editar Dimensión del Parqueadero')
 @section('breadcrumb')
     <div class="col-md-9 col-9 align-self-center">
-        <h3 class="text-themecolor m-b-0 m-t-0">Editar Dimensión del Parqueadero</h3>
+        <h3 class="text-themecolor m-b-0 m-t-0"><i class="fa fa-road"></i> Parqueaderos</h3>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
             <li class="breadcrumb-item"><a href="/parkings_dimensions/index">Dimensiones</a></li>
@@ -14,7 +14,7 @@
     </div>
 @endsection
 @section('content')
-	<form method="POST" action="/parkings_dimensions/update/{{ $data['row']->parking_dimension_id }}" enctype="multipart/form-data">
+	<form method="POST" action="/parkings_dimensions/update/{{ $data['row']->parking_dimension_uid }}" enctype="multipart/form-data">
 		{{ csrf_field() }}
         <div class="form-body">
             <h3 class="card-title">Editar Dimensión del Parqueadero</h3>
@@ -104,7 +104,7 @@
         <div class="form-actions">
             <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Guardar</button>
             <a href="/parkings_dimensions/index" class="btn btn-inverse">Regresar</a>
-            <input type="hidden" name="parking_dimension_id" value="{{ $data['row']->parking_dimension_id }}">
+            <input type="hidden" name="parking_dimension_uid" value="{{ $data['row']->parking_dimension_uid }}">
         </div>
     </form>
 @endsection

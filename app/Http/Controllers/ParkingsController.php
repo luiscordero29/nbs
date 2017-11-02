@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Parking;
+use App\ParkingDimension;
+use App\ParkingSection;
+use App\VehicleType;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use DB;
+use Webpatser\Uuid\Uuid;
 
 class ParkingsController extends Controller
 {
@@ -43,9 +48,9 @@ class ParkingsController extends Controller
             $request->session()->forget('search');
         }
         $data['rows'] = DB::table('parkings')
-            ->join('parkings_sections', 'parkings_sections.parking_section_name', '=', 'parkings.parking_section_name')
-            ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'parkings.vehicle_type_name')
-            ->leftJoin('parkings_dimensions', 'parkings_dimensions.parking_dimension_name', '=', 'parkings.parking_dimension_name')
+            ->join('parkings_sections', 'parkings_sections.parking_section_uid', '=', 'parkings.parking_section_uid')
+            ->join('vehicles_types', 'vehicles_types.vehicle_type_uid', '=', 'parkings.vehicle_type_uid')
+            ->leftJoin('parkings_dimensions', 'parkings_dimensions.parking_dimension_uid', '=', 'parkings.parking_dimension_uid')
             ->where('parkings.parking_name', 'like', '%'.$search.'%')
             ->orWhere('vehicles_types.vehicle_type_name', 'like', '%'.$search.'%')
             ->orWhere('parkings_sections.parking_section_name', 'like', '%'.$search.'%')
@@ -67,9 +72,9 @@ class ParkingsController extends Controller
         $data['item'] = 'parkings';
         $data['subitem'] = 'parkings/index';
         # View
-        $data['vehicles_types'] = DB::table('vehicles_types')->get();
-        $data['parkings_dimensions'] = DB::table('parkings_dimensions')->get();
-        $data['parkings_sections'] = DB::table('parkings_sections')->get();
+        $data['vehicles_types'] = VehicleType::get();
+        $data['parkings_dimensions'] = ParkingDimension::get();
+        $data['parkings_sections'] = ParkingSection::get();
         return view('parkings.create', ['data' => $data]);
     }
 
@@ -83,42 +88,41 @@ class ParkingsController extends Controller
     {
         # Rules
         $this->validate($request, [
-            'vehicle_type_name' => 'required',
-            'parking_section_name' => 'required',
+            'vehicle_type_uid' => 'required',
+            'parking_section_uid' => 'required',
             'parking_name' => 'required|max:60|unique:parkings,parking_name',
         ]);
         # Request
-        $vehicle_type_name = $request->input('vehicle_type_name');
-        $parking_dimension_name = $request->input('parking_dimension_name');
+        $parking_uid  = Uuid::generate()->string;
+        $vehicle_type_uid = $request->input('vehicle_type_uid');
+        $parking_section_uid = $request->input('parking_section_uid');
+        $parking_dimension_uid = $request->input('parking_dimension_uid');
         $parking_name = $request->input('parking_name');
-        $parking_section_name = $request->input('parking_section_name');
         $parking_description = $request->input('parking_description');
         if ($request->hasFile('parking_photo')) {
             $extension = $request->file('parking_photo')->extension();
-            $parking_photo = $vehicle_type_name.'.'.$extension;
+            $parking_photo = $parking_uid.'.'.$extension;
             $request->parking_photo->storeAs('public', $parking_photo);
             # Insert
-            DB::table('parkings')->insert(
-                [
-                    'vehicle_type_name' => $vehicle_type_name,
-                    'parking_dimension_name' => $parking_dimension_name,
-                    'parking_section_name' => $parking_section_name,
-                    'parking_name' => $parking_name,
-                    'parking_description' => $parking_description,
-                    'parking_photo' => $parking_photo,
-                ]
-            );
+            $parking = new Parking;
+            $parking->vehicle_type_uid  = $vehicle_type_uid;
+            $parking->parking_section_uid = $parking_section_uid;
+            $parking->parking_dimension_uid  = $parking_dimension_uid;
+            $parking->parking_name  = $parking_name;
+            $parking->parking_description  = $parking_description;
+            $parking->parking_photo  = $parking_photo;
+            $parking->parking_uid  = $parking_uid;
+            $parking->save();
         }else{
             # Insert
-            DB::table('parkings')->insert(
-                [
-                    'vehicle_type_name' => $vehicle_type_name,
-                    'parking_dimension_name' => $parking_dimension_name,
-                    'parking_section_name' => $parking_section_name,
-                    'parking_name' => $parking_name,
-                    'parking_description' => $parking_description,
-                ]
-            );
+            $parking = new Parking;
+            $parking->vehicle_type_uid  = $vehicle_type_uid;
+            $parking->parking_section_uid = $parking_section_uid;
+            $parking->parking_dimension_uid  = $parking_dimension_uid;
+            $parking->parking_name  = $parking_name;
+            $parking->parking_description  = $parking_description;
+            $parking->parking_uid  = $parking_uid;
+            $parking->save();
         }
         return redirect('parkings/create')->with('success', 'Registro Guardado');
     }
@@ -129,22 +133,17 @@ class ParkingsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($parking_id)
+    public function show($parking_uid)
     {
         # User
         $data['user'] = Auth::user();
         # Menu
         $data['item'] = 'parkings';
         $data['subitem'] = 'parkings/index';
-        $count = DB::table('parkings')->where('parking_id', '=', $parking_id)->count();
+        $count = Parking::where('parking_uid', $parking_uid)->count();
         if ($count>0) {
             # Show
-            $data['row'] = 
-                DB::table('parkings')
-                    ->join('parkings_sections', 'parkings_sections.parking_section_name', '=', 'parkings.parking_section_name')
-                    ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'parkings.vehicle_type_name')
-                    ->leftJoin('parkings_dimensions', 'parkings_dimensions.parking_dimension_name', '=', 'parkings.parking_dimension_name')
-                    ->where('parking_id', '=', $parking_id)->first();
+            $data['row'] = Parking::where('parking_uid', $parking_uid)->first();
             return view('parkings.show', ['data' => $data]);
         }else{
             # Error
@@ -158,25 +157,20 @@ class ParkingsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($parking_id)
+    public function edit($parking_uid)
     {
         # User
         $data['user'] = Auth::user();
         # Menu
         $data['item'] = 'parkings';
         $data['subitem'] = 'parkings/index';
-        $count = DB::table('parkings')->where('parking_id', '=', $parking_id)->count();
+        $count = Parking::where('parking_uid', $parking_uid)->count();
         if ($count>0) {
             # Edit
-            $data['vehicles_types'] = DB::table('vehicles_types')->get();
-            $data['parkings_dimensions'] = DB::table('parkings_dimensions')->get();
-            $data['parkings_sections'] = DB::table('parkings_sections')->get();
-            $data['row'] = 
-                DB::table('parkings')
-                    ->join('parkings_sections', 'parkings_sections.parking_section_name', '=', 'parkings.parking_section_name')
-                    ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'parkings.vehicle_type_name')
-                    ->leftJoin('parkings_dimensions', 'parkings_dimensions.parking_dimension_name', '=', 'parkings.parking_dimension_name')
-                    ->where('parking_id', '=', $parking_id)->first();
+            $data['vehicles_types'] = VehicleType::get();
+            $data['parkings_dimensions'] = ParkingDimension::get();
+            $data['parkings_sections'] = ParkingSection::get();
+            $data['row'] = Parking::where('parking_uid', $parking_uid)->first();
             return view('parkings.edit', ['data' => $data]);
         }else{
             # Error
@@ -191,59 +185,51 @@ class ParkingsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $parking_id)
+    public function update(Request $request, $parking_uid)
     {
         # Rules
         $this->validate($request, [
-            'vehicle_type_name' => 'required',
-            'parking_section_name' => 'required',
+            'vehicle_type_uid' => 'required',
+            'parking_section_uid' => 'required',
             'parking_name' => 'required|max:60',
         ]);
         # Request
-        $parking_id = $request->input('parking_id');
-        $vehicle_type_name = $request->input('vehicle_type_name');
-        $parking_dimension_name = $request->input('parking_dimension_name');
+        $parking_uid = $request->input('parking_uid');
+        $vehicle_type_uid = $request->input('vehicle_type_uid');
+        $parking_section_uid = $request->input('parking_section_uid');
+        $parking_dimension_uid = $request->input('parking_dimension_uid');
         $parking_name = $request->input('parking_name');
-        $parking_section_name = $request->input('parking_section_name');
         $parking_description = $request->input('parking_description');
         # Unique 
-        $count = DB::table('parkings')->where('parking_name', $parking_name)->where('parking_id', '<>', $parking_id)->count();
+        $count = Parking::where('parking_name', $parking_name)->where('parking_uid', '<>', $parking_uid)->count();
         if ($count<1) {
             if ($request->hasFile('parking_photo')) {
                 $extension = $request->file('parking_photo')->extension();
-                $parking_photo = $vehicle_type_name.'.'.$extension;
+                $parking_photo = $parking_uid.'.'.$extension;
                 $request->parking_photo->storeAs('public', $parking_photo);
                 # Update
-                DB::table('parkings')
-                    ->where('parking_id', $parking_id)
-                    ->update(
-                        [
-                            'vehicle_type_name' => $vehicle_type_name,
-                            'parking_dimension_name' => $parking_dimension_name,
-                            'parking_section_name' => $parking_section_name,
-                            'parking_name' => $parking_name,
-                            'parking_description' => $parking_description,
-                            'parking_photo' => $parking_photo,
-                        ]
-                    );
+                $parking = Parking::where('parking_uid', $parking_uid)->first();
+                $parking->vehicle_type_uid  = $vehicle_type_uid;
+                $parking->parking_section_uid = $parking_section_uid;
+                $parking->parking_dimension_uid  = $parking_dimension_uid;
+                $parking->parking_name  = $parking_name;
+                $parking->parking_description  = $parking_description;
+                $parking->parking_photo  = $parking_photo;
+                $parking->save();
             }else{
                 # Update
-                DB::table('parkings')
-                    ->where('parking_id', $parking_id)
-                    ->update(
-                        [
-                            'vehicle_type_name' => $vehicle_type_name,
-                            'parking_dimension_name' => $parking_dimension_name,
-                            'parking_section_name' => $parking_section_name,
-                            'parking_name' => $parking_name,
-                            'parking_description' => $parking_description,
-                        ]
-                    );
+                $parking = Parking::where('parking_uid', $parking_uid)->first();
+                $parking->vehicle_type_uid  = $vehicle_type_uid;
+                $parking->parking_section_uid = $parking_section_uid;
+                $parking->parking_dimension_uid  = $parking_dimension_uid;
+                $parking->parking_name  = $parking_name;
+                $parking->parking_description  = $parking_description;
+                $parking->save();
             }
-            return redirect('parkings/edit/'.$parking_id)->with('success', 'Registro Actualizado');
+            return redirect('parkings/edit/'.$parking_uid)->with('success', 'Registro Actualizado');
         }else{
             # Error
-            return redirect('parkings/edit/'.$parking_id)->with('danger', 'El elemento descripción ya está en uso.');
+            return redirect('parkings/edit/'.$parking_uid)->with('danger', 'El elemento Nombre ya está en uso.');
         }
     }
 
@@ -253,14 +239,14 @@ class ParkingsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($parking_id)
+    public function destroy($parking_uid)
     {
-        $count = DB::table('parkings')->where('parking_id', '=', $parking_id)->count();
+        $count = Parking::where('parking_uid', $parking_uid)->count();
         if ($count>0) {
             # Delete
-            $data = DB::table('parkings')->where('parking_id', '=', $parking_id)->first();
+            $data = Parking::where('parking_uid', $parking_uid)->first();
             Storage::delete($data->parking_photo);
-            DB::table('parkings')->where('parking_id', '=', $parking_id)->delete();
+            Parking::where('parking_uid', $parking_uid)->delete();
             return redirect('parkings/index')->with('success', 'Registro Elimino');
         }else{
             # Error

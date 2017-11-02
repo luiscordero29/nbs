@@ -1,30 +1,19 @@
 <?php
-
-namespace App\Http\Controllers;
-
-use App\Mail\Test;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
-use Mandrill;
-
-class EmailController extends Controller
-{
-    public function index()
-    {
-        $mandrill = new Mandrill(env('MANDRILL_SECRET'));
-        $message = array(
+require_once '/home/luiscordero/Proyectos/nidoo/laravel/vendor/mandrill/mandrill/src/Mandrill.php'; //Not required with Composer
+$mandrill = new Mandrill('1kAdrfWjxKUJnEyUiEJ8dw');
+$message = array(
         'html' => '<p>Example HTML content</p>',
         'text' => 'Example text content',
-        'subject' => 'Test Mail',
+        'subject' => 'example subject',
         'from_email' => 'hello@nidoo.la',
-        'from_name' => 'Nidoo Business Solutions',
+        'from_name' => 'Example Name',
         'to' => array(
             array(
                 'email' => 'luis.cordero@webdiv.co',
                 'name' => 'Luis Cordero',
                 'type' => 'to'
             )
-        )/*,
+        ),
         'headers' => array('Reply-To' => 'message.reply@example.com'),
         'important' => false,
         'track_opens' => null,
@@ -87,8 +76,8 @@ class EmailController extends Controller
     );
     $async = false;
     $ip_pool = 'Main Pool';
-    $send_at = '2017-10-31 06:00:00';
+    $send_at = 'luis.cordero@webdiv.co';
     $result = $mandrill->messages->send($message, $async, $ip_pool, $send_at);
     print_r($result);
-    }
-}
+
+?>

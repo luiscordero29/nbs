@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\ParkingSection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use DB;
+use Illuminate\Support\Facades\Storage;
+use Webpatser\Uuid\Uuid;
 
 class ParkingsSectionsController extends Controller
 {
@@ -41,7 +44,7 @@ class ParkingsSectionsController extends Controller
             $request->session()->forget('info');
             $request->session()->forget('search');
         }
-        $data['rows'] = DB::table('parkings_sections')->where('parking_section_name', 'like', '%'.$search.'%')->paginate(30);
+        $data['rows'] = ParkingSection::where('parking_section_name', 'like', '%'.$search.'%')->paginate(30);
         # View
         return view('parkings_sections.index', ['data' => $data]);
     }
@@ -77,9 +80,10 @@ class ParkingsSectionsController extends Controller
         # Request
         $parking_section_name = $request->input('parking_section_name');
         # Insert
-        DB::table('parkings_sections')->insert(
-            ['parking_section_name' => $parking_section_name]
-        );
+        $parking_section = new ParkingSection;
+        $parking_section->parking_section_name = $parking_section_name;
+        $parking_section->parking_section_uid  = Uuid::generate()->string;
+        $parking_section->save();
         return redirect('parkings_sections/create')->with('success', 'Registro Guardado');
     }
 
@@ -89,17 +93,17 @@ class ParkingsSectionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($parking_section_id)
+    public function show($parking_section_uid)
     {
         # User
         $data['user'] = Auth::user();
         # Menu
         $data['item'] = 'parkings';
         $data['subitem'] = 'parkings_sections/index';
-        $count = DB::table('parkings_sections')->where('parking_section_id', '=', $parking_section_id)->count();
+        $count = ParkingSection::where('parking_section_uid', $parking_section_uid)->count();
         if ($count>0) {
             # Show
-            $data['row'] = DB::table('parkings_sections')->where('parking_section_id', '=', $parking_section_id)->first();
+            $data['row'] = ParkingSection::where('parking_section_uid', $parking_section_uid)->first();
             return view('parkings_sections.show', ['data' => $data]);
         }else{
             # Error
@@ -113,17 +117,17 @@ class ParkingsSectionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($parking_section_id)
+    public function edit($parking_section_uid)
     {
         # User
         $data['user'] = Auth::user();
         # Menu
         $data['item'] = 'parkings';
         $data['subitem'] = 'parkings_sections/index';
-        $count = DB::table('parkings_sections')->where('parking_section_id', '=', $parking_section_id)->count();
+        $count = ParkingSection::where('parking_section_uid', $parking_section_uid)->count();
         if ($count>0) {
             # Edit
-            $data['row'] = DB::table('parkings_sections')->where('parking_section_id', '=', $parking_section_id)->first();
+            $data['row'] = ParkingSection::where('parking_section_uid', $parking_section_uid)->first();
             return view('parkings_sections.edit', ['data' => $data]);
         }else{
             # Error
@@ -138,26 +142,26 @@ class ParkingsSectionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $parking_section_id)
+    public function update(Request $request, $parking_section_uid)
     {
         # Rules
         $this->validate($request, [
             'parking_section_name' => 'required|max:60',
         ]);
         # Request
-        $parking_section_id = $request->input('parking_section_id');
+        $parking_section_uid = $request->input('parking_section_uid');
         $parking_section_name = $request->input('parking_section_name');
         # Unique 
-        $count = DB::table('parkings_sections')->where('parking_section_name', $parking_section_name)->where('parking_section_id', '<>', $parking_section_id)->count();
+        $count = ParkingSection::where('parking_section_name', $parking_section_name)->where('parking_section_uid', '<>', $parking_section_uid)->count();
         if ($count<1) {
             # Update
-            DB::table('parkings_sections')
-                ->where('parking_section_id', $parking_section_id)
-                ->update(['parking_section_name' => $parking_section_name]);
-            return redirect('parkings_sections/edit/'.$parking_section_id)->with('success', 'Registro Actualizado');
+            $parking_section = ParkingSection::where('parking_section_uid', $parking_section_uid)->first();
+            $parking_section->parking_section_name = $parking_section_name;
+            $parking_section->save();
+            return redirect('parkings_sections/edit/'.$parking_section_uid)->with('success', 'Registro Actualizado');
         }else{
             # Error
-            return redirect('parkings_sections/edit/'.$parking_section_id)->with('danger', 'El elemento descripción ya está en uso.');
+            return redirect('parkings_sections/edit/'.$parking_section_uid)->with('danger', 'El elemento descripción ya está en uso.');
         }
     }
 
@@ -167,12 +171,12 @@ class ParkingsSectionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($parking_section_id)
+    public function destroy($parking_section_uid)
     {
-        $count = DB::table('parkings_sections')->where('parking_section_id', '=', $parking_section_id)->count();
+        $count = ParkingSection::where('parking_section_uid', $parking_section_uid)->count();
         if ($count>0) {
             # Delete
-            DB::table('parkings_sections')->where('parking_section_id', '=', $parking_section_id)->delete();
+            ParkingSection::where('parking_section_uid', $parking_section_uid)->delete();
             return redirect('parkings_sections/index')->with('success', 'Registro Elimino');
         }else{
             # Error

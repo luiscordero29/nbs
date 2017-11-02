@@ -16,20 +16,23 @@ class CreateParkingsConstraints extends Migration
         Schema::table('parkings', function (Blueprint $table) {
             # Foreign Key Constraints
             $table
-                ->foreign('vehicle_type_name')
-                ->references('vehicle_type_name')
+                ->foreign('vehicle_type_uid')
+                ->references('vehicle_type_uid')
                 ->on('vehicles_types')
-                ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
             $table
-                ->foreign('parking_dimension_name')
-                ->references('parking_dimension_name')
+                ->foreign('parking_dimension_uid')
+                ->references('parking_dimension_uid')
                 ->on('parkings_dimensions')
-                ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete(DB::raw('set null'))
+                ->onUpdate('cascade');
             $table
-                ->foreign('parking_section_name')
-                ->references('parking_section_name')
+                ->foreign('parking_section_uid')
+                ->references('parking_section_uid')
                 ->on('parkings_sections')
-                ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 
@@ -42,9 +45,9 @@ class CreateParkingsConstraints extends Migration
     {
         Schema::table('parkings', function (Blueprint $table) {
             # Foreign Key Constraints
-            $table->dropForeign('parkings_vehicle_type_name_foreign');
-            $table->dropForeign('parkings_parking_dimension_name_foreign');
-            $table->dropForeign('parkings_parking_section_name_foreign');
+            $table->dropForeign('parkings_vehicle_type_uid_foreign');
+            $table->dropForeign('parkings_parking_dimension_uid_foreign');
+            $table->dropForeign('parkings_parking_section_uid_foreign');
         });
     }
 }

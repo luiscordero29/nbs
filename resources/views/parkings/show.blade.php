@@ -2,7 +2,7 @@
 @section('title', 'Ver Parqueadero')
 @section('breadcrumb')
     <div class="col-md-8 col-8 align-self-center">
-        <h3 class="text-themecolor m-b-0 m-t-0">Ver Parqueadero</h3>
+        <h3 class="text-themecolor m-b-0 m-t-0"><i class="fa fa-road"></i> Parqueaderos</h3>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
             <li class="breadcrumb-item"><a href="/parkings/index">Parqueaderos</a></li>
@@ -26,25 +26,40 @@
                     <b>ID:</b> {{ $data['row']->parking_id }}
                 </div>
                 <div class="col-4">
-                    <b>Sección:</b> {{ $data['row']->parking_section_name }}
+                    <b>Sección:</b> {{ $data['row']->parking_section->parking_section_name }}
                 </div>
                 <div class="col-4">
-                    <b>Tipo:</b> {{ $data['row']->vehicle_type_name }}
+                    <b>Tipo:</b> {{ $data['row']->vehicle_type->vehicle_type_name }}
                 </div>
                 <div class="col-12">
-                    <b>Nombre: </b>{{ $data['row']->parking_dimension_name }}
+                    <b>Nombre: </b>
+                    @isset($data['row']->parking_dimension->parking_dimension_name)
+                        {{ $data['row']->parking_dimension->parking_dimension_name }}
+                    @endisset
                 </div>
                 <div class="col-3">
-                    <b>Tamaño: </b>{{ $data['row']->parking_dimension_size }}
+                    <b>Tamaño: </b>
+                    @isset($data['row']->parking_dimension->parking_dimension_size)
+                        {{ $data['row']->parking_dimension->parking_dimension_size }}
+                    @endisset
                 </div> 
                 <div class="col-3">
-                    <b>Largo: </b>{{ $data['row']->parking_dimension_long }}
+                    <b>Largo: </b>
+                    @isset($data['row']->parking_dimension->parking_dimension_long)
+                        {{ $data['row']->parking_dimension->parking_dimension_long }}
+                    @endisset
                 </div> 
                 <div class="col-3">
-                    <b>Alto: </b>{{ $data['row']->parking_dimension_height }}
+                    <b>Alto: </b>
+                    @isset($data['row']->parking_dimension->parking_dimension_height)
+                        {{ $data['row']->parking_dimension->parking_dimension_height }}
+                    @endisset
                 </div>   
                 <div class="col-3">
-                    <b>Ancho: </b>{{ $data['row']->parking_dimension_width }}
+                    <b>Ancho: </b>
+                    @isset($data['row']->parking_dimension->parking_dimension_width)
+                        {{ $data['row']->parking_dimension->parking_dimension_width }}
+                    @endisset
                 </div>
             </div>
         </div>
@@ -58,25 +73,40 @@
                     <b>ID:</b> {{ $data['row']->parking_id }}
                 </div>
                 <div class="col-4">
-                    <b>Sección:</b> {{ $data['row']->parking_section_name }}
+                    <b>Sección:</b> {{ $data['row']->parking_section->parking_section_name }}
                 </div>
                 <div class="col-4">
-                    <b>Tipo:</b> {{ $data['row']->vehicle_type_name }}
+                    <b>Tipo:</b> {{ $data['row']->vehicle_type->vehicle_type_name }}
                 </div>
                 <div class="col-12">
-                    <b>Nombre: </b>{{ $data['row']->parking_dimension_name }}
+                    <b>Nombre: </b>
+                    @isset($data['row']->parking_dimension->parking_dimension_name)
+                        {{ $data['row']->parking_dimension->parking_dimension_name }}
+                    @endisset
                 </div>
                 <div class="col-3">
-                    <b>Tamaño: </b>{{ $data['row']->parking_dimension_size }}
+                    <b>Tamaño: </b>
+                    @isset($data['row']->parking_dimension->parking_dimension_size)
+                        {{ $data['row']->parking_dimension->parking_dimension_size }}
+                    @endisset
                 </div> 
                 <div class="col-3">
-                    <b>Largo: </b>{{ $data['row']->parking_dimension_long }}
+                    <b>Largo: </b>
+                    @isset($data['row']->parking_dimension->parking_dimension_long)
+                        {{ $data['row']->parking_dimension->parking_dimension_long }}
+                    @endisset
                 </div> 
                 <div class="col-3">
-                    <b>Alto: </b>{{ $data['row']->parking_dimension_height }}
+                    <b>Alto: </b>
+                    @isset($data['row']->parking_dimension->parking_dimension_height)
+                        {{ $data['row']->parking_dimension->parking_dimension_height }}
+                    @endisset
                 </div>   
                 <div class="col-3">
-                    <b>Ancho: </b>{{ $data['row']->parking_dimension_width }}
+                    <b>Ancho: </b>
+                    @isset($data['row']->parking_dimension->parking_dimension_width)
+                        {{ $data['row']->parking_dimension->parking_dimension_width }}
+                    @endisset
                 </div>
             </div>
         </div>

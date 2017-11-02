@@ -1,7 +1,11 @@
 <?php
+
+use App\Parking;
+use App\ParkingSection;
+use App\VehicleType;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
-use Faker\Factory;
+use Webpatser\Uuid\Uuid;
 
 class ParkingsTableSeeder extends Seeder
 {
@@ -14,16 +18,17 @@ class ParkingsTableSeeder extends Seeder
     {
         $faker = Faker\Factory::create();
         DB::table('parkings')->delete();
-        $parkings_sections = DB::table('parkings_sections')->get();
-        $vehicles_types = DB::table('vehicles_types')->get();
+        $parkings_sections = ParkingSection::get();
+        $vehicles_types = VehicleType::get();
         foreach ($parkings_sections as $s) {
         	foreach ($vehicles_types as $t) {            
-	            for ($i=0; $i < 10; $i++) { 
-	                DB::table('parkings')->insert([
-	                    'parking_section_name' => $s->parking_section_name,
-	                    'vehicle_type_name' => $t->vehicle_type_name,
-	                    'parking_name' => $faker->unique()->realText($faker->numberBetween(10,60)),
-	                ]);
+	            for ($i=0; $i < 5; $i++) { 
+                    $parking = new Parking;
+                    $parking->parking_section_uid = $s->parking_section_uid;
+                    $parking->vehicle_type_uid  = $t->vehicle_type_uid;
+                    $parking->parking_name  = $faker->unique()->realText($faker->numberBetween(10,60));
+                    $parking->parking_uid  = Uuid::generate()->string;
+                    $parking->save();
 	            }
 	        }
         }
