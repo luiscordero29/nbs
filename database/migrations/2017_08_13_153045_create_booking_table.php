@@ -18,8 +18,15 @@ class CreateBookingTable extends Migration
             # Fields
             $table->bigIncrements('booking_id');
             $table->date('booking_date');
-            $table->char('parking_name', 60);
-            $table->char('vehicle_code', 8);
+            # Foreign Key Constraints
+            $table->uuid('vehicle_uid');
+            $table->uuid('parking_uid');
+            # Fields System
+            $table->uuid('booking_uid');
+            $table->dateTime('booking_created');
+            $table->dateTime('booking_updated');
+            # Keys
+            $table->unique('booking_uid');
         });
     }
 

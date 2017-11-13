@@ -2,11 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\User;
+use App\ParkingSection;
+use App\Vehicle;
+use App\VehicleType;
+use App\VehicleBrand;
+use App\VehicleModel;
+use App\VehicleColor;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use DB; 
+use Webpatser\Uuid\Uuid;
 use DateTime;
 
 class UsersBookingController extends Controller
@@ -26,14 +34,14 @@ class UsersBookingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $user_id)
+    public function index(Request $request, $user_uid)
     {
         # User
         $data['user'] = Auth::user();
         # Menu
         $data['item'] = 'users';
         $data['subitem'] = 'users/index';
-        $count = DB::table('users')->where('user_id', '=', $user_id)->count();
+        $count = User::where('user_uid', $user_uid)->count();
         if ($count>0) {
             # Request
             $method = $request->method();
@@ -44,12 +52,12 @@ class UsersBookingController extends Controller
                 $data['today'] = date(implode('-', $date_array));
                 $data['search'] = $request->input('search');
                 $data['parking_section_name'] = $request->input('parking_section_name');
-                $data['parking_section'] = DB::table('parkings_sections')->where('parking_section_name',$data['parking_section_name'])->first();
+                $data['parking_section'] = ParkingSection::where('parking_section_name', $data['parking_section_name'])->first();
             }else{
                 $data['today'] = date("Y-m-d");
                 $data['search'] = '';
                 $data['parking_section_name']  = '';
-                $data['parking_section'] = DB::table('parkings_sections')->first();
+                $data['parking_section'] = ParkingSection::first();
             }
             if ($request->session()->has('success')) {
                 $data['today'] =  $request->session()->get('today');
@@ -63,17 +71,17 @@ class UsersBookingController extends Controller
                 $data['to_booking'] = false;
                 $request->session()->flash('danger', 'Las reservaciones inician el dia '.date('d/m/Y') );  
             }
-            $data['parkings_sections'] = DB::table('parkings_sections')->get();
-            $data['users_booking'] = DB::table('users')->where('user_id', '=', $user_id)->first();
-            $data['parkings'] = DB::table('parkings')->where('parking_section_name', 'like', '%'.$data['parking_section_name'].'%')->get();
+            $data['parkings_sections'] = ParkingSection::get();
+            $data['users_booking'] = User::where('user_uid', $user_uid)->first();
+            $data['parkings'] = ParkingSection::where('parking_section_name', 'like', '%'.$data['parking_section_name'].'%')->get();
             $data['booking'] = DB::table('booking')
                 ->whereDate('booking.booking_date', $data['today'])
-                ->join('vehicles', 'vehicles.vehicle_code', '=', 'booking.vehicle_code')
-                ->join('users', 'users.user_number_id', '=', 'vehicles.user_number_id')
+                ->join('vehicles', 'vehicles.vehicle_uid', '=', 'booking.vehicle_uid')
+                ->join('users', 'users.user_uid', '=', 'vehicles.user_uid')
                 ->get();
             $data['rows'] = DB::table('parkings')
-                ->join('parkings_sections', 'parkings_sections.parking_section_name', '=', 'parkings.parking_section_name')
-                ->join('vehicles_types', 'vehicles_types.vehicle_type_name', '=', 'parkings.vehicle_type_name')
+                ->join('parkings_sections', 'parkings_sections.parking_section_uid', '=', 'parkings.parking_section_uid')
+                ->join('vehicles_types', 'vehicles_types.vehicle_type_uid', '=', 'parkings.vehicle_type_uid')
                 ->where('parkings_sections.parking_section_name', 'like', '%'.$data['parking_section_name'].'%')
                 ->where(function ($query) use ($data)  {
                     $query->where('vehicles_types.vehicle_type_name', 'like', '%'.$data['search'].'%')
@@ -94,9 +102,9 @@ class UsersBookingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $user_id)
+    public function store(Request $request, $user_uid)
     {
-        $count = DB::table('users')->where('user_id', '=', $user_id)->count();
+        $count = DB::table('users')->where('user_uid', '=', $user_uid)->count();
         if ($count>0) {
             # Rules
             $this->validate($request, [
@@ -121,7 +129,7 @@ class UsersBookingController extends Controller
             $parking_section_name = $request->input('parking_section_name');
             $today = $request->input('today');
 
-            return redirect('users_booking/index/'. $user_id)
+            return redirect('users_booking/index/'. $user_uid)
                 ->with('search', $search)
                 ->with('parking_section_name', $parking_section_name )
                 ->with('today', $today)
@@ -139,9 +147,9 @@ class UsersBookingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $user_id)
+    public function update(Request $request, $user_uid)
     {
-        $count = DB::table('users')->where('user_id', '=', $user_id)->count();
+        $count = DB::table('users')->where('user_uid', '=', $user_uid)->count();
         if ($count>0) {
             # Rules
             $this->validate($request, [
@@ -166,7 +174,7 @@ class UsersBookingController extends Controller
             $parking_section_name = $request->input('parking_section_name');
             $today = $request->input('today');
 
-            return redirect('users_booking/index/'.$user_id)
+            return redirect('users_booking/index/'.$user_uid)
                 ->with('search', $search)
                 ->with('parking_section_name', $parking_section_name )
                 ->with('today', $today)
@@ -183,9 +191,9 @@ class UsersBookingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $user_id)
+    public function destroy(Request $request, $user_uid)
     {
-        $count = DB::table('users')->where('user_id', '=', $user_id)->count();
+        $count = DB::table('users')->where('user_uid', '=', $user_uid)->count();
         if ($count>0) {
             $booking_id = $request->input('booking_id');
             $search = $request->input('search');
@@ -193,7 +201,7 @@ class UsersBookingController extends Controller
             $today = $request->input('today');
             DB::table('booking')->where('booking_id', '=', $booking_id)->delete();
 
-            return redirect('users_booking/index/'.$user_id)
+            return redirect('users_booking/index/'.$user_uid)
                 ->with('search', $search)
                 ->with('parking_section_name', $parking_section_name )
                 ->with('today', $today)

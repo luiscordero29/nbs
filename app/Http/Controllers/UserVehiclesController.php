@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\User;
+use App\Vehicle;
+use App\VehicleType;
+use App\VehicleBrand;
+use App\VehicleModel;
+use App\VehicleColor;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use DB;
+use Webpatser\Uuid\Uuid;
 
 class UserVehiclesController extends Controller
 {
