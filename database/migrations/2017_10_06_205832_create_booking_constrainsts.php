@@ -16,8 +16,8 @@ class CreateBookingConstrainsts extends Migration
         Schema::table('booking', function (Blueprint $table) {
             # Foreign Key Constraints
             $table
-                ->foreign('parking_name')
-                ->references('parking_name')
+                ->foreign('parking_uid')
+                ->references('parking_uid')
                 ->on('parkings')
                 ->onDelete('cascade')->onUpdate('cascade');
             $table
@@ -37,7 +37,7 @@ class CreateBookingConstrainsts extends Migration
     {
         Schema::table('booking', function (Blueprint $table) {
             # Foreign Key Constraints
-            $table->dropForeign('booking_parking_name_foreign');
+            $table->dropForeign('booking_parking_uid_foreign');
             $table->dropForeign('booking_vehicle_uid_foreign');
         });
     }
