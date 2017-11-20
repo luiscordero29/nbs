@@ -100,7 +100,24 @@ return [
     */
 
     'custom' => [
-        # Test
+        # BookingController
+        'booking_vehicle_uid' => [
+            'required'  => 'El campo Vehiculo es obligatorio. ',
+        ],
+        'parking_uid' => [
+            'required'  => 'El campo Parqueadero es obligatorio. ',
+        ],
+        'booking_date' => [
+            'required'  => 'El campo Fecha es obligatorio. ',
+        ],
+        'update_booking_uid' => [
+            'required'  => 'El campo Booking es obligatorio. ',
+        ],
+        # BookingDateController
+        'daterange' => [
+            'required'  => 'El campo Rango de Fechas es obligatorio. ',
+        ],
+        # TestsController
         'tests_user_uid' => [
             'required'  => 'El campo Empleado es obligatorio. ',
         ],
@@ -110,7 +127,7 @@ return [
         'test_date' => [
             'required'  => 'El campo Fecha es obligatorio. ',
         ],
-        # Rewrd
+        # RewardsController
         'reward_name' => [
             'required'  => 'El campo Recompensa es obligatorio. ',
             'max'       => [
@@ -125,24 +142,74 @@ return [
             'required'  => 'El campo Crédito es obligatorio. ',
             'integer'   => 'El campo Cantidad de Crédito debe ser un número entero.',     
         ],
-        'vehicles_user_number_id' => [
-            'required'  => 'El campo Empleado es obligatorio. ',
+        'reward_status' => [
+            'required'  => 'El campo Estatus es obligatorio. ',
         ],
-        'users_user_type_description' => [
-            'required'  => 'El campo Tipo es obligatorio. ',
+        # UsersController
+        'user_number_id' => [
+            'required'  => 'El campo Número ID es obligatorio. ',
+            'max'       => [
+                'numeric' => 'El campo Número ID debe ser :max como máximo.',
+                'file'    => 'El archivo Número ID debe pesar :max kilobytes como máximo.',
+                'string'  => 'El campo Número ID debe contener :max caracteres como máximo.',
+                'array'   => 'El campo Número ID debe contener :max elementos como máximo.',
+            ],
+            'unique'    => 'El elemento Número ID ya está en uso.',
         ],
-        'users_user_division_description' => [
-            'required'  => 'El campo División es obligatorio. ',
+        'user_number_employee' => [
+            'required'  => 'El campo Número de Empleado es obligatorio. ',
+            'max'       => [
+                'numeric' => 'El campo Número de Empleado debe ser :max como máximo.',
+                'file'    => 'El archivo Número de Empleado debe pesar :max kilobytes como máximo.',
+                'string'  => 'El campo Número de Empleado debe contener :max caracteres como máximo.',
+                'array'   => 'El campo Número de Empleado debe contener :max elementos como máximo.',
+            ],
+            'unique'    => 'El elemento Número de Empleado ya está en uso.',
+        ],        
+        'user_firstname' => [
+            'required'  => 'El campo Nombres es obligatorio. ',
+            'max'       => [
+                'numeric' => 'El campo Nombres debe ser :max como máximo.',
+                'file'    => 'El archivo Nombres debe pesar :max kilobytes como máximo.',
+                'string'  => 'El campo Nombres debe contener :max caracteres como máximo.',
+                'array'   => 'El campo Nombres debe contener :max elementos como máximo.',
+            ],
         ],
-        'users_user_position_description' => [
-            'required'  => 'El campo Cargo es obligatorio. ',
+        'user_lastname' => [
+            'required'  => 'El campo Apellidos es obligatorio. ',
+            'max'       => [
+                'numeric' => 'El campo Apellidos debe ser :max como máximo.',
+                'file'    => 'El archivo Apellidos debe pesar :max kilobytes como máximo.',
+                'string'  => 'El campo Apellidos debe contener :max caracteres como máximo.',
+                'array'   => 'El campo Apellidos debe contener :max elementos como máximo.',
+            ],
         ],
-        'users_user_rol_name' => [
-            'required'  => 'El campo Rol es obligatorio. ',
+        'email' => [
+            'required'  => 'El campo E-mail es obligatorio. ',
+            'max'       => [
+                'numeric' => 'El campo E-mail debe ser :max como máximo.',
+                'file'    => 'El archivo E-mail debe pesar :max kilobytes como máximo.',
+                'string'  => 'El campo E-mail debe contener :max caracteres como máximo.',
+                'array'   => 'El campo E-mail debe contener :max elementos como máximo.',
+            ],
+            'unique'    => 'El elemento E-mail ya está en uso.',
+            'email'     => 'El campo E-mail no corresponde con una dirección de e-mail válida.',
+
         ],
-        'parking_number' => [
-            'required'  => 'El campo Cantidad de Parqueadero es obligatorio. ',
-            'integer'   => 'El campo Cantidad de Parqueadero debe ser un número entero.',     
+        'rol_name' => [
+            'required'  => 'El campo nombre es obligatorio. ',
+        ],
+        'user_image' => [
+            'required'  => 'El campo para la foto es obligatorio. ',
+            'image'     => 'El campo para la foto debe ser una imagen.',
+            'mimes'     => 'El campo para la foto debe ser un archivo de tipo :values.',
+        ],
+        # ParkingsController
+        'vehicle_type_uid' => [
+            'required'  => 'El campo Tipo de Vehiculo es obligatorio. ',
+        ],
+        'parking_section_uid' => [
+            'required'  => 'El campo Sección es obligatorio. ',
         ],
         'parking_name' => [
             'required'  => 'El campo Parqueadero es obligatorio. ',
@@ -154,9 +221,7 @@ return [
             ],
             'unique'    => 'El elemento Parqueadero ya está en uso.',
         ],
-        'parking_description' => [
-            'required'  => 'El campo descripción es obligatorio. ',
-        ],
+        # ParkingsDimensionsController
         'parking_dimension_name' => [
             'required'  => 'El campo Dimensión es obligatorio. ',
             'max'       => [
@@ -188,6 +253,28 @@ return [
             'required'  => 'El campo Ancho es obligatorio. ',
             'numeric' => 'El campo Ancho debe ser :max como máximo.',
         ],
+        # ParkingsLotController
+        'vehicle_type_uid' => [
+            'required'  => 'El campo Tipo de Vehiculo es obligatorio. ',
+        ],
+        'parking_section_uid' => [
+            'required'  => 'El campo Sección es obligatorio. ',
+        ],
+        'parking_number' => [
+            'required'  => 'El campo Cantidad de Parqueadero es obligatorio. ',
+            'integer'   => 'El campo Cantidad de Parqueadero debe ser un número entero.',     
+        ],
+        'parking_name' => [
+            'required'  => 'El campo Parqueadero es obligatorio. ',
+            'max'       => [
+                'numeric' => 'El campo Parqueadero debe ser :max como máximo.',
+                'file'    => 'El archivo Parqueadero debe pesar :max kilobytes como máximo.',
+                'string'  => 'El campo Parqueadero debe contener :max caracteres como máximo.',
+                'array'   => 'El campo Parqueadero debe contener :max elementos como máximo.',
+            ],
+            'unique'    => 'El elemento Parqueadero ya está en uso.',
+        ],
+        # ParkingsSectionsController
         'parking_section_name' => [
             'required'  => 'El campo Sección es obligatorio. ',
             'max'       => [
@@ -198,10 +285,61 @@ return [
             ],
             'unique'    => 'El elemento Sección ya está en uso.',
         ],
-        'parking_dimension_icon' => [
-            'required'  => 'El campo para la foto es obligatorio. ',
-            'image'     => 'El campo para la foto debe ser una imagen.',
-            'mimes'     => 'El campo para la foto debe ser un archivo de tipo :values.',
+        # UsersBookingController
+        'booking_vehicle_uid' => [
+            'required'  => 'El campo Vehiculo es obligatorio. ',
+        ],
+        'parking_uid' => [
+            'required'  => 'El campo Parqueadero es obligatorio. ',
+        ],
+        'booking_date' => [
+            'required'  => 'El campo Fecha es obligatorio. ',
+        ],
+        'update_booking_uid' => [
+            'required'  => 'El campo Booking es obligatorio. ',
+        ],
+        'booking_vehicle_uid' => [
+            'required'  => 'El campo Vehiculo es obligatorio. ',
+        ],
+        # UsersDivisionsController
+        'user_division_description' => [
+            'required'  => 'El campo División es obligatorio. ',
+            'max'       => [
+                'numeric' => 'El campo División debe ser :max como máximo.',
+                'file'    => 'El archivo División debe pesar :max kilobytes como máximo.',
+                'string'  => 'El campo División debe contener :max caracteres como máximo.',
+                'array'   => 'El campo División debe contener :max elementos como máximo.',
+            ],
+            'unique'    => 'El elemento División ya está en uso.',
+        ],
+        # UsersPositionsController
+        'user_position_description' => [
+            'required'  => 'El campo Cargo es obligatorio. ',
+            'max'       => [
+                'numeric' => 'El campo Cargo debe ser :max como máximo.',
+                'file'    => 'El archivo Cargo debe pesar :max kilobytes como máximo.',
+                'string'  => 'El campo Cargo debe contener :max caracteres como máximo.',
+                'array'   => 'El campo Cargo debe contener :max elementos como máximo.',
+            ],
+            'unique'    => 'El elemento Cargo ya está en uso.',
+        ],
+        # UsersTypesController
+        'user_type_description' => [
+            'required'  => 'El campo Tipo es obligatorio. ',
+            'max'       => [
+                'numeric' => 'El campo Tipo debe ser :max como máximo.',
+                'file'    => 'El archivo Tipo debe pesar :max kilobytes como máximo.',
+                'string'  => 'El campo Tipo debe contener :max caracteres como máximo.',
+                'array'   => 'El campo Tipo debe contener :max elementos como máximo.',
+            ],
+            'unique'    => 'El elemento Tipo ya está en uso.',
+        ],
+        # UsersVehiclesController
+        'user_uid' => [
+            'required'  => 'El campo Empleado es obligatorio. ',
+        ],
+        'vehicle_type_uid' => [
+            'required'  => 'El campo Tipo de Vehiculo es obligatorio. ',
         ],
         'vehicle_name' => [
             'required'  => 'El campo Apodo es obligatorio. ',
@@ -219,142 +357,9 @@ return [
             ],
             'unique'    => 'El elemento Placa ya está en uso.',
         ],
-        'vehicle_year' => [
-            'required'  => 'El campo Año es obligatorio. ',
-            'digits'    => 'El campo Año debe ser un número de :digits dígitos.',
-            'date_format' => 'El campo Año no corresponde con el formato de fecha :format.',
-        ],
-        'vehicle_image' => [
-            'required'  => 'El campo para la foto es obligatorio. ',
-            'image'     => 'El campo para la foto debe ser una imagen.',
-            'mimes'     => 'El campo para la foto debe ser un archivo de tipo :values.',
-        ],
-        'vehicle_color_name' => [
-            'required'  => 'El campo Clave es obligatorio. ',
-        ],
-        'repetir_clave' => [
-            'required'  => 'El campo Repetir Clave es obligatorio. ',
-            'same'   => 'Los campos Repetir Clave y Clave deben coincidir.',
-        ],
-        'vehicle_color_name' => [
-            'required'  => 'El campo Color es obligatorio. ',
-            'max'       => [
-                'numeric' => 'El campo Color debe ser :max como máximo.',
-                'file'    => 'El archivo Color debe pesar :max kilobytes como máximo.',
-                'string'  => 'El campo Color debe contener :max caracteres como máximo.',
-                'array'   => 'El campo Color debe contener :max elementos como máximo.',
-            ],
-            'unique'    => 'El elemento Color ya está en uso.',
-        ],
-        'user_number_id' => [
-            'required'  => 'El campo Número ID es obligatorio. ',
-            'max'       => [
-                'numeric' => 'El campo Número ID debe ser :max como máximo.',
-                'file'    => 'El archivo Número ID debe pesar :max kilobytes como máximo.',
-                'string'  => 'El campo Número ID debe contener :max caracteres como máximo.',
-                'array'   => 'El campo Número ID debe contener :max elementos como máximo.',
-            ],
-            'unique'    => 'El elemento Número ID ya está en uso.',
-        ],
-        'user_number_employee' => [
-            'required'  => 'El campo Número de Empleado es obligatorio. ',
-            'max'       => [
-                'numeric' => 'El campo Número de Empleado debe ser :max como máximo.',
-                'file'    => 'El archivo Número de Empleado debe pesar :max kilobytes como máximo.',
-                'string'  => 'El campo Número de Empleado debe contener :max caracteres como máximo.',
-                'array'   => 'El campo Número de Empleado debe contener :max elementos como máximo.',
-            ],
-            'unique'    => 'El elemento Número de Empleado ya está en uso.',
-        ],
-        'email' => [
-            'required'  => 'El campo E-mail es obligatorio. ',
-            'max'       => [
-                'numeric' => 'El campo E-mail debe ser :max como máximo.',
-                'file'    => 'El archivo E-mail debe pesar :max kilobytes como máximo.',
-                'string'  => 'El campo E-mail debe contener :max caracteres como máximo.',
-                'array'   => 'El campo E-mail debe contener :max elementos como máximo.',
-            ],
-            'unique'    => 'El elemento E-mail ya está en uso.',
-            'email'     => 'El campo E-mail no corresponde con una dirección de e-mail válida.',
-
-        ],
-        'user_firstname' => [
-            'required'  => 'El campo Nombres es obligatorio. ',
-            'max'       => [
-                'numeric' => 'El campo Nombres debe ser :max como máximo.',
-                'file'    => 'El archivo Nombres debe pesar :max kilobytes como máximo.',
-                'string'  => 'El campo Nombres debe contener :max caracteres como máximo.',
-                'array'   => 'El campo Nombres debe contener :max elementos como máximo.',
-            ],
-        ],
-        'user_lastname' => [
-            'required'  => 'El campo Apellidos es obligatorio. ',
-            'max'       => [
-                'numeric' => 'El campo Apellidos debe ser :max como máximo.',
-                'file'    => 'El archivo Apellidos debe pesar :max kilobytes como máximo.',
-                'string'  => 'El campo Apellidos debe contener :max caracteres como máximo.',
-                'array'   => 'El campo Apellidos debe contener :max elementos como máximo.',
-            ],
-        ],
-        'user_type_description' => [
-            'required'  => 'El campo Tipo es obligatorio. ',
-        ],
-        'user_division_description' => [
-            'required'  => 'El campo División es obligatorio. ',
-        ],
-        'user_position_description' => [
-            'required'  => 'El campo Cargo es obligatorio. ',
-        ],
-        'user_rol_name' => [
-            'required'  => 'El campo Rol es obligatorio. ',
-        ],
-        'user_image' => [
-            'required'  => 'El campo para la foto es obligatorio. ',
-            'image'     => 'El campo para la foto debe ser una imagen.',
-            'mimes'     => 'El campo para la foto debe ser un archivo de tipo :values.',
-        ],
-        'rol_name' => [
-            'required'  => 'El campo nombre es obligatorio. ',
-            'max'       => [
-                'numeric' => 'El campo nombre debe ser :max como máximo.',
-                'file'    => 'El archivo nombre debe pesar :max kilobytes como máximo.',
-                'string'  => 'El campo nombre debe contener :max caracteres como máximo.',
-                'array'   => 'El campo nombre debe contener :max elementos como máximo.',
-            ],
-            'unique'    => 'El elemento nombre ya está en uso.',
-        ],
-        'rol_description' => [
-            'required'  => 'El campo descripción es obligatorio. ',
-        ],
-        'user_type_description' => [
-            'required'  => 'El campo descripción es obligatorio. ',
-            'max'       => [
-                'numeric' => 'El campo descripción debe ser :max como máximo.',
-                'file'    => 'El archivo descripción debe pesar :max kilobytes como máximo.',
-                'string'  => 'El campo descripción debe contener :max caracteres como máximo.',
-                'array'   => 'El campo descripción debe contener :max elementos como máximo.',
-            ],
-            'unique'    => 'El elemento descripción ya está en uso.',
-        ],
-        'user_position_description' => [
-            'required'  => 'El campo descripción es obligatorio. ',
-            'max'       => [
-                'numeric' => 'El campo descripción debe ser :max como máximo.',
-                'file'    => 'El archivo descripción debe pesar :max kilobytes como máximo.',
-                'string'  => 'El campo descripción debe contener :max caracteres como máximo.',
-                'array'   => 'El campo descripción debe contener :max elementos como máximo.',
-            ],
-            'unique'    => 'El elemento descripción ya está en uso.',
-        ],
-        'user_division_description' => [
-            'required'  => 'El campo descripción es obligatorio. ',
-            'max'       => [
-                'numeric' => 'El campo descripción debe ser :max como máximo.',
-                'file'    => 'El archivo descripción debe pesar :max kilobytes como máximo.',
-                'string'  => 'El campo descripción debe contener :max caracteres como máximo.',
-                'array'   => 'El campo descripción debe contener :max elementos como máximo.',
-            ],
-            'unique'    => 'El elemento descripción ya está en uso.',
+        # VehiclesBrandsController
+        'vehicle_type_uid' => [
+            'required'  => 'El campo Tipo de Vehiculo es obligatorio. ',
         ],
         'vehicle_brand_name' => [
             'required'  => 'El campo marca es obligatorio. ',
@@ -370,8 +375,35 @@ return [
             'image'     => 'El campo logo debe ser una imagen.',
             'mimes'     => 'El campo logo debe ser un archivo de tipo :values.',
         ],
-        'vehicle_brand_id' => [
-            'required'  => 'El campo marca es obligatorio. ',
+        # VehiclesController
+        'user_uid' => [
+            'required'  => 'El campo Empleado es obligatorio. ',
+        ],
+        'vehicle_type_uid' => [
+            'required'  => 'El campo Tipo de Vehiculo es obligatorio. ',
+        ],
+        'vehicle_name' => [
+            'required'  => 'El campo Apodo es obligatorio. ',
+        ],
+        'vehicle_status' => [
+            'required'  => 'El campo Pico y Placa es obligatorio. ',
+        ],
+        'vehicle_code' => [
+            'required'  => 'El campo Placa es obligatorio. ',
+            'max'       => [
+                'numeric' => 'El campo Placa debe ser :max como máximo.',
+                'file'    => 'El archivo Placa debe pesar :max kilobytes como máximo.',
+                'string'  => 'El campo Placa debe contener :max caracteres como máximo.',
+                'array'   => 'El campo Placa debe contener :max elementos como máximo.',
+            ],
+            'unique'    => 'El elemento Placa ya está en uso.',
+        ],
+        # VehiclesModelsController
+        'vehicle_type_uid' => [
+            'required'  => 'El campo Tipo de Vehiculo es obligatorio. ',
+        ],
+        'vehicle_brand_uid' => [
+            'required'  => 'El campo Marca de Vehiculo es obligatorio. ',
         ],
         'vehicle_model_name' => [
             'required'  => 'El campo modelo es obligatorio. ',
@@ -383,6 +415,7 @@ return [
             ],
             'unique'    => 'El elemento modelo ya está en uso.',
         ],
+        # VehiclesTypesController
         'vehicle_type_name' => [
             'required'  => 'El campo tipo es obligatorio. ',
             'max'       => [
@@ -396,7 +429,7 @@ return [
         'vehicle_type_icon' => [
             'image'     => 'El campo icono debe ser una imagen.',
             'mimes'     => 'El campo icono debe ser un archivo de tipo :values.',
-        ],
+        ],      
     ],
 
     /*
