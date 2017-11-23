@@ -89,15 +89,16 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <div class="form-group @if($errors->has('rol_name')) has-danger @endif">
-                                    <label for="rol_name" class="form-control-label">Rol</label>
-                                    <select class="custom-select select2" name="rol_name" id="rol_name" style="width: 100%">
+                                <div class="form-group @if($errors->has('role_uid')) has-danger @endif">
+                                    <label for="role_uid" class="form-control-label">Rol</label>
+                                    <select class="custom-select select2" name="role_uid" id="role_uid" style="width: 100%">
                                         <option value="">Seleccione</option>
-                                        <option @if (old('rol_name') == 'admin' ) selected=""  @endif value="admin">Administrador</option>
-                                        <option @if (old('rol_name') == 'user' ) selected=""  @endif value="user">Usuario</option>
+                                        @foreach ($data['roles'] as $r)
+                                        <option @if (old('role_uid') == $r->role_uid ) selected=""  @endif value="{{$r->role_uid}}">{{$r->role_description}}</option>
+                                        @endforeach
                                     </select>
-                                    @if ($errors->has('rol_name'))
-                                        @foreach ($errors->get('rol_name') as $error)
+                                    @if ($errors->has('role_uid'))
+                                        @foreach ($errors->get('role_uid') as $error)
                                             <div class="form-control-feedback">{{ $error }}</div>
                                         @endforeach
                                     @endif

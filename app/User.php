@@ -75,4 +75,12 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\UserType', 'user_type_uid', 'user_type_uid');
     }
+
+    /**
+     * Get the Role record associated with the Test.
+     */
+    public function role()
+    {
+        return $this->hasOne('App\Role', 'role_uid', 'role_uid');
+    }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\User;
+use App\Role;
 use Faker\Factory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
@@ -17,7 +18,9 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         DB::table('users')->delete();
-        
+        $admin = Role::where('role_name', 'admin')->first();
+        $user = Role::where('role_name', 'user')->first();
+
         $user = new User;
         $user->user_firstname = 'Luis';
         $user->user_lastname = 'Cordero';
@@ -26,6 +29,7 @@ class UsersTableSeeder extends Seeder
         $user->user_number_id = 'ID-001';
         $user->rol_name = 'admin';
         $user->user_number_employee = 'EID-001';
+        $user->role_uid = $admin->role_uid;
         $user->user_uid  = Uuid::generate()->string;
         $user->save();
 
@@ -37,6 +41,7 @@ class UsersTableSeeder extends Seeder
         $user->user_number_id = 'ID-002';
         $user->rol_name = 'admin';
         $user->user_number_employee = 'EID-002';
+        $user->role_uid = $admin->role_uid;
         $user->user_uid  = Uuid::generate()->string;
         $user->save();
 
@@ -50,6 +55,7 @@ class UsersTableSeeder extends Seeder
             $user->rol_name = 'user';
             $user->user_number_id = $faker->unique()->uuid;
             $user->user_number_employee = $faker->unique()->uuid;
+            $user->role_uid = $user->role_uid;
             $user->user_uid  = Uuid::generate()->string;
             $user->save();
         }

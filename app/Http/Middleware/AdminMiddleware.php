@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 
 class AdminMiddleware
@@ -17,7 +18,8 @@ class AdminMiddleware
     public function handle($request, Closure $next)
     {
         $data['user'] = Auth::user();
-        if ($data['user']->rol_name != 'admin'){
+        $data['user'] = User::where('user_uid', $data['user']->user_uid)->first();
+        if ($data['user']->role->role_name != 'admin'){
             return redirect('dashboard');
         }else{
             return $next($request);

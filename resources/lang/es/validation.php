@@ -196,7 +196,7 @@ return [
             'email'     => 'El campo E-mail no corresponde con una dirección de e-mail válida.',
 
         ],
-        'rol_name' => [
+        'role_uid' => [
             'required'  => 'El campo nombre es obligatorio. ',
         ],
         'user_image' => [

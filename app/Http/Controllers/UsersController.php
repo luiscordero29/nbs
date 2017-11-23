@@ -7,6 +7,7 @@ use App\User;
 use App\UserType;
 use App\UserPosition;
 use App\UserDivision;
+use App\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -72,7 +73,9 @@ class UsersController extends Controller
         $data['users_types'] = UserType::get();
         $data['users_positions'] = UserPosition::get();
         $data['users_divisions'] = UserDivision::get();
+        $data['roles'] = Role::get();
         # View
+        $request->session()->forget('info');
         return view('users.create', ['data' => $data]);
     }
 
@@ -91,7 +94,7 @@ class UsersController extends Controller
             'user_firstname' => 'required|max:60',
             'user_lastname' => 'required|max:60',
             'email' => 'required|max:160|unique:users,email|email',
-            'rol_name' => 'required',
+            'role_uid' => 'required',
             'user_image' => 'image|mimes:jpeg,png',
         ]);
         # Request
@@ -103,7 +106,7 @@ class UsersController extends Controller
         $user_number_employee = $request->input('user_number_employee');
         $user_firstname = $request->input('user_firstname');
         $user_lastname = $request->input('user_lastname');
-        $rol_name = $request->input('rol_name');
+        $role_uid = $request->input('role_uid');
         $user_type_uid = $request->input('users_user_type_uid');
         $user_division_uid = $request->input('users_user_division_uid');
         $user_position_uid = $request->input('users_user_position_uid');
@@ -120,7 +123,7 @@ class UsersController extends Controller
             $user->user_number_employee = $user_number_employee;
             $user->user_firstname = $user_firstname;
             $user->user_lastname = $user_lastname;
-            $user->rol_name = $rol_name;
+            $user->role_uid = $role_uid;
             $user->user_image = $user_image;
             $user->user_type_uid = $user_type_uid;
             $user->user_division_uid = $user_division_uid;
@@ -137,7 +140,7 @@ class UsersController extends Controller
             $user->user_number_employee = $user_number_employee;
             $user->user_firstname = $user_firstname;
             $user->user_lastname = $user_lastname;
-            $user->rol_name = $rol_name;
+            $user->role_uid = $role_uid;
             $user->user_type_uid = $user_type_uid;
             $user->user_division_uid = $user_division_uid;
             $user->user_position_uid = $user_position_uid;
@@ -190,7 +193,9 @@ class UsersController extends Controller
             $data['users_types'] = UserType::get();
             $data['users_positions'] = UserPosition::get();
             $data['users_divisions'] = UserDivision::get();
+            $data['roles'] = Role::get();
             $data['row'] = User::where('user_uid', $user_uid)->first();
+            $request->session()->forget('info');
             return view('users.edit', ['data' => $data]);
         }else{
             # Error
@@ -214,7 +219,7 @@ class UsersController extends Controller
             'user_firstname' => 'required|max:60',
             'user_lastname' => 'required|max:60',
             'email' => 'required|max:160|email',
-            'rol_name' => 'required',
+            'role_uid' => 'required',
             'user_image' => 'image|mimes:jpeg,png',
         ]);
         # Request
@@ -224,7 +229,7 @@ class UsersController extends Controller
         $user_number_employee = $request->input('user_number_employee');
         $user_firstname = $request->input('user_firstname');
         $user_lastname = $request->input('user_lastname');
-        $rol_name = $request->input('rol_name');
+        $role_uid = $request->input('role_uid');
         $user_type_uid = $request->input('users_user_type_uid');
         $user_division_uid = $request->input('users_user_division_uid');
         $user_position_uid = $request->input('users_user_position_uid');
@@ -246,7 +251,7 @@ class UsersController extends Controller
                 $user->user_type_uid = $user_type_uid;
                 $user->user_division_uid = $user_division_uid;
                 $user->user_position_uid = $user_position_uid;
-                $user->rol_name = $rol_name;
+                $user->role_uid = $role_uid;
                 $user->email = $email;
                 $user->user_image = $user_image;
                 $user->save();
@@ -260,7 +265,7 @@ class UsersController extends Controller
                 $user->user_type_uid = $user_type_uid;
                 $user->user_division_uid = $user_division_uid;
                 $user->user_position_uid = $user_position_uid;
-                $user->rol_name = $rol_name;
+                $user->role_uid = $role_uid;
                 $user->email = $email;
                 $user->save();
             }

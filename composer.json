@@ -12,7 +12,8 @@
         "laravel/tinker": "~1.0",
         "webpatser/laravel-uuid": "^3.0",
         "mandrill/mandrill": "1.0.*",
-        "weblee/mandrill": "dev-master"
+        "weblee/mandrill": "dev-master",
+        "zizaco/entrust": "5.2.x-dev"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -34,6 +34,7 @@ class CreateUsersTable extends Migration
             $table->uuid('user_type_uid')->nullable();
             $table->uuid('user_position_uid')->nullable();
             $table->uuid('user_division_uid')->nullable();
+            $table->uuid('role_uid')->nullable();
             # Fields System
             $table->uuid('user_uid');
             $table->dateTime('user_created');

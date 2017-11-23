@@ -44,7 +44,7 @@
                     <b>E-mail: </b>{{ $data['row']->email }}<br />
                 </div>
                 <div class="col-4">
-                    <b>Rol: </b>{{ $data['row']->rol_name }}<br />
+                    <b>Rol: </b>{{ $data['row']->role->role_description }}<br />
                 </div>
             </div>
         </div>
@@ -79,7 +79,7 @@
                     <b>E-mail: </b>{{ $data['row']->email }}<br />
                 </div>
                 <div class="col-4">
-                    <b>Rol: </b>{{ $data['row']->rol_name }}<br />
+                    <b>Rol: </b>{{ $data['row']->role->role_description }}<br />
                 </div>
             </div>
         </div>
