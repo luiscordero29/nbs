@@ -9,6 +9,13 @@
         <br />
         <br />
         @include('dashboard.alerts')
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+            <div class="alert alert-danger">
+                {{ $error }}
+            </div>
+            @endforeach
+        @endif
         {{-- Helper::shout('this is how to use autoloading correctly!!') --}}
         <div class="form-group m-t-40">
             <div class="col-xs-12">

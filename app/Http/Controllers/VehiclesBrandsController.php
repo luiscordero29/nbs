@@ -51,7 +51,7 @@ class VehiclesBrandsController extends Controller
             ->orWhere('vehicles_brands.vehicle_brand_description', 'like', '%'.$search.'%')
             ->paginate(30);
         # View
-        return view('vehicles_brands.index', ['data' => $data]);
+        return view('banks.index', ['data' => $data]);
     }
 
     /**

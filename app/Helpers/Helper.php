@@ -2,10 +2,30 @@
 
 namespace App\Helpers;
 
+use App\User;
+use Illuminate\Support\Facades\Auth;
+
 class Helper
 {
-    public static function shout(string $string)
+    public static function has_user()
     {
-        return strtoupper($string);
+    	$data['user'] = Auth::user();
+        $data['user'] = User::where('user_uid', $data['user']->user_uid)->first();
+        if ($data['user']->role->role_name != 'user'){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public static function has_admin()
+   	{
+    	$data['user'] = Auth::user();
+        $data['user'] = User::where('user_uid', $data['user']->user_uid)->first();
+        if ($data['user']->role->role_name != 'admin'){
+            return false;
+        }else{
+            return true;
+        }
     }
 }

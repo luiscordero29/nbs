@@ -37,8 +37,7 @@
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
-                        
-                        @if($data['user']->rol_name == 'user')
+                        @if( Helper::has_user() )
                         <li class="nav-devider"></li>
                         <li class="nav-small-cap">Nidoo Business Solution</li>
                         <li @if($data['item'] == 'user_vehicles') class="active" @endif >
@@ -49,7 +48,7 @@
                         </li>
                         @endif
                         
-                        @if($data['user']->rol_name == 'admin')
+                        @if( Helper::has_admin() )
                         <li class="nav-small-cap">Administración</li>
                         <li @if($data['item'] == 'booking') class="active" @endif >
                             <a class="has-arrow" href="#" @if($data['item'] == 'booking') aria-expanded="true" @else aria-expanded="false" @endif><i class="fa fa-calendar"></i><span class="hide-menu">Reservas </span></a>

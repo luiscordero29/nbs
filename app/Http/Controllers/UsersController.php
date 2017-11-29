@@ -156,7 +156,7 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($user_uid)
+    public function show(Request $request, $user_uid)
     {
         # User
         $data['user'] = Auth::user();
@@ -180,7 +180,7 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($user_uid)
+    public function edit(Request $request, $user_uid)
     {
         # User
         $data['user'] = Auth::user();

@@ -44,6 +44,7 @@
                 </tr>
             </thead>
             <tbody>
+                @isset($data['rows']    )
     			@foreach ($data['rows'] as $r)
                     <tr>
                         <td>{{ $r->reward_name }}</td>
@@ -64,6 +65,7 @@
                         </td>
                     </tr>             
 				@endforeach
+                @endisset
              	</tbody>
         </table>
     </div>
