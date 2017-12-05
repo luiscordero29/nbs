@@ -1,12 +1,11 @@
 @extends('layouts.booking')
-@section('title', 'Reservas')
+@section('title', 'Mis Reservaciones')
 @section('breadcrumb')
     <div class="col-md-12 col-12 align-self-center">
-        <h3 class="text-themecolor m-b-0 m-t-0">Reservas</h3>
+        <h3 class="text-themecolor m-b-0 m-t-0">Mis Reservaciones</h3>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
-            <li class="breadcrumb-item"><a href="/users/index">Usuarios</a></li>
-            <li class="breadcrumb-item active">Reservas </li>
+            <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Administración</a></li>
+            <li class="breadcrumb-item active">Mis Reservaciones </li>
         </ol>
     </div>
 @endsection
@@ -35,7 +34,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-block">
-                <form id="form-booking-search" method="POST" action="/user_booking/index">
+                <form id="form-booking-search" method="POST" action="{{ url('/user_booking/index/') }}">
                     {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-3">
@@ -46,11 +45,11 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group row">
-                                <label for="parking_section_name-text-input" class="control-label">Sección: </label>
-                                <select id="parking_section_name" class="custom-select col-md-12" name="parking_section_name">
+                                <label for="parking_section_uid" class="control-label">Sección: </label>
+                                <select id="parking_section_uid" class="custom-select col-md-12" name="parking_section_uid">
                                     <option value="">Seleccione</option>
                                     @foreach ($data['parkings_sections'] as $r)
-                                    <option @if ($data['parking_section_name'] == $r->parking_section_name ) selected=""  @endif value="{{$r->parking_section_name}}">{{$r->parking_section_name}}</option>
+                                    <option @if ($data['parking_section_uid'] == $r->parking_section_uid ) selected=""  @endif value="{{$r->parking_section_uid}}">{{$r->parking_section_name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -132,14 +131,13 @@
                         @foreach ($data['rows'] as $r)
                             <tr>
                                 <td>
-                                    <b>ID:</b> {{ $r->parking_id }} <br />
                                     <b>Sección:</b> {{ $r->parking_section_name }} <br />
                                     <b>Tipo:</b> {{ $r->vehicle_type_name }} <br />
                                     <b>Nombre: </b>{{ $r->parking_name }} <br />
                                 </td>
                                 <td>
                                     @foreach ($data['booking'] as $b)
-                                        @if($r->parking_name == $b->parking_name)
+                                        @if($r->parking_uid == $b->parking_uid)
                                             <b>Número ID: </b>{{ $b->user_number_id }} <br />
                                             <b>Número de Empleado: </b>{{ $b->user_number_employee }} <br />
                                             <b>Apellidos: </b>{{ $b->user_firstname }} <br />
@@ -149,7 +147,7 @@
                                 </td>
                                 <td>
                                     @foreach ($data['booking'] as $b)
-                                        @if($r->parking_name == $b->parking_name)
+                                        @if($r->parking_uid == $b->parking_uid)
                                             <b>Apodo: </b>{{ $b->vehicle_name }}<br />
                                             <b>Pico y Placa: </b>
                                             @if($b->vehicle_status == 'does not apply')
@@ -169,19 +167,15 @@
                                             @php $create = false; @endphp
                                             @if(count($data['booking'])>0)
                                                 @foreach ($data['booking'] as $b)
-                                                    @if($r->parking_name == $b->parking_name)
+                                                    @if($r->parking_uid == $b->parking_uid)
                                                         @php $create = true; @endphp
-                                                        @if($b->user_id == $data['user']->user_id )
-                                                            <button type="button" class="btn btn-sm btn-info btn-booking-update" data-parking_name="{{ $r->parking_name }}" data-booking_id="{{ $b->booking_id }}"><i class="fa fa-car"></i> Cambiar Asignación</button>
-                                                            <button type="button" class="btn btn-sm btn-danger btn-booking-delete" data-parking_name="{{ $r->parking_name }}" data-booking_id="{{ $b->booking_id }}"><i class="fa fa-car"></i> Remover Asignación</button>
-                                                        @else
-                                                            <button type="button" class="btn btn-sm btn-outline-secundary"><i class="fa fa-car"></i> Parqueadero Asignado</button>
-                                                        @endif
+                                                        <button type="button" class="btn btn-sm btn-info btn-booking-update" data-parking_uid="{{ $r->parking_uid }}" data-booking_uid="{{ $b->booking_uid }}"><i class="fa fa-car"></i> Cambiar Asignación</button>
+                                                        <button type="button" class="btn btn-sm btn-danger btn-booking-delete" data-parking_uid="{{ $r->parking_uid }}" data-booking_uid="{{ $b->booking_uid }}"><i class="fa fa-car"></i> Remover Asignación</button>
                                                     @endif
                                                 @endforeach
                                             @endif
                                             @if(!$create)
-                                                <button class="btn btn-sm btn-success btn-booking-create" data-parking_name="{{ $r->parking_name }}"><i class="fa fa-car"></i> Asignar Parqueadero</button>
+                                                <button class="btn btn-sm btn-success btn-booking-create" data-parking_uid="{{ $r->parking_uid }}"><i class="fa fa-car"></i> Asignar Parqueadero</button>
                                             @endif
                                         @endif
                                     </div>
@@ -203,22 +197,22 @@
                 <h4 class="modal-title">Asignar Reservar</h4>
             </div>
             <div class="modal-body">
-                <form id="booking_create" method="POST" action="/user_booking/store">
+                <form id="booking_create" method="POST" action="{{ url('/user_booking/store/') }}">
                     {{ csrf_field() }}
                     <div class="form-body">
                         <div class="form-group">
                             <label class="control-label">Vehiculo</label>
-                            <select class="custom-select select2" name="booking_vehicle_code" id="booking_vehicle_code" style="width: 100%" required="">
+                            <select class="custom-select select2" name="booking_vehicle_uid" id="booking_vehicle_uid" style="width: 100%" required="">
                                 <option value="">Seleccione</option>
                             </select>
                             <small class="form-control-feedback"> Seleccione Vehiculo</small> 
                         </div>
                     </div>
-                    <input type="hidden" id="booking_user_number_id" name="booking_user_number_id" value="{{ $data['users_booking']->user_number_id }}">
+                    <input type="hidden" id="booking_user_uid" name="booking_user_uid" value="{{ $data['users_booking']->user_uid }}">
                     <input type="hidden" id="booking_date" name="booking_date" value="{{ $data['today'] }}">
-                    <input id="parking_name" type="hidden" name="parking_name" value="">
+                    <input id="parking_uid" type="hidden" name="parking_uid" value="">
                     <input id="search" type="hidden" name="search" value="{{ $data['search'] }}">
-                    <input id="parking_section_name" type="hidden" name="parking_section_name" value="{{ $data['parking_section_name'] }}">
+                    <input id="parking_section_uid" type="hidden" name="parking_section_uid" value="{{ $data['parking_section_uid'] }}">
                     <input id="today" type="hidden" name="today" value="{{ $data['today'] }}">
                 </form>
             </div>
@@ -238,22 +232,22 @@
                 <h4 class="modal-title">Cambiar Asignación</h4>
             </div>
             <div class="modal-body">
-                <form id="booking_update" method="POST" action="/user_booking/update">
+                <form id="booking_update" method="POST" action="{{ url('/user_booking/update/') }}">
                     {{ csrf_field() }}
                     <div class="form-body">
                         <div class="form-group">
                             <label class="control-label">Vehiculo</label>
-                            <select class="custom-select select2" name="booking_vehicle_code" id="booking_vehicle_code_update" style="width: 100%" required="">
+                            <select class="custom-select select2" name="booking_vehicle_uid" id="booking_vehicle_uid_update" style="width: 100%" required="">
                                 <option value="">Seleccione</option>
                             </select>
                             <small class="form-control-feedback"> Seleccione Vehiculo</small> 
                         </div>
                     </div>
-                    <input type="hidden" id="booking_user_number_id_update" name="booking_user_number_id_update" value="{{ $data['users_booking']->user_number_id }}">
-                    <input type="hidden" id="booking_date" name="booking_date" value="{{ $data['today'] }}">
-                    <input id="update_booking_id" type="hidden" name="update_booking_id" value="">
+                    <input type="hidden" id="booking_user_uid_update" name="booking_user_uid_update" value="{{ $data['users_booking']->user_uid }}">
+                    <input type="hidden" id="booking_date_update" name="booking_date" value="{{ $data['today'] }}">
+                    <input id="update_booking_uid" type="hidden" name="update_booking_uid" value="">
                     <input id="search" type="hidden" name="search" value="{{ $data['search'] }}">
-                    <input id="parking_section_name" type="hidden" name="parking_section_name" value="{{ $data['parking_section_name'] }}">
+                    <input id="parking_section_uid" type="hidden" name="parking_section_uid" value="{{ $data['parking_section_uid'] }}">
                     <input id="today" type="hidden" name="today" value="{{ $data['today'] }}">
                 </form>
             </div>
@@ -265,21 +259,21 @@
     </div>
 </div>
 <!-- booking-delete -->
-<form id="booking_delete" method="POST" action="/user_booking/destroy">
+<form id="booking_delete" method="POST" action="{{ url('/user_booking/destroy/') }}">
     {{ csrf_field() }}
-    <input type="hidden" id="delete_booking_id" name="booking_id" value="">
+    <input type="hidden" id="delete_booking_uid" name="booking_uid" value="">
     <input type="hidden" id="booking_date" name="booking_date" value="{{ $data['today'] }}">
     <input id="search" type="hidden" name="search" value="{{ $data['search'] }}">
-    <input id="parking_section_name" type="hidden" name="parking_section_name" value="{{ $data['parking_section_name'] }}">
+    <input id="parking_section_uid" type="hidden" name="parking_section_uid" value="{{ $data['parking_section_uid'] }}">
     <input id="today" type="hidden" name="today" value="{{ $data['today'] }}">
 </form>
 @endsection
 @section('script')
 <script type="text/javascript">
     $(".select2").select2();
-    $("#booking_vehicle_code").change(function(even) {
-        var vehicle_code = $(this).val();
-        $('#booking_vehicle_code_hidden').val(vehicle_code);
+    $("#booking_vehicle_uid").change(function(even) {
+        var vehicle_uid = $(this).val();
+        $('#booking_vehicle_uid_hidden').val(vehicle_uid);
     });
     $("#booking_submit").on( "click", function ( e ) {
         $("#booking_create").submit();
@@ -288,40 +282,41 @@
         $("#booking_update").submit();
     });
     $( ".btn-booking-create" ).on( "click", function( e ) {
-        var user_number_id = $("#booking_user_number_id").val();
+        var user_uid = $("#booking_user_uid").val();
         var booking_date = $("#booking_date").val();
-        $('#booking_user_number_id_hidden').val(user_number_id);
-        $.getJSON( "/users_booking/getvehicles/" + user_number_id + '/' + booking_date , function( data ) {
-            $("#booking_vehicle_code").html('<option value="">Seleccione</option>')
+        // $('#booking_user_uid_hidden').val(user_uid);
+        $.getJSON( "{{ url('/user_booking/getvehicles/') }}" + '/' + user_uid + '/' + booking_date , function( data ) {
+            $("#booking_vehicle_uid").html('<option value="">Seleccione</option>')
             $.each( data, function( key, val ) {
-                $("#booking_vehicle_code").append('<option value="' + val['vehicle_code'] + '">' + val['vehicle_code'] + '</option>')
-                console.log( key + " - " + val['vehicle_code'] + ' ' + val['vehicle_name'] );
+                $("#booking_vehicle_uid").append('<option value="' + val['vehicle_uid'] + '">' + val['vehicle_code'] + '</option>')
+                console.log( key + " - " + val['vehicle_uid'] + ' ' + val['vehicle_code'] + ' ' + val['vehicle_name'] );
             });
         });
-        var parking_name  = $(this).data('parking_name');
-        $( "#parking_name" ).val( parking_name );
-        console.log( parking_name );
+        var parking_uid  = $(this).data('parking_uid');
+        $( "#parking_uid" ).val( parking_uid );
+        console.log( parking_uid );
         $('#modal-booking-create').modal('show');
     });
     $( ".btn-booking-update" ).on( "click", function( e ) {
-        var user_number_id = $("#booking_user_number_id_update").val();
-        var booking_date = $("#booking_date").val();
-        $('#booking_user_number_id_hidden').val(user_number_id);
-        $.getJSON( "/users_booking/getvehicles/" + user_number_id + '/' + booking_date , function( data ) {
-            $("#booking_vehicle_code_update").html('<option value="">Seleccione</option>')
+        var user_uid = $("#booking_user_uid_update").val();
+        var booking_date = $("#booking_date_update").val();
+        console.log( 'user_uid: ' + user_uid );
+        console.log( 'booking_date: ' + booking_date );
+        $.getJSON( "{{ url('/user_booking/getvehicles/') }}" + '/' + user_uid + '/' + booking_date , function( data ) {
+            $("#booking_vehicle_uid_update").html('<option value="">Seleccione</option>')
             $.each( data, function( key, val ) {
-                $("#booking_vehicle_code_update").append('<option value="' + val['vehicle_code'] + '">' + val['vehicle_code'] + '</option>')
-                console.log( key + " - " + val['vehicle_code'] + ' ' + val['vehicle_name'] );
+                $("#booking_vehicle_uid_update").append('<option value="' + val['vehicle_uid'] + '">' + val['vehicle_code'] + '</option>')
+                console.log( key + " - " + val['vehicle_uid'] + ' ' + val['vehicle_code'] + ' ' + val['vehicle_name'] );
             });
         });
-        var booking_id  = $(this).data('booking_id');
-        $( "#update_booking_id" ).val( booking_id );
-        console.log( booking_id );
+        var booking_uid  = $(this).data('booking_uid');
+        $( "#update_booking_uid" ).val( booking_uid );
+        console.log( 'booking_uid: ' + booking_uid );
         $('#modal-booking-update').modal('show');
     });
     $( ".btn-booking-delete" ).on( "click", function( e ) {
-        var booking_id  = $(this).data('booking_id');
-        $( "#delete_booking_id" ).val( booking_id );
+        var booking_uid  = $(this).data('booking_uid');
+        $( "#delete_booking_uid" ).val( booking_uid );
         $("#booking_delete").submit();
     });
     $('#datepicker-autoclose').datepicker({

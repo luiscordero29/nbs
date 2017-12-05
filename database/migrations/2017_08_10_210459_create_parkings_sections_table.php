@@ -14,7 +14,6 @@ class CreateParkingsSectionsTable extends Migration
     public function up()
     {
         Schema::create('parkings_sections', function( Blueprint $table ) {
-            $table->engine = 'InnoDB';
             # Fields
             $table->bigIncrements('parking_section_id');
             $table->char('parking_section_name', 60);

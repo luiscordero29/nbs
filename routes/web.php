@@ -43,17 +43,17 @@ Route::middleware(UserMiddleware::class)->group(function () {
 	Route::get('user_vehicles/edit/{vehicle_uid}', 'UserVehiclesController@edit');
 	Route::post('user_vehicles/update/{vehicle_uid}', 'UserVehiclesController@update');
 	Route::get('user_vehicles/destroy/{vehicle_uid}', 'UserVehiclesController@destroy');
-	Route::get('user_vehicles/getbrands/{vehicle_type_name}', 'UserVehiclesController@getbrands');
-	Route::get('user_vehicles/getmodels/{vehicle_brand_name}', 'UserVehiclesController@getmodels');
+	Route::get('user_vehicles/getbrands/{vehicle_type_uid}', 'UserVehiclesController@getbrands');
+	Route::get('user_vehicles/getmodels/{vehicle_brands_uid}', 'UserVehiclesController@getmodels');
 	/* user_booking */
 	Route::match(['get', 'post'],'user_booking/index', 'UserBookingController@index');
 	Route::post('user_booking/store', 'UserBookingController@store');
 	Route::post('user_booking/update', 'UserBookingController@update');
 	Route::post('user_booking/destroy', 'UserBookingController@destroy');
-	Route::get('user_booking/getvehicles/{user_number_id}/{booking_date}', 'UserBookingController@getvehicles');
+	Route::get('user_booking/getvehicles/{user_uid}/{booking_date}', 'UserBookingController@getvehicles');
 });
 ########################
-# Administration
+# Admin
 ########################
 Route::middleware(AdminMiddleware::class)->group(function () {
 	/* roles */

@@ -14,7 +14,6 @@ class CreateVehiclesBrandsTable extends Migration
     public function up()
     {
         Schema::create('vehicles_brands', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             # Fields
             $table->bigIncrements('vehicle_brand_id');
             $table->char('vehicle_brand_name', 60);

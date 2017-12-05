@@ -149,7 +149,7 @@ class UsersBookingController extends Controller
      */
     public function update(Request $request, $user_uid)
     {
-        $count = DB::table('users')->where('user_uid', '=', $user_uid)->count();
+        $count = User::where('user_uid', $user_uid)->count();
         if ($count>0) {
             # Rules
             $this->validate($request, [

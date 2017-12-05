@@ -14,7 +14,6 @@ class CreateUsersDivisionsTable extends Migration
     public function up()
     {
         Schema::create('users_divisions', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             # Fields
             $table->bigIncrements('user_division_id');
             $table->char('user_division_description', 60);

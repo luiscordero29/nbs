@@ -14,7 +14,6 @@ class CreateParkingsDimensionsTable extends Migration
     public function up()
     {
         Schema::create('parkings_dimensions', function( Blueprint $table ) {
-            $table->engine = 'InnoDB';
             # Fields
             $table->bigIncrements('parking_dimension_id');
             $table->char('parking_dimension_name', 60);

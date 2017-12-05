@@ -36,7 +36,6 @@
        	<table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Id</th>
                     <th>Usuario</th>
                     <th>Vehiculo</th>
                     <th class="text-nowrap"></th>
@@ -45,7 +44,6 @@
             <tbody>
     			@foreach ($data['rows'] as $r)
                     <tr>
-                        <td>{{ $r->vehicle_uid }}</td>
                        	<td>
                             <div class="row">
                                 <div class="col-12">

@@ -14,7 +14,6 @@ class CreateRewardsTable extends Migration
     public function up()
     {
         Schema::create('rewards', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             # Fields 
             $table->bigIncrements('reward_id');
             $table->char('reward_name', 60);

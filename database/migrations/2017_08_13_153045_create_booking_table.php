@@ -14,7 +14,6 @@ class CreateBookingTable extends Migration
     public function up()
     {
         Schema::create('booking', function( Blueprint $table ) {
-            $table->engine = 'InnoDB';
             # Fields
             $table->bigIncrements('booking_id');
             $table->date('booking_date');

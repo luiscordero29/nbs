@@ -14,7 +14,6 @@ class CreateVehiclesColorsTable extends Migration
     public function up()
     {
         Schema::create('vehicles_colors', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             # Fields
             $table->bigIncrements('vehicle_color_id');
             $table->char('vehicle_color_name', 60);

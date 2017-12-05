@@ -254,25 +254,9 @@ return [
             'numeric' => 'El campo Ancho debe ser :max como máximo.',
         ],
         # ParkingsLotController
-        'vehicle_type_uid' => [
-            'required'  => 'El campo Tipo de Vehiculo es obligatorio. ',
-        ],
-        'parking_section_uid' => [
-            'required'  => 'El campo Sección es obligatorio. ',
-        ],
         'parking_number' => [
             'required'  => 'El campo Cantidad de Parqueadero es obligatorio. ',
             'integer'   => 'El campo Cantidad de Parqueadero debe ser un número entero.',     
-        ],
-        'parking_name' => [
-            'required'  => 'El campo Parqueadero es obligatorio. ',
-            'max'       => [
-                'numeric' => 'El campo Parqueadero debe ser :max como máximo.',
-                'file'    => 'El archivo Parqueadero debe pesar :max kilobytes como máximo.',
-                'string'  => 'El campo Parqueadero debe contener :max caracteres como máximo.',
-                'array'   => 'El campo Parqueadero debe contener :max elementos como máximo.',
-            ],
-            'unique'    => 'El elemento Parqueadero ya está en uso.',
         ],
         # ParkingsSectionsController
         'parking_section_name' => [
@@ -286,21 +270,6 @@ return [
             'unique'    => 'El elemento Sección ya está en uso.',
         ],
         # UsersBookingController
-        'booking_vehicle_uid' => [
-            'required'  => 'El campo Vehiculo es obligatorio. ',
-        ],
-        'parking_uid' => [
-            'required'  => 'El campo Parqueadero es obligatorio. ',
-        ],
-        'booking_date' => [
-            'required'  => 'El campo Fecha es obligatorio. ',
-        ],
-        'update_booking_uid' => [
-            'required'  => 'El campo Booking es obligatorio. ',
-        ],
-        'booking_vehicle_uid' => [
-            'required'  => 'El campo Vehiculo es obligatorio. ',
-        ],
         # UsersDivisionsController
         'user_division_description' => [
             'required'  => 'El campo División es obligatorio. ',
@@ -338,11 +307,14 @@ return [
         'user_uid' => [
             'required'  => 'El campo Empleado es obligatorio. ',
         ],
-        'vehicle_type_uid' => [
-            'required'  => 'El campo Tipo de Vehiculo es obligatorio. ',
-        ],
         'vehicle_name' => [
             'required'  => 'El campo Apodo es obligatorio. ',
+            'max'       => [
+                'numeric' => 'El campo nombre del Vehiculo debe ser :max como máximo.',
+                'file'    => 'El archivo nombre del Vehiculo debe pesar :max kilobytes como máximo.',
+                'string'  => 'El campo nombre del Vehiculo debe contener :max caracteres como máximo.',
+                'array'   => 'El campo nombre del Vehiculo debe contener :max elementos como máximo.',
+            ],
         ],
         'vehicle_status' => [
             'required'  => 'El campo Pico y Placa es obligatorio. ',
@@ -358,9 +330,6 @@ return [
             'unique'    => 'El elemento Placa ya está en uso.',
         ],
         # VehiclesBrandsController
-        'vehicle_type_uid' => [
-            'required'  => 'El campo Tipo de Vehiculo es obligatorio. ',
-        ],
         'vehicle_brand_name' => [
             'required'  => 'El campo marca es obligatorio. ',
             'max'       => [
@@ -376,32 +345,7 @@ return [
             'mimes'     => 'El campo logo debe ser un archivo de tipo :values.',
         ],
         # VehiclesController
-        'user_uid' => [
-            'required'  => 'El campo Empleado es obligatorio. ',
-        ],
-        'vehicle_type_uid' => [
-            'required'  => 'El campo Tipo de Vehiculo es obligatorio. ',
-        ],
-        'vehicle_name' => [
-            'required'  => 'El campo Apodo es obligatorio. ',
-        ],
-        'vehicle_status' => [
-            'required'  => 'El campo Pico y Placa es obligatorio. ',
-        ],
-        'vehicle_code' => [
-            'required'  => 'El campo Placa es obligatorio. ',
-            'max'       => [
-                'numeric' => 'El campo Placa debe ser :max como máximo.',
-                'file'    => 'El archivo Placa debe pesar :max kilobytes como máximo.',
-                'string'  => 'El campo Placa debe contener :max caracteres como máximo.',
-                'array'   => 'El campo Placa debe contener :max elementos como máximo.',
-            ],
-            'unique'    => 'El elemento Placa ya está en uso.',
-        ],
         # VehiclesModelsController
-        'vehicle_type_uid' => [
-            'required'  => 'El campo Tipo de Vehiculo es obligatorio. ',
-        ],
         'vehicle_brand_uid' => [
             'required'  => 'El campo Marca de Vehiculo es obligatorio. ',
         ],
@@ -429,7 +373,12 @@ return [
         'vehicle_type_icon' => [
             'image'     => 'El campo icono debe ser una imagen.',
             'mimes'     => 'El campo icono debe ser un archivo de tipo :values.',
-        ],      
+        ],  
+        # UserVehiclesController   
+        'vehicle_image' => [
+            'image'     => 'El campo logo debe ser una imagen.',
+            'mimes'     => 'El campo logo debe ser un archivo de tipo :values.',
+        ],
     ],
 
     /*

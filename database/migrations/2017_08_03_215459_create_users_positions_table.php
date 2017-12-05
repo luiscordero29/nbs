@@ -14,7 +14,6 @@ class CreateUsersPositionsTable extends Migration
     public function up()
     {
         Schema::create('users_positions', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             # Fields
             $table->bigIncrements('user_position_id');
             $table->char('user_position_description', 60);

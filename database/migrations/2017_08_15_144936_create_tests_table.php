@@ -14,11 +14,11 @@ class CreateTestsTable extends Migration
     public function up()
     {
         Schema::create('tests', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             # Fields 
             $table->bigIncrements('test_id');
             $table->BigInteger('test_ammount');
             $table->date('test_date');
+            $table->boolean('test_status');
             # Foreign Key Constraints
             $table->uuid('reward_uid');
             $table->uuid('user_uid');
