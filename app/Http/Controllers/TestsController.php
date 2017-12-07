@@ -88,25 +88,28 @@ class TestsController extends Controller
     {
         # Rules
         $this->validate($request, [
-            'tests_user_uid' => 'required',
-            'tests_reward_uid' => 'required',
+            'test_user_uid' => 'required',
+            'test_reward_uid' => 'required',
+            'test_status' => 'required',
             'test_date' => 'required',
         ]);
         # Request
-        $reward = Reward::where('reward_uid', $request->input('tests_reward_uid'))->first();
+        $reward = Reward::where('reward_uid', $request->input('test_reward_uid'))->first();
         $test_ammount = $reward->reward_ammount;
         $test_date = $request->input('test_date');
         $date_array = explode('/',$test_date);
         $date_array = array_reverse($date_array);
         $test_date = date(implode('-', $date_array));   
         $reward_uid = $reward->reward_uid;
-        $user_uid = $request->input('tests_user_uid');
+        $user_uid = $request->input('test_user_uid');
+        $test_status = $request->input('test_status');
         $test_uid = Uuid::generate()->string;
         # Insert
         $test = new Test;
         $test->test_ammount = $test_ammount;
         $test->test_date = $test_date;
         $test->reward_uid = $reward_uid;
+        $test->test_status = $test_status;
         $test->user_uid = $user_uid;
         $test->test_uid  = $test_uid;
         $test->save();
@@ -175,25 +178,28 @@ class TestsController extends Controller
     {
         # Rules
         $this->validate($request, [
-            'tests_user_uid' => 'required',
-            'tests_reward_uid' => 'required',
+            'test_user_uid' => 'required',
+            'test_reward_uid' => 'required',
+            'test_status' => 'required',
             'test_date' => 'required',
         ]);
         # Request
-        $reward = Reward::where('reward_uid', $request->input('tests_reward_uid'))->first();
+        $reward = Reward::where('reward_uid', $request->input('test_reward_uid'))->first();
         $test_ammount = $reward->reward_ammount;
         $test_date = $request->input('test_date');
         $date_array = explode('/',$test_date);
         $date_array = array_reverse($date_array);
         $test_date = date(implode('-', $date_array));   
         $reward_uid = $reward->reward_uid;
-        $user_uid = $request->input('tests_user_uid');
+        $user_uid = $request->input('test_user_uid');
+        $test_status = $request->input('test_status');
         # Update
         $test = Test::where('test_uid', $test_uid)->first();
         $test->test_ammount = $test_ammount;
         $test->test_date = $test_date;
         $test->reward_uid = $reward_uid;
         $test->user_uid = $user_uid;
+        $test->test_status = $test_status;
         $test->save();
         return redirect('tests/edit/'.$test_uid)->with('success', 'Registro Actualizado');
     }

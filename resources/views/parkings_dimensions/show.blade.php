@@ -4,8 +4,8 @@
     <div class="col-md-9 col-9 align-self-center">
         <h3 class="text-themecolor m-b-0 m-t-0"><i class="fa fa-road"></i> Parqueaderos</h3>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
-            <li class="breadcrumb-item"><a href="/parkings_dimensions/index">Dimensiones</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Administración</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/parkings_dimensions/index') }}">Dimensiones</a></li>
             <li class="breadcrumb-item active">Ver Dimensión del Parqueadero </li>
         </ol>
     </div>

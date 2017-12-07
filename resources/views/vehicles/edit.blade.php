@@ -4,17 +4,17 @@
     <div class="col-md-9 col-9 align-self-center">
         <h3 class="text-themecolor m-b-0 m-t-0"><i class="fa fa-car"></i> Vehiculos</h3>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
-            <li class="breadcrumb-item"><a href="/vehicles/index">Vehiculos</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Administración</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/vehicles/index') }}">Vehiculos</a></li>
             <li class="breadcrumb-item active">Editar Vehiculo </li>
         </ol>
     </div>
     <div class="col-md-3 col-3 align-self-center">
-        <a href="/vehicles/create" class="btn pull-right hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> Registrar</a>
+        <a href="{{ url('/vehicles/create') }}" class="btn pull-right hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> Registrar</a>
     </div>
 @endsection
 @section('content')
-	<form method="POST" action="/vehicles/update/{{ $data['row']->vehicle_uid }}" enctype="multipart/form-data">
+	<form method="POST" action="{{ url('/vehicles/update/'.$data['row']->vehicle_uid) }}" enctype="multipart/form-data">
 		{{ csrf_field() }}
         <div class="form-body">
             <h3 class="card-title">Editar Vehiculo</h3>
@@ -199,7 +199,7 @@
         </div>
         <div class="form-actions p-t-20">
             <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Guardar</button>
-            <a href="/vehicles/index" class="btn btn-inverse">Regresar</a>
+            <a href="{{ url('/vehicles/index') }}" class="btn btn-inverse">Regresar</a>
             <input type="hidden" name="vehicle_uid" value="{{ $data['row']->vehicle_uid }}">
         </div>
     </form>
@@ -209,7 +209,7 @@
         $(".select2").select2();
         $('#vehicles_vehicle_type_uid').change(function(even) {
             var vehicle_type_uid = $(this).val();
-            $.getJSON( "/vehicles/getbrands/" + vehicle_type_uid, function( data ) {
+            $.getJSON( "{{ url('/vehicles/getbrands/') }}" + '/' + vehicle_type_uid, function( data ) {
                 $("#vehicles_vehicle_brand_uid").html('');
                 $("#vehicles_vehicle_brand_uid").append('<option value="">Seleccione</option>');
                 $.each( data, function( key, val ) {
@@ -220,7 +220,7 @@
         });
         $('#vehicles_vehicle_brand_uid').change(function(even) {
             var vehicle_brand_uid = $(this).val();
-            $.getJSON( "/vehicles/getmodels/" + vehicle_brand_uid, function( data ) {
+            $.getJSON( "{{ url('/vehicles/getmodels/') }}" + '/' + vehicle_brand_uid, function( data ) {
                 $("#vehicles_create_vehicle_model_uid").html('');
                 $("#vehicles_create_vehicle_model_uid").append('<option value="">Seleccione</option>')
                 $.each( data, function( key, val ) {

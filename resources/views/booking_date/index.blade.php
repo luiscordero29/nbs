@@ -4,7 +4,7 @@
     <div class="col-md-12 col-12 align-self-center">
         <h3 class="text-themecolor m-b-0 m-t-0">Reservas</h3>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Administración</a></li>
             <li class="breadcrumb-item active">Reservas </li>
         </ol>
     </div>
@@ -14,7 +14,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-block">
-                <form id="form-booking-search" method="POST" action="/booking_date/index">
+                <form id="form-booking-search" method="POST" action="{{ url('/booking_date/index') }}">
                     {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-3">
@@ -177,7 +177,7 @@
                 <h4 class="modal-title">Asignar Reservar</h4>
             </div>
             <div class="modal-body">
-                <form id="booking_create" method="POST" action="/booking_date/store">
+                <form id="booking_create" method="POST" action="{{ url('/booking_date/store') }}">
                     {{ csrf_field() }}
                     <div class="form-body">
                         @php 
@@ -243,7 +243,7 @@
                 <h4 class="modal-title">Cambiar Asignación</h4>
             </div>
             <div class="modal-body">
-                <form id="booking_update" method="POST" action="/booking_date/update">
+                <form id="booking_update" method="POST" action="{{ url('/booking_date/update') }}">
                     {{ csrf_field() }}
                     <div class="form-body">
                         <div class="form-group">
@@ -279,7 +279,7 @@
     </div>
 </div>
 <!-- booking-delete -->
-<form id="booking_delete" method="POST" action="/booking_date/destroy">
+<form id="booking_delete" method="POST" action="{{ url('/booking_date/destroy') }}">
     {{ csrf_field() }}
     <input type="hidden" id="delete_booking_uid" name="booking_uid" value="">
     <input type="hidden" id="booking_date" name="booking_date" value="{{ $data['today'] }}">
@@ -295,7 +295,7 @@
         var user_uid = $(this).val();
         var booking_date = $("#booking_date").val();
         $('#booking_user_uid_hidden').val(user_uid);
-        $.getJSON( "/booking_date/getvehicles/" + user_uid + '/' + booking_date , function( data ) {
+        $.getJSON( "{{ url('/booking_date/getvehicles/') }}" + "/" + user_uid + '/' + booking_date , function( data ) {
             $("#booking_vehicle_uid").html('<option value="">Seleccione</option>')
             $.each( data, function( key, val ) {
                 $("#booking_vehicle_uid").append('<option value="' + val['vehicle_uid'] + '">' + val['vehicle_code'] + '</option>')
@@ -307,7 +307,7 @@
         var user_uid = $(this).val();
         var booking_date = $("#booking_date").val();
         $('#booking_user_uid_hidden').val(user_uid);
-        $.getJSON( "/booking_date/getvehicles/" + user_uid + '/' + booking_date , function( data ) {
+        $.getJSON( "{{ url('/booking_date/getvehicles/') }}" + user_uid + '/' + booking_date , function( data ) {
             $("#booking_vehicle_uid_update").html('<option value="">Seleccione</option>')
             $.each( data, function( key, val ) {
                 $("#booking_vehicle_uid_update").append('<option value="' + val['vehicle_uid'] + '">' + val['vehicle_code'] + '</option>')

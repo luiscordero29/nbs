@@ -4,12 +4,12 @@
     <div class="col-md-9 col-9 align-self-center">
         <h3 class="text-themecolor m-b-0 m-t-0"><i class="fa fa-road"></i> Parqueaderos</h3>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Administración</a></li>
             <li class="breadcrumb-item active">Secciones </li>
         </ol>
     </div>
     <div class="col-md-3 col-3 align-self-center">
-        <a href="/parkings_sections/create" class="btn pull-right hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> Registrar</a>
+        <a href="{{ url('/parkings_sections/create') }}" class="btn pull-right hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> Registrar</a>
     </div>
 @endsection
 @section('content')
@@ -18,7 +18,7 @@
             <h3 class="card-title">Lista de Secciones de Parqueaderos</h3>
         </div>
         <div class="col-3">
-            <form method="POST" action="/parkings_sections/index">
+            <form method="POST" action="{{ url('/parkings_sections/index') }}">
                 {{ csrf_field() }}
                 <div class="form-group">
                     <input id="search" name="search" class="form-control" placeholder="Buscar" type="text" 

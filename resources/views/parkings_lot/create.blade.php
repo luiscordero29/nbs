@@ -4,20 +4,20 @@
     <div class="col-md-8 col-8 align-self-center">
         <h3 class="text-themecolor m-b-0 m-t-0"><i class="fa fa-road"></i> Parqueaderos</h3>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
-            <li class="breadcrumb-item"><a href="/parkings/index">Parqueaderos</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Administración</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/parkings/index') }}">Parqueaderos</a></li>
             <li class="breadcrumb-item active">Registrar Parqueadero </li>
         </ol>
     </div>
     <div class="col-md-4 col-4 align-self-center">
         <div class="button-group">
-            <a href="/parkings_lot/create" class="btn pull-right hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> Registrar Varios</a>
-            <a href="/parkings/create" class="btn pull-right hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> Registrar Uno</a>
+            <a href="{{ url('/parkings_lot/create') }}" class="btn pull-right hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> Registrar Varios</a>
+            <a href="{{ url('/parkings/create') }}" class="btn pull-right hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> Registrar Uno</a>
         </div>
     </div>
 @endsection
 @section('content')
-	<form method="POST" action="/parkings_lot/store" enctype="multipart/form-data">
+	<form method="POST" action="{{ url('/parkings_lot/store') }}" enctype="multipart/form-data">
 		{{ csrf_field() }}
         <div class="form-body">
             <h3 class="card-title">Registrar Parqueaderos</h3>
@@ -146,7 +146,7 @@
         </div>
         <div class="form-actions p-t-20">
             <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Guardar</button>
-            <a href="/parkings/index" class="btn btn-inverse">Regresar</a>
+            <a href="{{ url('/parkings/index') }}" class="btn btn-inverse">Regresar</a>
         </div>
     </form>
 @endsection

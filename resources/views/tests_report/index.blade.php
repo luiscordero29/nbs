@@ -4,7 +4,7 @@
     <div class="col-md-12 col-12 align-self-center">
         <h3 class="text-themecolor m-b-0 m-t-0"><i class="fa fa-university"></i> Recompensas</h3>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Administración</a></li>
             <li class="breadcrumb-item active">Reporte</li>
         </ol>
     </div>
@@ -14,7 +14,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-block">
-                <form id="form-booking-search" method="POST" action="/tests_report/index">
+                <form id="form-booking-search" method="POST" action="{{ url('/tests_report/index') }}">
                     {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-3">
@@ -90,7 +90,7 @@
                                 </td>                                   
                                 <td class="text-nowrap">
                                     <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
-                                        <a href="/tests_report/show/{{$data['month_first']}}/{{$data['month_last']}}/{{$r->user_uid}}" class="btn btn-sm btn-info btn-booking-update"><i class="fa fa-university"></i> Ver Recompensas</a>
+                                        <a href="{{ url('/tests_report/show/'.$data['month_first'].'/'.$data['month_last'].'/'.$r->user_uid) }}" class="btn btn-sm btn-info btn-booking-update"><i class="fa fa-university"></i> Ver Recompensas</a>
                                     </div>
                                 </td>
                             </tr>             

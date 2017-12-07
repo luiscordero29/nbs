@@ -54,7 +54,7 @@
                 <!-- Logo -->
                 <!-- ============================================================== -->
                 <div class="navbar-header" >
-                    <a class="navbar-brand" href="/dashboard">
+                    <a class="navbar-brand" href="{{ url('/dashboard') }}">
                         <!-- Logo icon -->
                         <b>
                             <img src="{{ asset('assets/images/logo-icon.png') }}" alt="Nidoo Business Solutions" class="dark-logo" />
@@ -287,7 +287,7 @@
                                 @if( ! empty($data['user']->user_image) )
                                 <img src="{{ asset( 'storage/' . $data['user']->user_image) }}" alt="user" class="profile-pic"/> 
                                 @else
-                                <img src="/assets/images/users/profile.png" alt="user" class="profile-pic"/> 
+                                <img src="{{ url('/assets/images/users/profile.png') }}" alt="user" class="profile-pic"/> 
                                 @endif
                             </a>
                             
@@ -299,7 +299,7 @@
                                                 @if( ! empty($data['user']->user_image) )
                                                 <img src="{{ asset( 'storage/' . $data['user']->user_image) }}" alt="user"/> 
                                                 @else
-                                                <img src="/assets/images/users/profile.png" alt="user"/> 
+                                                <img src="{{ asset('/assets/images/users/profile.png') }}" alt="user"/> 
                                                 @endif
                                             </div>
                                             <div class="u-text">

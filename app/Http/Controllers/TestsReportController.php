@@ -64,6 +64,7 @@ class TestsReportController extends Controller
             ->orderBy('test_ammount', 'desc')
             ->join('users', 'users.user_uid', '=', 'tests.user_uid')
             ->whereBetween('tests.test_date', [$data['month_first'], $data['month_last']])
+            ->where('tests.test_status', 1)
             ->where(function ($query) use ($data)  {
                 $query->where('user_firstname', 'like', '%'.$data['search'].'%')
                     ->orWhere('user_lastname', 'like', '%'.$data['search'].'%')

@@ -4,8 +4,8 @@
     <div class="col-md-9 col-9 align-self-center">
         <h3 class="text-themecolor m-b-0 m-t-0"><i class="fa fa-users"></i> Usuarios</h3>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
-            <li class="breadcrumb-item"><a href="/users/index">Usuarios</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/dashboard')}}">Administración</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/users/index')}}">Usuarios</a></li>
             <li class="breadcrumb-item active">Editar Usuario </li>
         </ol>
     </div>
@@ -14,7 +14,7 @@
     </div>
 @endsection
 @section('content')
-	<form method="POST" action="/users/update/{{ $data['row']->user_uid }}" enctype="multipart/form-data">
+	<form method="POST" action="{{ url('/users/update/'.$data['row']->user_uid) }}" enctype="multipart/form-data">
 		{{ csrf_field() }}
         <div class="form-body">
             <h3 class="card-title">Datos del Usuario</h3>
@@ -189,7 +189,7 @@
         <div class="form-actions p-t-20">
             <input type="hidden" name="user_uid" value="{{ $data['row']->user_uid }}">
             <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Guardar</button>
-            <a href="/users/index" class="btn btn-inverse">Regresar</a>
+            <a href="{{ url('/users/index')}}" class="btn btn-inverse">Regresar</a>
         </div>
     </form>
 @endsection

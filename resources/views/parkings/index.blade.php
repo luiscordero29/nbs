@@ -4,14 +4,14 @@
     <div class="col-md-8 col-8 align-self-center">
         <h3 class="text-themecolor m-b-0 m-t-0"><i class="fa fa-road"></i> Parqueaderos</h3>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Administración</a></li>
             <li class="breadcrumb-item active">Parqueaderos </li>
         </ol>
     </div>
     <div class="col-md-4 col-4 align-self-center">
         <div class="button-group">
-            <a href="/parkings_lot/create" class="btn pull-right hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> Registrar Varios</a>
-            <a href="/parkings/create" class="btn pull-right hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> Registrar Uno</a>
+            <a href="{{ url('/parkings_lot/create') }}" class="btn pull-right hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> Registrar Varios</a>
+            <a href="{{ url('/parkings/create') }}" class="btn pull-right hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> Registrar Uno</a>
         </div>
     </div>
 @endsection
@@ -21,7 +21,7 @@
             <h3 class="card-title">Lista de Parkeaderos</h3>
         </div>
         <div class="col-3">
-            <form method="POST" action="/parkings/index">
+            <form method="POST" action="{{ url('/parkings/index') }}">
                 {{ csrf_field() }}
                 <div class="form-group">
                     <input id="search" name="search" class="form-control" placeholder="Buscar" type="text" 

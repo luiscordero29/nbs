@@ -4,19 +4,19 @@
     <div class="col-md-8 col-8 align-self-center">
         <h3 class="text-themecolor m-b-0 m-t-0"><i class="fa fa-university"></i> Recompensas</h3>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
-            <li class="breadcrumb-item"><a href="/rewards/index">Recompensas</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Administración</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/rewards/index') }}">Recompensas</a></li>
             <li class="breadcrumb-item active">Registrar Recompensa </li>
         </ol>
     </div>
     <div class="col-md-4 col-4 align-self-center">
         <div class="button-group">
-            <a href="/rewards/create" class="btn pull-right hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> Registrar Uno</a>
+            <a href="{{ url('/rewards/create') }}" class="btn pull-right hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> Registrar Uno</a>
         </div>
     </div>
 @endsection
 @section('content')
-	<form method="POST" action="/rewards/store" enctype="multipart/form-data">
+	<form method="POST" action="{{ url('/rewards/store') }}" enctype="multipart/form-data">
 		{{ csrf_field() }}
         <div class="form-body">
             <h3 class="card-title">Registrar Recompensa</h3>
@@ -83,7 +83,7 @@
         </div>
         <div class="form-actions p-t-20">
             <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Guardar</button>
-            <a href="/rewards/index" class="btn btn-inverse">Regresar</a>
+            <a href="{{ url('/rewards/index') }}" class="btn btn-inverse">Regresar</a>
         </div>
     </form>
 @endsection

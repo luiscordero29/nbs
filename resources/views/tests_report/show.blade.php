@@ -4,8 +4,8 @@
     <div class="col-md-12 col-12 align-self-center">
         <h3 class="text-themecolor m-b-0 m-t-0"><i class="fa fa-university"></i> Recompensas</h3>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/dashboard">Administración</a></li>
-            <li class="breadcrumb-item"><a href="/tests_report/index">Reporte</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Administración</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/tests_report/index') }}">Reporte</a></li>
             <li class="breadcrumb-item active">Detalle</li>
         </ol>
     </div>
